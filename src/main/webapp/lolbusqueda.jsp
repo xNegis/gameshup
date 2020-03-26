@@ -26,7 +26,7 @@
 </div>
   
   <div class="form-group">
-    <label for="exampleFormControlSelect1">Selecciona una región</label>
+    <label for="exampleFormControlSelect1" style="color:#ffffff">Selecciona una región</label>
     <select class="form-control" id="regionp" name="regionp" value="${region}">
       <option value="EU">Europa</option>
       <option value="AS">Asia</option>
@@ -36,7 +36,7 @@
     </select>
   </div>
   
-  <button type="submit" class="btn btn-primary mb-2">¡Ver estadísticas!</button>
+  <button type="submit" class="btn btn-primary mb-2" style="background-color: #a40707;border-color: #6c0303;">¡Ver estadísticas!</button>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
