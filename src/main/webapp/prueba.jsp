@@ -146,7 +146,7 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <div class="contentdiv">
   <div class="textocont">
   <p>Objetivos</p>
-  <p data-toggle="tooltip" data-placement="top" title="Número de torres"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/tower.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=tower.get(contador)%></p>
+  <p data-toggle="tooltip" data-placement="top" title="Número  de torres"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/tower.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=tower.get(contador)%></p>
   <p data-toggle="tooltip" data-placement="top" title="Número de dragones"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/drake.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=drake.get(contador)%></p>
   <p data-toggle="tooltip" data-placement="top" title="Número de heraldos"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/heraldo.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=herald.get(contador)%></p>
   <p data-toggle="tooltip" data-placement="top" title="Numero de barones"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/baron.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=baron.get(contador)%></p>
