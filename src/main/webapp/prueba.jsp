@@ -131,15 +131,15 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <div class="contentdiv">
   <div class="textocont">
   <p>Stats</p>
-  <p data-toggle="tooltip" data-placement="top" title="${entry.minions} subditos asesinados + ${entry.neutral} monstruos neutrales"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/minion.png?authuser=1" style="margin-left:3%"><script> document.write(sumaMinions(${entry.minions},${entry.neutral}))</script></p>
-  <p data-toggle="tooltip" data-placement="top" title="Oro obtenido"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/gold.png?authuser=1" style="margin-left:3%"><c:out value="${entry.gold}" /></p>
-  <p data-toggle="tooltip" data-placement="top" title="Suma resultante de ${entry.tdmg} daño verdadero + ${entry.mdmg} de daño magico + ${entry.pdmg} de daño fisico"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/danioo.png?authuser=1" style="margin-left:3%"><script>document.write(sumaDmg(${entry.tdmg},${entry.mdmg},${entry.pdmg}))</script></p>
+  <p data-toggle="tooltip" data-placement="top" title="${entry.minions} subditos asesinados + ${entry.neutral} monstruos neutrales"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/minion.png?authuser=1" style="margin-right:3%"><script> document.write(sumaMinions(${entry.minions},${entry.neutral}))</script></p>
+  <p data-toggle="tooltip" data-placement="top" title="Oro obtenido"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/gold.png?authuser=1" style="margin-right:3%"><c:out value="${entry.gold}" /></p>
+  <p data-toggle="tooltip" data-placement="top" title="Suma resultante de ${entry.tdmg} daño verdadero + ${entry.mdmg} de daño magico + ${entry.pdmg} de daño fisico"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/danioo.png?authuser=1" style="margin-right:3%"><script>document.write(sumaDmg(${entry.tdmg},${entry.mdmg},${entry.pdmg}))</script></p>
  <%if(equipos.get(contador)==100){%>
-  <p data-toggle="tooltip" data-placement="top" title="Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-left:3%"><%=killsa.get(contador)%></p>
-   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-left:3%"> <%=killsr.get(contador)%></p>
+  <p data-toggle="tooltip" data-placement="top" title="Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-right:3%"><%=killsa.get(contador)%></p>
+   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
    <%}else{ %>
-   <p data-toggle="tooltip" data-placement="top" title="Team Kills" ><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-left:3%"><%=killsr.get(contador)%></p>
-   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-left:3%"> <%=killsa.get(contador)%></p>
+   <p data-toggle="tooltip" data-placement="top" title="Team Kills" ><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
+   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsa.get(contador)%></p>
   <%} %>
   </div>
   </div>
@@ -215,16 +215,16 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <div class="contentdiv">
   <div class="textocont">
   <p>Stats</p>
-  <p data-toggle="tooltip" data-placement="top" title="${entry.minions} subditos asesinados + ${entry.neutral} monstruos neutrales"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/minion.png?authuser=1" style="margin-left:3%"><script>document.write(sumaMinions(${entry.minions},${entry.neutral}))</script></p>
-  <p data-toggle="tooltip" data-placement="top" title="Oro obtenido"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/gold.png?authuser=1" style="margin-left:3%"><c:out value="${entry.gold}" /></p>
-  <p data-toggle="tooltip" data-placement="top" title="Suma resultante de ${entry.tdmg} daño verdadero + ${entry.mdmg} de daño magico + ${entry.pdmg} de daño fisico"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/danioo.png?authuser=1" style="margin-left:3%"><script>document.write(sumaDmg(${entry.tdmg},${entry.mdmg},${entry.pdmg}))</script></p>
+  <p data-toggle="tooltip" data-placement="top" title="${entry.minions} subditos asesinados + ${entry.neutral} monstruos neutrales"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/minion.png?authuser=1" style="margin-right:3%"><script>document.write(sumaMinions(${entry.minions},${entry.neutral}))</script></p>
+  <p data-toggle="tooltip" data-placement="top" title="Oro obtenido"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/gold.png?authuser=1" style="margin-right:3%"><c:out value="${entry.gold}" /></p>
+  <p data-toggle="tooltip" data-placement="top" title="Suma resultante de ${entry.tdmg} daño verdadero + ${entry.mdmg} de daño magico + ${entry.pdmg} de daño fisico"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/danioo.png?authuser=1" style="margin-right:3%"><script>document.write(sumaDmg(${entry.tdmg},${entry.mdmg},${entry.pdmg}))</script></p>
   
   <%if(equipos.get(contador)==100){%>
-  <p data-toggle="tooltip" data-placement="top" title="Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1"style="margin-left:3%"><%=killsa.get(contador)%></p>
-   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-left:3%"> <%=killsr.get(contador)%></p>
+  <p data-toggle="tooltip" data-placement="top" title="Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1"style="margin-right:3%"><%=killsa.get(contador)%></p>
+   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
    <%}else{ %>
-   <p data-toggle="tooltip" data-placement="top" title="Team Kills" ><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-left:3%"><%=killsr.get(contador)%></p>
-   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-left:3%"> <%=killsa.get(contador)%></p>
+   <p data-toggle="tooltip" data-placement="top" title="Team Kills" ><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
+   <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsa.get(contador)%></p>
   <%} %>
   </div>
   </div>
