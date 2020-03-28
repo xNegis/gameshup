@@ -36,12 +36,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pubgmatch.Stats;
-//import matchpubg.PubgMatch;
-//import matchpubg.PubgMatchMadre;
-//import matchpubg.PubgParticipant;
-//import matchpubg.PubgParticipantAttributes;
-//import matchpubg.PubgRoster;
-//import matchpubg.RosterAttributes;
 import pubgplayer.PlayerPubg;
 
 
@@ -63,9 +57,7 @@ public class PubgServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		ClientResource cr = new ClientResource(uri);
-//		addHeader(cr, "Accept", "application/vnd.api+json");
-//		addHeader(cr, "Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
+
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 			try {
@@ -81,7 +73,7 @@ public class PubgServlet extends HttpServlet {
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
 			
 				List<String> idmatches = new ArrayList<String>();
-				for(int i=0;i<8;i++) {
+				for(int i=0;i<8;i++) { 
 					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
 				}
 				
