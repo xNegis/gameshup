@@ -59,7 +59,7 @@ public class lolservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String apikey = "RGAPI-376ba3d2-c34f-4b6d-b087-8f9f61343d92";
+		String apikey = "RGAPI-d85d1abf-fc43-4d9b-a818-aefc4818f4fd";
 		String nombre = request.getParameter("name");
 		try {
 		String uri3 = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nombre + "?api_key="

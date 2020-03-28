@@ -73,7 +73,7 @@ public class PubgServlet extends HttpServlet {
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
 			
 				List<String> idmatches = new ArrayList<String>();
-				for(int i=0;i<8;i++) { 
+				for(int i=0;i<9;i++) { 
 					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
 				}
 				

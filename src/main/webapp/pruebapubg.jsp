@@ -4,7 +4,7 @@
 <%@ page import="aiss.Matchpubg" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-
+<%@include file="cabecera.html"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,17 +15,17 @@
 <body>
 
 <%List<Matchpubg> equipos = (List) request.getAttribute("lista");%>
-
-<% for(int i=1;i<6;i=i+3)
+<div align="right" style="margin-right:5%;margin-top:4%">
+<% for(int i=0;i<6;i=i+3)
 {
 %>
 
-<div>
+<div style="margin-top:1%;">
 <div style="display:inline-block;margin-left:1%;">
 <a href="#popup<%=i%>">
-  <img src="img/mapas/<%= equipos.get(i).getMapa()%>.jpg" alt="Partido <%= i %>" style="width:150px;height:150px;border:2px;">
+  <img src="img/mapas/<%= equipos.get(i).getMapa()%>.jpg" alt="Partido <%= i %>" style="width:180px;height:180px;border:2px;">
 </a>
-<div id="popup<%=i%>" class="overlay">
+<div id="popup<%=i%>" class="overlay" align="left">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
 		<p><c:out value="<%= equipos.get(i).getNombre()%>"/></p>
@@ -37,9 +37,9 @@
 </div>
 <div style="display:inline-block;margin-left:1%;">
 <a href="#popup<%=i+1%>">
-  <img src="img/mapas/<%= equipos.get(i+1).getMapa()%>.jpg" alt="Partido <%= i+1 %>" style="width:150px;height:150px;border:2px;">
+  <img src="img/mapas/<%= equipos.get(i+1).getMapa()%>.jpg" alt="Partido <%= i+1 %>" style="width:180px;height:180px;border:2px;">
 </a>
-<div id="popup<%=i+1%>" class="overlay">
+<div id="popup<%=i+1%>" class="overlay" align="left">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
 		<p><c:out value="<%= equipos.get(i+1).getNombre()%>"/></p>
@@ -51,9 +51,9 @@
 </div>
 <div style="display:inline-block;margin-left:1%;">
 <a href="#popup<%=i+2%>">
-  <img src="img/mapas/<%= equipos.get(i+2).getMapa()%>.jpg" alt="Partido <%= i+2 %>" style="width:150px;height:150px;border:2px;">
+  <img src="img/mapas/<%= equipos.get(i+2).getMapa()%>.jpg" alt="Partido <%= i+2 %>" style="width:180px;height:180px;border:2px;">
 </a>
-<div id="popup<%=i+2%>" class="overlay">
+<div id="popup<%=i+2%>" class="overlay" align="left">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
 		<p><c:out value="<%= equipos.get(i+2).getNombre()%>"/></p>
@@ -65,6 +65,6 @@
 </div>
 </div>
 <%} %>
-
+</div>
 </body>
 </html>
