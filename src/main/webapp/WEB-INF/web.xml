@@ -31,14 +31,14 @@
     <servlet-name>componentes</servlet-name>
     <url-pattern>/componentes</url-pattern>
   </servlet-mapping>
-<!--   <servlet> -->
-<!--     <description></description> -->
-<!--     <display-name>League of Legend</display-name> -->
-<!--     <servlet-name>lol</servlet-name> -->
-<!--     <servlet-class>aiss.lol</servlet-class> -->
-<!--   </servlet> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>lol</servlet-name> -->
-<!--     <url-pattern>/lol</url-pattern> -->
-<!--   </servlet-mapping> -->
+  <servlet>
+    <description></description>
+    <display-name>Player Unknown</display-name>
+    <servlet-name>pubg</servlet-name>
+    <servlet-class>aiss.PubgServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pubg</servlet-name>
+    <url-pattern>/pubg</url-pattern>
+  </servlet-mapping>
 </web-app>

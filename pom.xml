@@ -97,7 +97,7 @@
 			<artifactId>org.restlet.ext.jackson</artifactId>
 			<version>${restlet.version}</version>
 		</dependency>
-
+     
 		<!-- RESTEasy -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
@@ -157,7 +157,7 @@
 
 		<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
 		<plugins>
-
+    
 			<!-- Maven AppEngine plugin -->
 			<plugin>
 				<groupId>com.google.appengine</groupId>
