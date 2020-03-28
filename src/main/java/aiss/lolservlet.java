@@ -81,6 +81,8 @@ public class lolservlet extends HttpServlet {
 		PlayerMatchs mm = cr2.get(PlayerMatchs.class);
 		List<lolmatchsxid.Match> matches = mm.getMatches();
 		List<MatchLoL> toJSP = new ArrayList<MatchLoL>();
+		List<List<MatchLoL2>> toJSP2a = new ArrayList<List<MatchLoL2>>();
+		List<List<MatchLoL2>> toJSP2r = new ArrayList<List<MatchLoL2>>();
 		List<Boolean> wins = new ArrayList<Boolean>();
 		List<Integer> tk = new ArrayList<Integer>();
 		List<Integer> qk = new ArrayList<Integer>();
@@ -102,7 +104,10 @@ public class lolservlet extends HttpServlet {
 		List<Long> tiempo = new ArrayList<Long>();
 		List<Integer> equipos = new ArrayList<Integer>();
 
-			for (int i = 0; i < 14; i++) {
+			for (int i = 0; i < 6; i++) {
+				List<MatchLoL2> listajspa = new ArrayList<MatchLoL2>();
+				List<MatchLoL2> listajspr = new ArrayList<MatchLoL2>();
+
 				Long gameid = matches.get(i).getGameId();
 				String uri = "https://euw1.api.riotgames.com/lol/match/v4/matches/" + gameid.toString() + "?api_key="
 						+ apikey;
@@ -115,10 +120,17 @@ public class lolservlet extends HttpServlet {
 				int kr=0;
 				
 				for (int j = 0; j < 10; j++) {
+					
 					if(lista.get(j).getTeamId()==100) {
 						ka=ka+lista.get(j).getStats().getKills();
+						MatchLoL2 jugador2 = new MatchLoL2(aro.get(j).getPlayer().getSummonerName(),getNameChamp(lista.get(j).getChampionId()),lista.get(j).getStats().getKills(),lista.get(j).getStats().getDeaths(),lista.get(j).getStats().getAssists());
+
+						listajspa.add(jugador2);
+
 					}else {
 						kr=kr+lista.get(j).getStats().getKills();
+						MatchLoL2 jugador2 = new MatchLoL2(aro.get(j).getPlayer().getSummonerName(),getNameChamp(lista.get(j).getChampionId()),lista.get(j).getStats().getKills(),lista.get(j).getStats().getDeaths(),lista.get(j).getStats().getAssists());
+						listajspr.add(jugador2);
 
 					}
 					if(j==9) {
@@ -138,7 +150,6 @@ public class lolservlet extends HttpServlet {
 							herald.add(pp.getTeams().get(1).getRiftHeraldKills());
 							tower.add(pp.getTeams().get(1).getTowerKills());
 						}
-						
 						MatchLoL jugador = new MatchLoL(
 								player.getProfileIconId(),
 								getNameChamp(lista.get(j).getChampionId()),
@@ -179,7 +190,12 @@ public class lolservlet extends HttpServlet {
 						equipos.add(lista.get(j).getTeamId());
 					}
 				}
+				toJSP2a.add(listajspa);
+				toJSP2r.add(listajspr);
+
 			}
+			request.setAttribute("rojo", toJSP2r);
+			request.setAttribute("azul", toJSP2a);
 			request.setAttribute("equipos", equipos);
 			request.setAttribute("tiempo", tiempo);
 			request.setAttribute("baron", baron);

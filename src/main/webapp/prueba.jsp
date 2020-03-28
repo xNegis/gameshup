@@ -1,4 +1,5 @@
 <%@page import="aiss.MatchLoL"%>
+<%@page import="aiss.MatchLoL2"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
@@ -68,6 +69,9 @@ function sumaDmg(tdmg,mdmg,pdmg){
 <%List<Integer> baron = (List) request.getAttribute("baron");%>
 <%List<Long> tiempo = (List) request.getAttribute("tiempo");%>
 <%List<Integer> equipos = (List) request.getAttribute("equipos");%>
+<%List<List<MatchLoL2>> a = (List) request.getAttribute("azul");%>
+<%List<List<MatchLoL2>> r = (List) request.getAttribute("rojo");%>
+
 
 <c:forEach items="${requestScope.lista}" var="entry">
 <%if(list.get(contador)==false){ %>
@@ -137,10 +141,22 @@ function sumaDmg(tdmg,mdmg,pdmg){
  <%if(equipos.get(contador)==100){%>
   <p data-toggle="tooltip" data-placement="top" title="Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-right:3%"><%=killsa.get(contador)%></p>
    <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
-   <%}else{ %>
+   <%
+  List<MatchLoL2> jugadores = a.get(contador);
+  for(int i=0;i<jugadores.size();i++){ 
+  %>
+  <p>	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName() %>"><%=jugadores.get(i).getName() %></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+  <%} 
+  	}else{ %>
    <p data-toggle="tooltip" data-placement="top" title="Team Kills" ><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
    <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsa.get(contador)%></p>
-  <%} %>
+  	<%
+  List<MatchLoL2> jugadores = r.get(contador);
+  for(int i=0;i<jugadores.size();i++){ 
+  %>
+  <p>	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName()%>"><%=jugadores.get(i).getName()%></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+  <%} 
+  } %>
   </div>
   </div>
   <div class="contentdiv">
@@ -151,7 +167,20 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <p data-toggle="tooltip" data-placement="top" title="Número de heraldos"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/heraldo.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=herald.get(contador)%></p>
   <p data-toggle="tooltip" data-placement="top" title="Numero de barones"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/baron.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=baron.get(contador)%></p>
   <p data-toggle="tooltip" data-placement="top" title="Tiempo de la partida"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/tiempo.png?authuser=1" width="30" height="30"style="margin-left:1%"> <script> document.write(format(${entry.tiempo}))</script></p>
-  
+  <%if(equipos.get(contador)==100){
+  List<MatchLoL2> jugadores = r.get(contador);
+  for(int i=0;i<jugadores.size();i++){ 
+  %>
+  <p>	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName() %>"><%=jugadores.get(i).getName() %></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+  <%}
+  }else{ 
+	  List<MatchLoL2> jugadores = a.get(contador);
+	  for(int i=0;i<jugadores.size();i++){ 
+	  %>
+  <p >	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName() %>"><%=jugadores.get(i).getName() %></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+	  <%}
+	  
+  }%>
   </div>
   </div>
 </div>
@@ -222,10 +251,23 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <%if(equipos.get(contador)==100){%>
   <p data-toggle="tooltip" data-placement="top" title="Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1"style="margin-right:3%"><%=killsa.get(contador)%></p>
    <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
-   <%}else{ %>
+  <%
+   
+  List<MatchLoL2> jugadores = a.get(contador);
+  for(int i=0;i<jugadores.size();i++){ 
+  %>
+  
+  <p>	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName() %>"><%=jugadores.get(i).getName() %></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+    <%} 
+  }else{ %>
    <p data-toggle="tooltip" data-placement="top" title="Team Kills" ><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/aliadoo.png?authuser=1" style="margin-right:3%"><%=killsr.get(contador)%></p>
    <p data-toggle="tooltip" data-placement="top" title="Enemy Team Kills"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/enemigo.png?authuser=1" style="margin-right:3%"><%=killsa.get(contador)%></p>
-  <%} %>
+  <%List<MatchLoL2> jugadores = r.get(contador);
+	  for(int i=0;i<jugadores.size();i++){ 
+	  %>
+	    <p>	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName() %>"><%=jugadores.get(i).getName() %></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+	  <%}
+ 	} %>
   </div>
   </div>
   <div class="contentdiv">
@@ -236,6 +278,21 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <p data-toggle="tooltip" data-placement="top" title="Número de heraldos"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/heraldo.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=herald.get(contador)%></p>
   <p data-toggle="tooltip" data-placement="top" title="Numero de barones"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/baron.png?authuser=1" width="30" height="30"style="margin-left:1%"> <%=baron.get(contador)%></p>
   <p data-toggle="tooltip" data-placement="top" title="Tiempo de la partida"><img src="https://storage.cloud.google.com/gameshup.appspot.com/stats/tiempo.png?authuser=1" width="30" height="30"style="margin-left:1%"> <script> document.write(format(${entry.tiempo}))</script></p>  
+  <%if(equipos.get(contador)==100){
+  List<MatchLoL2> jugadores = r.get(contador);
+  for(int i=0;i<jugadores.size();i++){ 
+  %>
+  <p>	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName() %>"><%=jugadores.get(i).getName() %></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+  <%}
+  }else{ 
+	  List<MatchLoL2> jugadores = a.get(contador);
+	  for(int i=0;i<jugadores.size();i++){ 
+	  %>
+  <p>	<img data-toggle="tooltip" data-placement="top" class="imgcha" src="https://storage.cloud.google.com/gameshup.appspot.com/champion/<%=jugadores.get(i).getChampion()%>.png?authuser=1" class="mr-3" alt="..." width="20" height="20" style="border-radius:150px;"><a style="text-decoration:none;color: black" data-toggle="tooltip" data-placement="top" title="Click para ir a la página de <%=jugadores.get(i).getName() %>" href="/lol?name=<%=jugadores.get(i).getName() %>"><%=jugadores.get(i).getName()%></a>	<%=jugadores.get(i).getKills()%>/<%=jugadores.get(i).getDeaths()%>/<%=jugadores.get(i).getAssists()%> </p>
+	  <%}
+	  
+  }%>
+  
   </div>
   </div>
 </div>
