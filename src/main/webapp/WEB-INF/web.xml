@@ -41,4 +41,5 @@
     <servlet-name>pubg</servlet-name>
     <url-pattern>/pubg</url-pattern>
   </servlet-mapping>
+
 </web-app>

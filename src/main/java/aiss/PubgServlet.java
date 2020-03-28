@@ -35,6 +35,7 @@ import org.restlet.util.Series;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pubgmatch.Stats;
 //import matchpubg.PubgMatch;
 //import matchpubg.PubgMatchMadre;
 //import matchpubg.PubgParticipant;
@@ -72,17 +73,19 @@ public class PubgServlet extends HttpServlet {
 				ObjectMapper objectMapper = new ObjectMapper();
 				
 
-				URL url = new URL("https://api.pubg.com/shards/steam/players?filter[playerNames]=SusurraVientos");
+				URL url = new URL("https://api.pubg.com/shards/steam/players?filter[playerNames]="+request.getParameter("name"));
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
 				conn.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
 				conn.setRequestProperty("Accept", "application/vnd.api+json");
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
-				out.println(player.getData().get(0).getAttributes().getName());
+			
 				List<String> idmatches = new ArrayList<String>();
-				for(int i=0;i<10;i++) {
+				for(int i=0;i<8;i++) {
 					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
 				}
+				
+				List<Matchpubg> lista = new ArrayList<Matchpubg>();
 				for(int j=0;j<idmatches.size();j++) {
 					ObjectMapper objectMapper1 = new ObjectMapper();
 					objectMapper1.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -93,22 +96,23 @@ public class PubgServlet extends HttpServlet {
 					pubgmatch.PubgMatch match = objectMapper1.readValue(conn1.getInputStream(),pubgmatch.PubgMatch.class);
 					for(int i=0;i<match.getIncluded().size();i++) {
 						if(match.getIncluded().get(i).getType().equals("participant")) {
-							if(match.getIncluded().get(i).getAttributes().getStats().getName().equals("SusurraVientos")) {
-							out.println(match.getIncluded().get(i).getType()+"<br>");
-							out.print("Nombre:"+match.getIncluded().get(i).getAttributes().getStats().getName()+"<br>");
-							out.print("Kill:"+match.getIncluded().get(i).getAttributes().getStats().getKills()+"<br>");
-							out.print("Posicion:"+match.getIncluded().get(i).getAttributes().getStats().getWinPlace()+"<br>");
-						}}
+							if(match.getIncluded().get(i).getAttributes().getStats().getName().equals(request.getParameter("name")	)) {
+							Stats stats = match.getIncluded().get(i).getAttributes().getStats();
+							
+							Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),stats.getName(), stats.getKills(), stats.getWinPlace());
+							lista.add(jugador);
+						}
+						}
 						
 
 					}
 				}
-			
+				request.setAttribute("lista", lista);
 				
-				
+				request.getRequestDispatcher("/pruebapubg.jsp").forward(request, response);
+
 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

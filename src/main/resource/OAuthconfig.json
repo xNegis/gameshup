@@ -1,0 +1,16 @@
+{
+		
+		"Google":{
+			"tokenUrl":"https://oauth2.googleapis.com/token",
+			"clientId":"315832450111-jim14tgml85ot4jkc5823h2berktudme.apps.googleusercontent.com",
+			"clientSecret":"N_YtJSosP0VJHXZ8TWXm49n5",
+			"authorizationFormUrl":"https://accounts.google.com/o/oauth2/auth",
+			"scopes":["https://www.googleapis.com/auth/gmail.labels"]
+		}
+
+
+
+
+
+
+}
