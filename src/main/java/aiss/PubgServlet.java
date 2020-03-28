@@ -2,6 +2,7 @@ package aiss;
 
 import java.io.IOException;
 
+
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -10,6 +11,8 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -22,17 +25,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.DeserializationConfig.Feature;
 
 import org.restlet.data.Header;
 import org.restlet.engine.header.HeaderConstants;
 import org.restlet.resource.ClientResource;
 import org.restlet.util.Series;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
-
+//import matchpubg.PubgMatch;
+//import matchpubg.PubgMatchMadre;
+//import matchpubg.PubgParticipant;
+//import matchpubg.PubgParticipantAttributes;
+//import matchpubg.PubgRoster;
+//import matchpubg.RosterAttributes;
 import pubgplayer.PlayerPubg;
 
 
@@ -71,17 +79,32 @@ public class PubgServlet extends HttpServlet {
 				conn.setRequestProperty("Accept", "application/vnd.api+json");
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
 				out.println(player.getData().get(0).getAttributes().getName());
+				List<String> idmatches = new ArrayList<String>();
 				for(int i=0;i<10;i++) {
-					out.println(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId()+"<br>");
-
+					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
 				}
+				for(int j=0;j<idmatches.size();j++) {
+					ObjectMapper objectMapper1 = new ObjectMapper();
+					objectMapper1.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+					URL url1 = new URL("https://api.pubg.com/shards/steam/matches/"+idmatches.get(j));
+					HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
+					conn1.setRequestMethod("GET");
+					conn1.setRequestProperty("Accept", "application/vnd.api+json");
+					pubgmatch.PubgMatch match = objectMapper1.readValue(conn1.getInputStream(),pubgmatch.PubgMatch.class);
+					for(int i=0;i<match.getIncluded().size();i++) {
+						if(match.getIncluded().get(i).getType().equals("participant")) {
+							if(match.getIncluded().get(i).getAttributes().getStats().getName().equals("SusurraVientos")) {
+							out.println(match.getIncluded().get(i).getType()+"<br>");
+							out.print("Nombre:"+match.getIncluded().get(i).getAttributes().getStats().getName()+"<br>");
+							out.print("Kill:"+match.getIncluded().get(i).getAttributes().getStats().getKills()+"<br>");
+							out.print("Posicion:"+match.getIncluded().get(i).getAttributes().getStats().getWinPlace()+"<br>");
+						}}
+						
+
+					}
+				}
+			
 				
-				URL url1 = new URL("https://api.pubg.com/shards/steam/matches/1463a7f3-c310-47d8-8ca3-8c0cbb390bf4");
-				HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
-				conn1.setRequestMethod("GET");
-				conn1.setRequestProperty("Accept", "application/vnd.api+json");
-				
-				out.print(conn1.getInputStream());
 				
 
 			} catch (Exception e) {
