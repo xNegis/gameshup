@@ -37,6 +37,10 @@ import org.restlet.util.Series;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pubgmatch.Datum__;
+import pubgmatch.Included;
+import pubgmatch.Participants;
+import pubgmatch.Rosters;
 import pubgmatch.Stats;
 import pubgplayer.PlayerPubg;
 import pubgseason.PubgSeason;
@@ -75,13 +79,18 @@ public class PubgServlet extends HttpServlet {
 				conn.setRequestProperty("Accept", "application/vnd.api+json");
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
 				String id =  player.getData().get(0).getId();
+//				System.out.println(id);
 				List<String> idmatches = new ArrayList<String>();
 				for(int i=0;i<9;i++) { 
 					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
+//					System.out.println(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
 				}
 				
 				List<Matchpubg> lista = new ArrayList<Matchpubg>();
+				List<List<Matchpubg>> compis = new ArrayList<List<Matchpubg>>();
 				for(int j=0;j<idmatches.size();j++) {
+					List<String> idpla2 = new ArrayList<String>();
+					String idpla="";
 					ObjectMapper objectMapper1 = new ObjectMapper();
 					objectMapper1.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 					URL url1 = new URL("https://api.pubg.com/shards/steam/matches/"+idmatches.get(j));
@@ -89,19 +98,94 @@ public class PubgServlet extends HttpServlet {
 					conn1.setRequestMethod("GET");
 					conn1.setRequestProperty("Accept", "application/vnd.api+json");
 					pubgmatch.PubgMatch match = objectMapper1.readValue(conn1.getInputStream(),pubgmatch.PubgMatch.class);
+					String gamemode="";
+					
+//					SACAR STATS JUGADOR
+					
 					for(int i=0;i<match.getIncluded().size();i++) {
+						
 						if(match.getIncluded().get(i).getType().equals("participant")) {
-							if(match.getIncluded().get(i).getAttributes().getStats().getName().equals(request.getParameter("name")	)) {
+							if(match.getIncluded().get(i).getAttributes().getStats().getName().equals(request.getParameter("name") )) {
 							Stats stats = match.getIncluded().get(i).getAttributes().getStats();
-							Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),stats.getName(), stats.getKills(), stats.getWinPlace(),match.getData().getAttributes().getGameMode());
-							lista.add(jugador);
+							idpla = match.getIncluded().get(i).getId();
 							
+							Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),
+									stats.getName(), 
+									stats.getKills(), 
+									stats.getDamageDealt(), 
+									stats.getWinPlace(),
+									match.getData().getAttributes().getGameMode());
+									gamemode = 	match.getData().getAttributes().getGameMode();
+
+							
+							lista.add(jugador);
 						}
+						}
+					}
+					
+					
+//						SACAR COMPIS
+					
+						for(int i=0;i<match.getIncluded().size();i++) {
+							int tamequipo=0;
+							if(gamemode.equals("duo") || gamemode.equals("duo-fpp")) {
+								tamequipo=1;
+							}else if(gamemode.equals("solo") || gamemode.equals("solo-fpp")){
+								tamequipo=0;
+							}else {
+								tamequipo=3;
+							}
+						if(match.getIncluded().get(i).getType().equals("roster")) {
+							Included rost = match.getIncluded().get(i); //Roster
+							Participants participantes = rost.getRelationships().getParticipants(); //Participantes del roster
+							List<Datum__> datosparticipantes = participantes.getData(); //Info de participantes
+							for(int b=0;b<datosparticipantes.size();b++) {
+								if(datosparticipantes.get(b).getId().equals(idpla)) {
+//									idpla2.add(datosparticipantes.get(b).getId());
+									for(int ñ=0;ñ<=tamequipo;ñ++) {
+										if(ñ!=b) {
+											idpla2.add(datosparticipantes.get(ñ).getId());
+										}
+									}
+								}
+							}
+							
+							
+							}
 						}
 						
+						
+						List<Matchpubg> compis1 = new ArrayList<Matchpubg>();
 
+						for(int i=0;i<match.getIncluded().size();i++) {
+							if(match.getIncluded().get(i).getType().equals("participant")) {	
+							for(int z=0;z<idpla2.size();z++){
+								if(match.getIncluded().get(i).getId().equals(idpla2.get(z))){
+									Stats stats = match.getIncluded().get(i).getAttributes().getStats();
+									idpla = match.getIncluded().get(i).getId();
+									Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),
+											stats.getName(), 
+											stats.getKills(), 
+											stats.getDamageDealt(), 
+											stats.getWinPlace(),
+											match.getData().getAttributes().getGameMode());
+									compis1.add(jugador);
+								}
+							}
+							}
+						}
+						compis.add(compis1);
+
+						
+//						System.out.println(idpla2);
+						
 					}
-				}
+								
+				List<Matchpubg> listacomp = new ArrayList<Matchpubg>();
+					
+
+				
+				
 				ObjectMapper objectMapper2 = new ObjectMapper();
 				objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				String season="";
@@ -109,7 +193,7 @@ public class PubgServlet extends HttpServlet {
 				if(request.getParameter("season")==null) {
 					season="division.bro.official.pc-2018-06";
 					seasonJSP="SS6";
-				}else {
+				}else { 
 					if(request.getParameter("season").equals("SS1")) {
 						season="division.bro.official.pc-2018-01";
 						seasonJSP="SS1";
@@ -144,33 +228,354 @@ public class PubgServlet extends HttpServlet {
 				Double kddf = 0.0;
 				Double kdsqf = 0.0;
 				String modoJSP="";
+				MatchpubgSeason jugadors = new MatchpubgSeason();
+				MatchpubgSeason jugadord = new MatchpubgSeason();
+				MatchpubgSeason jugadorsq = new MatchpubgSeason();
+				MatchpubgSeason jugadorsf = new MatchpubgSeason();
+				MatchpubgSeason jugadordf = new MatchpubgSeason();
+				MatchpubgSeason jugadorsqf = new MatchpubgSeason();
+
 				if(request.getParameter("modo")==null) {
+					DecimalFormat df1 = new DecimalFormat("#.##");
+					Integer partidas = seasonstats.getData().getAttributes().getGameModeStats().getSolo().getRoundsPlayed();
+					Integer partidad = seasonstats.getData().getAttributes().getGameModeStats().getDuo().getRoundsPlayed();
+					Integer partidasq = seasonstats.getData().getAttributes().getGameModeStats().getSquad().getRoundsPlayed();
+
 					kds=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSolo().getLosses().doubleValue());
-					
 					kdd=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuo().getLosses().doubleValue());
-				
 					kdsq=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquad().getLosses().doubleValue());
+
+
+					try {
+						Double wins= (double) seasonstats.getData().getAttributes().getGameModeStats().getSolo().getWins()/partidas * 100;
+						Double damage = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getDamageDealt()/partidas);
+						Double time = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getTimeSurvived()/partidas);
+						Double headshot  = (double) seasonstats.getData().getAttributes().getGameModeStats().getSolo().getHeadshotKills()/partidas * 100;
+						Double top10 = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getSolo().getTop10s()/partidas * 100;
+						Double longestkill = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getLongestKill());
+
+						jugadors = new MatchpubgSeason(df1.format(kds), 
+								wins.toString(), 
+								df1.format(damage), 
+								df1.format(time), 
+								df1.format(headshot), 
+								df1.format(top10),
+								df1.format(longestkill));
+						
+					}catch(ArithmeticException e) {
+						Double wins= 0.0;
+						Double damage =0.0;
+						Double time = 0.0;
+						Double headshot  = 0.0;
+						Double top10 = 	0.0;
+						Double longestkill = 0.0;
+
+						jugadors = new MatchpubgSeason(df1.format(kds), 
+								wins.toString(), 
+								df1.format(damage), 
+								df1.format(time), 
+								df1.format(headshot), 
+								df1.format(top10),
+								df1.format(longestkill));
+					}
+						try {
+							Double winsd= (double) seasonstats.getData().getAttributes().getGameModeStats().getDuo().getWins()/partidad *100;
+							Double damaged = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getDamageDealt()/partidad);
+							Double timed = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getTimeSurvived()/partidad);
+							Double headshotd  = (double) seasonstats.getData().getAttributes().getGameModeStats().getDuo().getHeadshotKills()/partidad *100;
+							Double top10d = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getDuo().getTop10s()/partidad *100;
+							Double longestkilld = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getLongestKill());
+
+							jugadord = new MatchpubgSeason(df1.format(kdd), 
+									winsd.toString(), 
+									df1.format(damaged), 
+									df1.format(timed), 
+									df1.format(headshotd), 
+									df1.format(top10d),
+									df1.format(longestkilld));
+						}catch(ArithmeticException e) {
+							Double winsd= 0.0;
+							Double damaged = 0.0;
+							Double timed =0.0;
+							Double headshotd  =0.0;
+							Double top10d = 	0.0;
+							Double longestkilld = 0.0;
+	
+							jugadord = new MatchpubgSeason(df1.format(kdd), 
+									winsd.toString(), 
+									df1.format(damaged), 
+									df1.format(timed), 
+									df1.format(headshotd), 
+									df1.format(top10d),
+									df1.format(longestkilld));
+						}
+						
+						try {
+							Double winssq= (double) seasonstats.getData().getAttributes().getGameModeStats().getSquad().getWins()/partidasq * 100;
+							Double damagesq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getDamageDealt()/partidasq);
+							Double timesq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getTimeSurvived()/partidasq);
+							Double headshotsq = (double) seasonstats.getData().getAttributes().getGameModeStats().getSquad().getHeadshotKills()/partidasq * 100;
+							Double top10sq = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getSquad().getTop10s()/partidasq * 100;
+							Double longestkillsq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getLongestKill());
+
+							 jugadorsq = new MatchpubgSeason(df1.format(kdsq), 
+									df1.format(winssq), 
+									df1.format(damagesq), 
+									df1.format(timesq), 
+									df1.format(headshotsq), 
+									df1.format(top10sq),
+									df1.format(longestkillsq));
+						}catch(ArithmeticException e) {
+							Double winssq= 0.0;
+							Double damagesq = 0.0;
+							Double timesq = 0.0;
+							Double headshotsq = 0.0;
+							Double top10sq = 	0.0;
+							Double longestkillsq = 0.0;
+	
+							 jugadorsq = new MatchpubgSeason(df1.format(kdsq), 
+									df1.format(winssq), 
+									df1.format(damagesq), 
+									df1.format(timesq), 
+									df1.format(headshotsq), 
+									df1.format(top10sq),
+									df1.format(longestkillsq));
+						}
+						
+//					}
+					
 					modoJSP = "tpp";
 				}else {
 					if(request.getParameter("modo").equals("tpp")){
-						kds=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSolo().getLosses().doubleValue());
-						
-						kdd=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuo().getLosses().doubleValue());
-					
-						kdsq=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquad().getLosses().doubleValue());
-						modoJSP = "tpp";
+						DecimalFormat df1 = new DecimalFormat("#.##");
+						Integer partidas = seasonstats.getData().getAttributes().getGameModeStats().getSolo().getRoundsPlayed();
+						Integer partidad = seasonstats.getData().getAttributes().getGameModeStats().getDuo().getRoundsPlayed();
+						Integer partidasq = seasonstats.getData().getAttributes().getGameModeStats().getSquad().getRoundsPlayed();
 
-					}else if(request.getParameter("modo").equals("fpp")){
-						kdsf=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getLosses().doubleValue());
+						kds=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSolo().getLosses().doubleValue());
+						kdd=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuo().getLosses().doubleValue());
+						kdsq=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquad().getLosses().doubleValue());
+
+						try {
+							Double wins= (double) seasonstats.getData().getAttributes().getGameModeStats().getSolo().getWins()/partidas * 100;
+							Double damage = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getDamageDealt()/partidas);
+							Double time = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getTimeSurvived()/partidas);
+							Double headshot  = (double) seasonstats.getData().getAttributes().getGameModeStats().getSolo().getHeadshotKills()/partidas * 100;
+							Double top10 = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getSolo().getTop10s()/partidas * 100;
+							Double longestkill = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getLongestKill());
+
+							jugadors = new MatchpubgSeason(df1.format(kds), 
+									wins.toString(), 
+									df1.format(damage), 
+									df1.format(time), 
+									df1.format(headshot), 
+									df1.format(top10),
+									df1.format(longestkill));
+							
+						}catch(ArithmeticException e) {
+							Double wins= 0.0;
+							Double damage =0.0;
+							Double time = 0.0;
+							Double headshot  = 0.0;
+							Double top10 = 	0.0;
+							Double longestkill = 0.0;
+
+							jugadors = new MatchpubgSeason(df1.format(kds), 
+									wins.toString(), 
+									df1.format(damage), 
+									df1.format(time), 
+									df1.format(headshot), 
+									df1.format(top10),
+									df1.format(longestkill));
+						}
+							try {
+								Double winsd= (double) seasonstats.getData().getAttributes().getGameModeStats().getDuo().getWins()/partidad *100;
+								Double damaged = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getDamageDealt()/partidad);
+								Double timed = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getTimeSurvived()/partidad);
+								Double headshotd  = (double) seasonstats.getData().getAttributes().getGameModeStats().getDuo().getHeadshotKills()/partidad *100;
+								Double top10d = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getDuo().getTop10s()/partidad *100;
+								Double longestkilld = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getLongestKill());
+
+								jugadord = new MatchpubgSeason(df1.format(kdd), 
+										winsd.toString(), 
+										df1.format(damaged), 
+										df1.format(timed), 
+										df1.format(headshotd), 
+										df1.format(top10d),
+										df1.format(longestkilld));
+							}catch(ArithmeticException e) {
+								Double winsd= 0.0;
+								Double damaged = 0.0;
+								Double timed =0.0;
+								Double headshotd  =0.0;
+								Double top10d = 	0.0;
+								Double longestkilld = 0.0;
+		
+								jugadord = new MatchpubgSeason(df1.format(kdd), 
+										winsd.toString(), 
+										df1.format(damaged), 
+										df1.format(timed), 
+										df1.format(headshotd), 
+										df1.format(top10d),
+										df1.format(longestkilld));
+							}
+							
+							try {
+								Double winssq= (double) seasonstats.getData().getAttributes().getGameModeStats().getSquad().getWins()/partidasq * 100;
+								Double damagesq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getDamageDealt()/partidasq);
+								Double timesq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getTimeSurvived()/partidasq);
+								Double headshotsq = (double) seasonstats.getData().getAttributes().getGameModeStats().getSquad().getHeadshotKills()/partidasq * 100;
+								Double top10sq = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getSquad().getTop10s()/partidasq * 100;
+								Double longestkillsq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getLongestKill());
+
+								 jugadorsq = new MatchpubgSeason(df1.format(kdsq), 
+										df1.format(winssq), 
+										df1.format(damagesq), 
+										df1.format(timesq), 
+										df1.format(headshotsq), 
+										df1.format(top10sq),
+										df1.format(longestkillsq));
+							}catch(ArithmeticException e) {
+								Double winssq= 0.0;
+								Double damagesq = 0.0;
+								Double timesq = 0.0;
+								Double headshotsq = 0.0;
+								Double top10sq = 	0.0;
+								Double longestkillsq = 0.0;
+		
+								 jugadorsq = new MatchpubgSeason(df1.format(kdsq), 
+										df1.format(winssq), 
+										df1.format(damagesq), 
+										df1.format(timesq), 
+										df1.format(headshotsq), 
+										df1.format(top10sq),
+										df1.format(longestkillsq));
+							}
+//						}
 						
-						kddf=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getLosses().doubleValue());
-					
-						kdsqf=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getLosses().doubleValue());
+						modoJSP = "tpp";
+					}else if(request.getParameter("modo").equals("fpp")){
+						DecimalFormat df1 = new DecimalFormat("#.##");
+						Integer partidas = seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getRoundsPlayed();
+						Integer partidad = seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getRoundsPlayed();
+						Integer partidasq = seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getRoundsPlayed();
+
+						kds=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getLosses().doubleValue());
+						kdd=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getLosses().doubleValue());
+						kdsq=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getLosses().doubleValue());
+
+//						
+						try {
+							Double wins= (double) seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getWins()/partidas * 100;
+							Double damage = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getDamageDealt()/partidas);
+							Double time = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getTimeSurvived()/partidas);
+							Double headshot  = (double) seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getHeadshotKills()/partidas * 100;
+							Double top10 = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getTop10s()/partidas * 100;
+							Double longestkill = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getLongestKill());
+
+							jugadorsf = new MatchpubgSeason(df1.format(kds), 
+									wins.toString(), 
+									df1.format(damage), 
+									df1.format(time), 
+									df1.format(headshot), 
+									df1.format(top10),
+									df1.format(longestkill));
+							
+						}catch(ArithmeticException e) {
+							Double wins= 0.0;
+							Double damage =0.0;
+							Double time = 0.0;
+							Double headshot  = 0.0;
+							Double top10 = 	0.0;
+							Double longestkill = 0.0;
+
+							jugadorsf = new MatchpubgSeason(df1.format(kds), 
+									wins.toString(), 
+									df1.format(damage), 
+									df1.format(time), 
+									df1.format(headshot), 
+									df1.format(top10),
+									df1.format(longestkill));
+						}
+							try {
+								Double winsd= (double) seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getWins()/partidad *100;
+								Double damaged = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getDamageDealt()/partidad);
+								Double timed = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getTimeSurvived()/partidad);
+								Double headshotd  = (double) seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getHeadshotKills()/partidad *100;
+								Double top10d = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getTop10s()/partidad *100;
+								Double longestkilld = (double) (seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getLongestKill());
+
+								jugadordf = new MatchpubgSeason(df1.format(kdd), 
+										winsd.toString(), 
+										df1.format(damaged), 
+										df1.format(timed), 
+										df1.format(headshotd), 
+										df1.format(top10d),
+										df1.format(longestkilld));
+							}catch(ArithmeticException e) {
+								Double winsd= 0.0;
+								Double damaged = 0.0;
+								Double timed =0.0;
+								Double headshotd  =0.0;
+								Double top10d = 	0.0;
+								Double longestkilld = 0.0;
+		
+								jugadordf = new MatchpubgSeason(df1.format(kdd), 
+										winsd.toString(), 
+										df1.format(damaged), 
+										df1.format(timed), 
+										df1.format(headshotd), 
+										df1.format(top10d),
+										df1.format(longestkilld));
+							}
+							
+							try {
+								Double winssq= (double) seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getWins()/partidasq * 100;
+								Double damagesq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getDamageDealt()/partidasq);
+								Double timesq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getTimeSurvived()/partidasq);
+								Double headshotsq = (double) seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getHeadshotKills()/partidasq * 100;
+								Double top10sq = 	(double) seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getTop10s()/partidasq * 100;
+								Double longestkillsq = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getLongestKill());
+
+								 jugadorsqf = new MatchpubgSeason(df1.format(kdsq), 
+										df1.format(winssq), 
+										df1.format(damagesq), 
+										df1.format(timesq), 
+										df1.format(headshotsq), 
+										df1.format(top10sq),
+										df1.format(longestkillsq));
+							}catch(ArithmeticException e) {
+								Double winssq= 0.0;
+								Double damagesq = 0.0;
+								Double timesq = 0.0;
+								Double headshotsq = 0.0;
+								Double top10sq = 	0.0;
+								Double longestkillsq = 0.0;
+		
+								 jugadorsqf = new MatchpubgSeason(df1.format(kdsq), 
+										df1.format(winssq), 
+										df1.format(damagesq), 
+										df1.format(timesq), 
+										df1.format(headshotsq), 
+										df1.format(top10sq),
+										df1.format(longestkillsq));
+							}
+//						}
+						
+						
 						modoJSP = "fpp";
 					}else {
 					}
 				}
+				request.setAttribute("jugadors", jugadors);
+				request.setAttribute("jugadord", jugadord);
+				request.setAttribute("jugadorsq", jugadorsq);
+				request.setAttribute("jugadorsf", jugadorsf);
+				request.setAttribute("jugadordf", jugadordf);
+				request.setAttribute("jugadorsqf", jugadorsqf);
+
 				DecimalFormat df2 = new DecimalFormat("#.##");
+				request.setAttribute("compis", compis);
 				request.setAttribute("modoJSP", modoJSP);
 				request.setAttribute("seasonJSP", seasonJSP);
 				request.setAttribute("kds", df2.format(kds));

@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="aiss.Matchpubg" %>
+<%@ page import="aiss.MatchpubgSeason" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@include file="cabecera.html"%>
@@ -14,9 +15,30 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 <body>
+<script>
+function format(time) {   
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = ~~time % 60;
 
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+}
+</script>
 <%List<Matchpubg> equipos = (List) request.getAttribute("lista");%>
-
+<%List<List<Matchpubg>> compis = (List) request.getAttribute("lista");%>
+<%-- <%for(int i=0;i<compis.size();i++){  --%>
+<%--   for(int j=0;j<compis.get(i).size();j++){%> --%>
+<%--   <p><%=compis.get(i).get(j).getNombre()%></p> --%>
+<%--   <p><%=compis.get(i).get(j).getKills()%></p> --%>
+<%-- <%} }%> --%>
 
 <div class="dropdown" style="display:inline-block;">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -37,14 +59,85 @@
   <%}%>
   
 <div>
+<%
+MatchpubgSeason jugadors = (MatchpubgSeason)request.getAttribute("jugadors");
+MatchpubgSeason jugadord = (MatchpubgSeason)request.getAttribute("jugadord");
+MatchpubgSeason jugadorsq = (MatchpubgSeason)request.getAttribute("jugadorsq");
+MatchpubgSeason jugadorsf = (MatchpubgSeason)request.getAttribute("jugadorsf");
+MatchpubgSeason jugadordf = (MatchpubgSeason)request.getAttribute("jugadordf");
+MatchpubgSeason jugadorsqf = (MatchpubgSeason)request.getAttribute("jugadorsqf");
+
+%>
 <%if(request.getAttribute("modoJSP").equals("tpp")){%>
-<div ><%if(request.getAttribute("kds").toString().equals("NaN")){%>No hay partidas en solo en la temporada<%}else{ %>Solo KD ${kds}<%} %></div>
-<div ><%if(request.getAttribute("kdd").toString().equals("NaN")){%>No hay partidas en solo en la temporada<%}else{ %>Duo KD ${kdd}<%} %></div>
-<div ><%if(request.getAttribute("kdsq").toString().equals("NaN")){%>No hay partidas en solo en la temporada<%}else{ %>Squad KD ${kdsq}<%} %></div>
+<p>SOLO TPP</p>
+<%if(jugadors.getKd().toString().equals("NaN")){%>
+<div >No hay partidas Solo TPP esta season</div>
+<%} %>
+<div >KD ${jugadors.kd}</div>
+<div >Win % ${jugadors.wins}</div>
+<div >Daño medio ${jugadors.damage}</div>
+<div >Tiempo Medio <script> document.write(format(${jugadors.time}))</script></div>
+<div >Headshots % ${jugadors.headshot}</div>
+<div >TOP 10 % ${jugadors.top10}</div>
+<div >Longest Kill${jugadors.longestkill}</div>
+<p>DUO TPP</p>
+<%if(jugadord.getKd().toString().equals("NaN")){%>
+<div >No hay partidas Duo TPP esta season</div>
+<%} %>
+<div >KD ${jugadord.kd}</div>
+<div >Win % ${jugadord.wins}</div>
+<div >Daño medio ${jugadord.damage}</div>
+<div >Tiempo Medio <script> document.write(format(${jugadord.time}))</script></div>
+<div >Headshots % ${jugadord.headshot}</div>
+<div >TOP 10 % ${jugadord.top10}</div>
+<div >Longest Kill${jugadord.longestkill}</div>
+
+<p>SQUAD TPP</p>
+<%if(jugadorsq.getKd().toString().equals("NaN")){%>
+<div >No hay partidas Squad TPP esta season</div>
+<%} %>
+<div >KD ${jugadorsq.kd}</div>
+<div >Win % ${jugadorsq.wins}</div>
+<div >Daño medio ${jugadorsq.damage}</div>
+<div >Tiempo Medio <script> document.write(format(${jugadorsq.time}))</script></div>
+<div >Headshots % ${jugadorsq.headshot}</div>
+<div >TOP 10 % ${jugadorsq.top10}</div>
+<div >Longest Kill${jugadorsq.longestkill}</div>
 <%}else{ %>
-<div ><%if(request.getAttribute("kds").toString().equals("NaN")){%>No hay partidas en solo en la temporada<%}else{ %>Solo KD ${kdsf}<%} %></div>
-<div ><%if(request.getAttribute("kdd").toString().equals("NaN")){%>No hay partidas en solo en la temporada<%}else{ %>Duo KD ${kddf}<%} %></div>
-<div ><%if(request.getAttribute("kdsq").toString().equals("NaN")){%>No hay partidas en solo en la temporada<%}else{ %>Squad KD ${kdsqf}<%} %></div>
+<p>SOLO FPP</p>
+<%if(jugadorsf.getKd().toString().equals("NaN")){%>
+<div >No hay partidas Solo TPP esta season</div>
+<%} %>
+<div >KD ${jugadorsf.kd}</div>
+<div >Win % ${jugadorsf.wins}</div>
+<div >Daño medio ${jugadorsf.damage}</div>
+<div >Tiempo Medio <script> document.write(format(${jugadorsf.time}))</script></div>
+<div >Headshots % ${jugadorsf.headshot}</div>
+<div >TOP 10 % ${jugadorsf.top10}</div>
+<div >Longest Kill${jugadorsf.longestkill}</div>
+<p>DUO FPP</p>
+<%if(jugadordf.getKd().toString().equals("NaN")){%>
+<div >No hay partidas Duo TPP esta season</div>
+<%} %>
+<div >KD ${jugadordf.kd}</div>
+<div >Win % ${jugadordf.wins}</div>
+<div >Daño medio ${jugadordf.damage}</div>
+<div >Tiempo Medio <script> document.write(format(${jugadordf.time}))</script></div>
+<div >Headshots % ${jugadordf.headshot}</div>
+<div >TOP 10 % ${jugadordf.top10}</div>
+<div >Longest Kill${jugadordf.longestkill}</div>
+
+<p>SQUAD FPP</p>
+<%if(jugadorsqf.getKd().toString().equals("NaN")){%>
+<div >No hay partidas Squad TPP esta season</div>
+<%} %>
+<div >KD ${jugadorsqf.kd}</div>
+<div >Win % ${jugadorsqf.wins}</div>
+<div >Daño medio ${jugadorsqf.damage}</div>
+<div >Tiempo Medio <script> document.write(format(${jugadorsqf.time}))</script></div>
+<div >Headshots % ${jugadorsqf.headshot}</div>
+<div >TOP 10 % ${jugadorsqf.top10}</div>
+<div >Longest Kill${jugadorsqf.longestkill}</div>
 <%} %>
 </div>
   
@@ -68,10 +161,10 @@
 <div id="popup<%=i%>" class="overlay" align="left">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
-		<p><c:out value="<%= equipos.get(i).getNombre()%>"/></p>
-		<p><c:out value="<%= equipos.get(i).getKills()%>"/></p>
-		<p><c:out value="<%= equipos.get(i).getWinplace()%>"/></p>
-		
+		<p><%= equipos.get(i).getNombre()%></p>
+		<p><%= equipos.get(i).getKills()%></p>
+		<p><%= equipos.get(i).getDamage()%></p>
+		<p><%= equipos.get(i).getWinplace()%></p>
 	</div>
 </div>
 </div>
