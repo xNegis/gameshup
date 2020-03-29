@@ -134,7 +134,7 @@ public class PubgServlet extends HttpServlet {
 								tamequipo=0;
 							}else {
 								tamequipo=3;
-							}
+							} 
 						if(match.getIncluded().get(i).getType().equals("roster")) {
 							Included rost = match.getIncluded().get(i); //Roster
 							Participants participantes = rost.getRelationships().getParticipants(); //Participantes del roster
@@ -171,7 +171,7 @@ public class PubgServlet extends HttpServlet {
 											match.getData().getAttributes().getGameMode());
 									compis1.add(jugador);
 								}
-							}
+							} 
 							}
 						}
 						compis.add(compis1);

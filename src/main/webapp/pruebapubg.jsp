@@ -39,8 +39,8 @@ function format(time) {
 <%--   <p><%=compis.get(i).get(j).getNombre()%></p> --%>
 <%--   <p><%=compis.get(i).get(j).getKills()%></p> --%>
 <%-- <%} }%> --%>
-
-<div class="dropdown" style="display:inline-block;">
+<div style="width:100%;">
+<div class="dropdown" style="float:left;width:35%;margin-left:4%;margin-top:3%;">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
   	Season  
    </button>
@@ -148,7 +148,7 @@ MatchpubgSeason jugadorsqf = (MatchpubgSeason)request.getAttribute("jugadorsqf")
 
 
 
-<div align="right" style="margin-right:5%;margin-top:4%">
+<div  style="float:right;width:60%;margin-top:3%;padding-left:10%;">
 <% for(int i=0;i<6;i=i+3)
 {
 %>
@@ -198,6 +198,7 @@ MatchpubgSeason jugadorsqf = (MatchpubgSeason)request.getAttribute("jugadorsqf")
 </div>
 </div>
 <%} %>
+</div>
 </div>
 </body>
 </html>
