@@ -1,11 +1,12 @@
 package aiss;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.SecureRandom;
 import java.security.Security;
@@ -37,6 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pubgmatch.Stats;
 import pubgplayer.PlayerPubg;
+import pubgseason.PubgSeason;
 
 
 /**
@@ -71,7 +73,7 @@ public class PubgServlet extends HttpServlet {
 				conn.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
 				conn.setRequestProperty("Accept", "application/vnd.api+json");
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
-			
+				String id =  player.getData().get(0).getId();
 				List<String> idmatches = new ArrayList<String>();
 				for(int i=0;i<9;i++) { 
 					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
@@ -99,6 +101,17 @@ public class PubgServlet extends HttpServlet {
 
 					}
 				}
+				ObjectMapper objectMapper2 = new ObjectMapper();
+				objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+			
+
+				URL url2 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/division.bro.official.pc-2018-06");
+				HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
+				conn2.setRequestMethod("GET");
+				conn2.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
+				conn2.setRequestProperty("Accept", "application/vnd.api+json");
+				PubgSeason seasonstats = objectMapper2.readValue(conn2.getInputStream(),PubgSeason.class);
+				System.out.println(seasonstats.getData().getAttributes().getGameModeStats().getDuo().getKills());
 				request.setAttribute("lista", lista);
 				
 				request.getRequestDispatcher("/pruebapubg.jsp").forward(request, response);
@@ -115,7 +128,7 @@ public class PubgServlet extends HttpServlet {
 		
 
 	}
-	
+
 	
 	
 	@SuppressWarnings("deprecation")
