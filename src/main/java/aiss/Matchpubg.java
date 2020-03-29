@@ -5,7 +5,13 @@ public class Matchpubg {
 	String nombre;
 	Integer kills;
 	Integer winplace;
-	
+	String type;
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getMapa() {
 		return mapa;
 	}
@@ -30,12 +36,13 @@ public class Matchpubg {
 	public void setWinplace(Integer winplace) {
 		this.winplace = winplace;
 	}
-	public Matchpubg(String mapa, String nombre, Integer kills, Integer winplace) {
+	public Matchpubg(String mapa, String nombre, Integer kills, Integer winplace,String type) {
 		super();
 		this.mapa = mapa;
 		this.nombre = nombre;
 		this.kills = kills;
 		this.winplace = winplace;
+		this.type =type;
 	}
 	
 }

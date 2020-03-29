@@ -45,6 +45,30 @@ ${mensaje}
     </select>
   </div>
   
+<!--   <div class="form-group"> -->
+<!--     <label for="exampleFormControlSelect1">Selecciona una season</label> -->
+<%--     <select class="form-control" id="season" name="season" value="${season}"> --%>
+<!--       <option value="SS1">Season 1</option> -->
+<!--       <option value="SS2">Season 2</option> -->
+<!--       <option value="SS3">Season 3</option> -->
+<!--       <option value="SS4">Season 4</option> -->
+<!--       <option value="SS5">Season 5</option> -->
+<!--       <option value="SS6">Season 6</option> -->
+<!--     </select> -->
+<!--   </div> -->
+  
+<!--   <div class="form-group"> -->
+<!--     <label for="exampleFormControlSelect1">Selecciona un modo</label> -->
+<%--     <select class="form-control" id="modo" name="modo" value="${modo}"> --%>
+<!--       <option value="solo">Solo</option> -->
+<!--       <option value="solofpp">Solo FPP</option> -->
+<!--       <option value="duo">Duo</option> -->
+<!--       <option value="duofpp">Duo FPP</option> -->
+<!--       <option value="squad">Squad</option> -->
+<!--       <option value="squadfpp">Squad FPP</option> -->
+<!--     </select> -->
+<!--   </div> -->
+  
   <button type="submit" class="btn btn-primary mb-2">¡Ver estadísticas!</button>
 </form>
 

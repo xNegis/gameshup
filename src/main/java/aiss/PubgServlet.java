@@ -12,6 +12,7 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,9 +93,9 @@ public class PubgServlet extends HttpServlet {
 						if(match.getIncluded().get(i).getType().equals("participant")) {
 							if(match.getIncluded().get(i).getAttributes().getStats().getName().equals(request.getParameter("name")	)) {
 							Stats stats = match.getIncluded().get(i).getAttributes().getStats();
-							
-							Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),stats.getName(), stats.getKills(), stats.getWinPlace());
+							Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),stats.getName(), stats.getKills(), stats.getWinPlace(),match.getData().getAttributes().getGameMode());
 							lista.add(jugador);
+							
 						}
 						}
 						
@@ -103,17 +104,83 @@ public class PubgServlet extends HttpServlet {
 				}
 				ObjectMapper objectMapper2 = new ObjectMapper();
 				objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			
-
-				URL url2 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/division.bro.official.pc-2018-06");
+				String season="";
+				String seasonJSP="";
+				if(request.getParameter("season")==null) {
+					season="division.bro.official.pc-2018-06";
+					seasonJSP="SS6";
+				}else {
+					if(request.getParameter("season").equals("SS1")) {
+						season="division.bro.official.pc-2018-01";
+						seasonJSP="SS1";
+					}else if(request.getParameter("season").equals("SS2")) {
+						season="division.bro.official.pc-2018-02";
+						seasonJSP="SS2";
+					}else if(request.getParameter("season").equals("SS3")) {
+						season="division.bro.official.pc-2018-03";
+						seasonJSP="SS3";
+					}else if(request.getParameter("season").equals("SS4")) {
+						season="division.bro.official.pc-2018-04";
+						seasonJSP="SS4";
+					}else if(request.getParameter("season").equals("SS5")) {
+						season="division.bro.official.pc-2018-05";
+						seasonJSP="SS5";
+					}else {
+						season="division.bro.official.pc-2018-06";
+						seasonJSP="SS6";
+					}
+				}
+				
+				URL url2 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/" + season);
 				HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
 				conn2.setRequestMethod("GET");
 				conn2.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
 				conn2.setRequestProperty("Accept", "application/vnd.api+json");
 				PubgSeason seasonstats = objectMapper2.readValue(conn2.getInputStream(),PubgSeason.class);
-				System.out.println(seasonstats.getData().getAttributes().getGameModeStats().getDuo().getKills());
-				request.setAttribute("lista", lista);
+				Double kds =0.0;
+				Double kdd = 0.0;
+				Double kdsq = 0.0;
+				Double kdsf = 0.0;
+				Double kddf = 0.0;
+				Double kdsqf = 0.0;
+				String modoJSP="";
+				if(request.getParameter("modo")==null) {
+					kds=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSolo().getLosses().doubleValue());
+					
+					kdd=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuo().getLosses().doubleValue());
 				
+					kdsq=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquad().getLosses().doubleValue());
+					modoJSP = "tpp";
+				}else {
+					if(request.getParameter("modo").equals("tpp")){
+						kds=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSolo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSolo().getLosses().doubleValue());
+						
+						kdd=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuo().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuo().getLosses().doubleValue());
+					
+						kdsq=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquad().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquad().getLosses().doubleValue());
+						modoJSP = "tpp";
+
+					}else if(request.getParameter("modo").equals("fpp")){
+						kdsf=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getLosses().doubleValue());
+						
+						kddf=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getLosses().doubleValue());
+					
+						kdsqf=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getLosses().doubleValue());
+						modoJSP = "fpp";
+					}else {
+					}
+				}
+				DecimalFormat df2 = new DecimalFormat("#.##");
+				request.setAttribute("modoJSP", modoJSP);
+				request.setAttribute("seasonJSP", seasonJSP);
+				request.setAttribute("kds", df2.format(kds));
+				request.setAttribute("kdd", df2.format(kdd));
+				request.setAttribute("kdsq", df2.format(kdsq));
+				request.setAttribute("kdsf", df2.format(kdsf));
+				request.setAttribute("kddf", df2.format(kddf));
+				request.setAttribute("kdsqf", df2.format(kdsqf));
+
+				request.setAttribute("lista", lista);
 				request.getRequestDispatcher("/pruebapubg.jsp").forward(request, response);
 
 
@@ -124,7 +191,7 @@ public class PubgServlet extends HttpServlet {
 			
 
 			
-		
+		 
 		
 
 	}
