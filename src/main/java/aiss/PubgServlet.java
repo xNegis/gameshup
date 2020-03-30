@@ -14,6 +14,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
@@ -37,6 +38,7 @@ import org.restlet.util.Series;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pubfLifeStats.LifeStats;
 import pubgmatch.Datum__;
 import pubgmatch.Included;
 import pubgmatch.Participants;
@@ -79,7 +81,7 @@ public class PubgServlet extends HttpServlet {
 				conn.setRequestProperty("Accept", "application/vnd.api+json");
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
 				String id =  player.getData().get(0).getId();
-//				System.out.println(id);
+				System.out.println(id);
 				List<String> idmatches = new ArrayList<String>();
 				for(int i=0;i<9;i++) { 
 					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
@@ -135,13 +137,14 @@ public class PubgServlet extends HttpServlet {
 							}else {
 								tamequipo=3;
 							} 
+							
+//							SACAMOS COMPAÑEROS DEL JUGADOR PASADO COMO PARAMETRO 
 						if(match.getIncluded().get(i).getType().equals("roster")) {
 							Included rost = match.getIncluded().get(i); //Roster
 							Participants participantes = rost.getRelationships().getParticipants(); //Participantes del roster
 							List<Datum__> datosparticipantes = participantes.getData(); //Info de participantes
 							for(int b=0;b<datosparticipantes.size();b++) {
 								if(datosparticipantes.get(b).getId().equals(idpla)) {
-//									idpla2.add(datosparticipantes.get(b).getId());
 									for(int ñ=0;ñ<=tamequipo;ñ++) {
 										if(ñ!=b) {
 											idpla2.add(datosparticipantes.get(ñ).getId());
@@ -157,6 +160,8 @@ public class PubgServlet extends HttpServlet {
 						
 						List<Matchpubg> compis1 = new ArrayList<Matchpubg>();
 
+//						COGEMOS LAS STATS DEL COMPI
+						
 						for(int i=0;i<match.getIncluded().size();i++) {
 							if(match.getIncluded().get(i).getType().equals("participant")) {	
 							for(int z=0;z<idpla2.size();z++){
@@ -177,17 +182,14 @@ public class PubgServlet extends HttpServlet {
 						compis.add(compis1);
 
 						
-//						System.out.println(idpla2);
 						
 					}
 								
 				List<Matchpubg> listacomp = new ArrayList<Matchpubg>();
 					
 
+//				ESTABLECE LA SEASON
 				
-				
-				ObjectMapper objectMapper2 = new ObjectMapper();
-				objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				String season="";
 				String seasonJSP="";
 				if(request.getParameter("season")==null) {
@@ -214,13 +216,18 @@ public class PubgServlet extends HttpServlet {
 						seasonJSP="SS6";
 					}
 				}
+
+//				SEASON STATS API
 				
+				ObjectMapper objectMapper2 = new ObjectMapper();
+				objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				URL url2 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/" + season);
 				HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
 				conn2.setRequestMethod("GET");
 				conn2.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
 				conn2.setRequestProperty("Accept", "application/vnd.api+json");
 				PubgSeason seasonstats = objectMapper2.readValue(conn2.getInputStream(),PubgSeason.class);
+				
 				Double kds =0.0;
 				Double kdd = 0.0;
 				Double kdsq = 0.0;
@@ -235,6 +242,9 @@ public class PubgServlet extends HttpServlet {
 				MatchpubgSeason jugadordf = new MatchpubgSeason();
 				MatchpubgSeason jugadorsqf = new MatchpubgSeason();
 
+				
+//				COMPRUEBA EL MODO Y EN FUNCION DE EL SACA ESTADISTICAS
+				
 				if(request.getParameter("modo")==null) {
 					DecimalFormat df1 = new DecimalFormat("#.##");
 					Integer partidas = seasonstats.getData().getAttributes().getGameModeStats().getSolo().getRoundsPlayed();
@@ -342,7 +352,6 @@ public class PubgServlet extends HttpServlet {
 									df1.format(longestkillsq));
 						}
 						
-//					}
 					
 					modoJSP = "tpp";
 				}else {
@@ -451,7 +460,6 @@ public class PubgServlet extends HttpServlet {
 										df1.format(top10sq),
 										df1.format(longestkillsq));
 							}
-//						}
 						
 						modoJSP = "tpp";
 					}else if(request.getParameter("modo").equals("fpp")){
@@ -464,7 +472,6 @@ public class PubgServlet extends HttpServlet {
 						kdd=(double) (seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getDuoFpp().getLosses().doubleValue());
 						kdsq=(double) (seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getKills().doubleValue()/seasonstats.getData().getAttributes().getGameModeStats().getSquadFpp().getLosses().doubleValue());
 
-//						
 						try {
 							Double wins= (double) seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getWins()/partidas * 100;
 							Double damage = (double) (seasonstats.getData().getAttributes().getGameModeStats().getSoloFpp().getDamageDealt()/partidas);
@@ -560,13 +567,102 @@ public class PubgServlet extends HttpServlet {
 										df1.format(top10sq),
 										df1.format(longestkillsq));
 							}
-//						}
 						
 						
 						modoJSP = "fpp";
 					}else {
 					}
 				}
+
+				
+//					LIFETIME STATS API
+				
+				ObjectMapper objectMapper3 = new ObjectMapper();
+				objectMapper3.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				URL url3 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/lifetime");
+				HttpURLConnection conn3 = (HttpURLConnection) url3.openConnection();
+				conn3.setRequestMethod("GET");
+				conn3.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
+				conn3.setRequestProperty("Accept", "application/vnd.api+json");
+				LifeStats lifestats = objectMapper3.readValue(conn3.getInputStream(),LifeStats.class);
+				
+//				KILLS TOTALES DE TU VIDA
+				Integer killsLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getDuo().getKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getSquad().getKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getKills();
+			
+				List<Double> longestKillLS = new ArrayList<Double>();
+				
+//				KILL MAS LEJANA 
+				longestKillLS.add(lifestats.getData().getAttributes().getGameModeStats().getSolo().getLongestKill());
+				longestKillLS.add(lifestats.getData().getAttributes().getGameModeStats().getDuo().getLongestKill());
+				longestKillLS.add(lifestats.getData().getAttributes().getGameModeStats().getSquad().getLongestKill());
+				longestKillLS.add(lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getLongestKill());
+				longestKillLS.add(lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getLongestKill());
+				longestKillLS.add(lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getLongestKill());
+				Double maxlongestKillLS=0.0;
+				for(int i=0;i<longestKillLS.size();i++) {
+					if(maxlongestKillLS<longestKillLS.get(i)) {
+						maxlongestKillLS=longestKillLS.get(i);
+					}
+				}
+				
+//				KILLS CARRETERA 
+				Integer roadKillsLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getRoadKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getDuo().getRoadKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getSquad().getRoadKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getRoadKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getRoadKills()+
+				lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getRoadKills();
+				
+				
+//				ARMAS RECOGIDAS
+				Integer armasLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getWeaponsAcquired()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuo().getWeaponsAcquired()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquad().getWeaponsAcquired()+
+						lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getWeaponsAcquired()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getWeaponsAcquired()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getWeaponsAcquired();
+				
+//				TIEMPO TOTAL SOBREVIVIDO
+				Double timeSurvivedLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getTimeSurvived()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuo().getTimeSurvived()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquad().getTimeSurvived()+
+						lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getTimeSurvived()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getTimeSurvived()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getTimeSurvived();
+				
+//				DAÑO TOTAL HECHO
+				Double dmgDealtLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getDamageDealt()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuo().getDamageDealt()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquad().getDamageDealt()+
+						lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getDamageDealt()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getDamageDealt()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getDamageDealt();
+				
+//				VEHICULOS DESTRUIDOS
+				Integer vehiculosDestruidosLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getVehicleDestroys()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuo().getVehicleDestroys()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquad().getVehicleDestroys()+
+						lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getVehicleDestroys()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getVehicleDestroys()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getVehicleDestroys();
+				
+//				SUICIDIOS
+				Integer suicidiosLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getSuicides()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuo().getSuicides()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquad().getSuicides()+
+						lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getSuicides()+
+						lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getSuicides()+
+						lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getSuicides();
+				
+				MatchPubgLifeStats jugadorLS = new MatchPubgLifeStats(killsLS, maxlongestKillLS, roadKillsLS, armasLS, timeSurvivedLS, dmgDealtLS, vehiculosDestruidosLS, suicidiosLS);
+				
+				
+				request.setAttribute("jugadorLS", jugadorLS);
 				request.setAttribute("jugadors", jugadors);
 				request.setAttribute("jugadord", jugadord);
 				request.setAttribute("jugadorsq", jugadorsq);

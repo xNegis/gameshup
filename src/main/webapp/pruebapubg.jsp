@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="aiss.Matchpubg" %>
 <%@ page import="aiss.MatchpubgSeason" %>
+<%@ page import="aiss.MatchPubgLifeStats" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@include file="cabecera.html"%>
@@ -30,15 +31,13 @@ function format(time) {
     ret += "" + mins + ":" + (secs < 10 ? "0" : "");
     ret += "" + secs;
     return ret;
+function dividir(dmg){
+	return dmg/100;
+}
 }
 </script>
 <%List<Matchpubg> equipos = (List) request.getAttribute("lista");%>
 <%List<List<Matchpubg>> compis = (List) request.getAttribute("lista");%>
-<%-- <%for(int i=0;i<compis.size();i++){  --%>
-<%--   for(int j=0;j<compis.get(i).size();j++){%> --%>
-<%--   <p><%=compis.get(i).get(j).getNombre()%></p> --%>
-<%--   <p><%=compis.get(i).get(j).getKills()%></p> --%>
-<%-- <%} }%> --%>
 <div style="width:100%;">
 <div class="dropdown" style="float:left;width:35%;margin-left:4%;margin-top:3%;">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -58,6 +57,28 @@ function format(time) {
     <a href="/pubg?modo=tpp&season='${seasonJSP}'&name=xNegis">TPP</a>
   <%}%>
   
+  
+  
+  
+  
+  
+  
+  
+  
+<!-- AQUI FALTA UN DIV LOCO PARA CERRAR EL DROPDOWN, PERO SI LO PONES SE REVIENTA TODO. MIRALO  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div>
 <%
 MatchpubgSeason jugadors = (MatchpubgSeason)request.getAttribute("jugadors");
@@ -66,7 +87,6 @@ MatchpubgSeason jugadorsq = (MatchpubgSeason)request.getAttribute("jugadorsq");
 MatchpubgSeason jugadorsf = (MatchpubgSeason)request.getAttribute("jugadorsf");
 MatchpubgSeason jugadordf = (MatchpubgSeason)request.getAttribute("jugadordf");
 MatchpubgSeason jugadorsqf = (MatchpubgSeason)request.getAttribute("jugadorsqf");
-
 %>
 <%if(request.getAttribute("modoJSP").equals("tpp")){%>
 <p>SOLO TPP</p>
@@ -144,6 +164,28 @@ MatchpubgSeason jugadorsqf = (MatchpubgSeason)request.getAttribute("jugadorsqf")
 </div>
 
 
+
+
+
+
+<!-- LIFE TIME STATS AQUI ABAJO -->
+
+
+
+
+
+
+<!-- <div> -->
+<!-- <div>LIFETIME STATS</div> -->
+<%-- <div>Kills ${jugadorLS.killsLS}</div> --%>
+<%-- <div>Longest Kill ${jugadorLS.longestKillLS}</div> --%>
+<%-- <div>Road Kills ${jugadorLS.roadKillsLS}</div> --%>
+<%-- <div>Armas Recogidas ${jugadorLS.armasLS}</div> --%>
+<!-- <div>Tiempo Total <script> document.write(format(${jugadorLS.timeSurvivedLS}))</script></div> -->
+<%--  <div>DMG ${jugadorLS.dmgDealtLS}</div>PODRIAMOS PONER AQUI EN PLAN PODRIA HABER MATADO A X JUGADORES | <script> document.write(dividir(${jugadorLS.dmgDealtLS}))</script>  --%>
+<%-- <div>Vehiculos Destruidos ${jugadorLS.vehiculosDestruidosLS}</div> --%>
+<%-- <div>Suicidios ${jugadorLS.suicidiosLS}</div> --%>
+<!-- </div> -->
 
 
 
