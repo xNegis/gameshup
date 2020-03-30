@@ -67,7 +67,7 @@ function dividir(dmg){
 </div>
 
 
-<div  style="float:right;width:43%;margin-top:3%;padding-left:3%;margin-right:8%;">
+<div  style="float:right;width:600px;margin-top:3%;padding-left:2%;margin-right:8%;">
 <% for(int i=0;i<6;i=i+3)
 {
 %>
