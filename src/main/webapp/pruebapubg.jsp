@@ -41,33 +41,33 @@ function dividir(dmg){
 <div style="width:100%;">
 
 
-<div style="float:left;width:35%;margin-left:10%;margin-top:3%;">
+<div style="float:left;width:30%;margin-left:8%;margin-top:3%;">
 <div style="margin-bottom:6%;"><h2 class="display-5">LIFETIME STATS</h2></div>
 
 <div style="width:90%;margin-top:5%;">
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/kill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.killsLS}</div>
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/longestkill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.longestKillLS}</div>
+<div style="display:inline-block;margin-left:2%;width:52%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/kill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.killsLS}</div>
+<div style="display:inline-block;margin-left:2%;width:41%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/longestkill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.longestKillLS}</div>
 </div>
 
 <div style="width:90%;margin-top:5%;">
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/roadkill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.roadKillsLS}</div>
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/armas.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.armasLS}</div>
+<div style="display:inline-block;margin-left:2%;width:52%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/roadkill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.roadKillsLS}</div>
+<div style="display:inline-block;margin-left:2%;width:41%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/armas.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.armasLS}</div>
 </div>
 
 <div style="width:90%;margin-top:5%;">
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/tiempo.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;"><script> document.write(format(${jugadorLS.timeSurvivedLS}))</script></div>
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/damage.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.dmgDealtLS}</div>
+<div style="display:inline-block;margin-left:2%;width:52%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/tiempo.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;"><script> document.write(format(${jugadorLS.timeSurvivedLS}))</script></div>
+<div style="display:inline-block;margin-left:2%;width:41%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/damage.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.dmgDealtLS}</div>
 </div>
 
 <div style="width:90%;margin-top:5%;">
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/vehicledestroy.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.vehiculosDestruidosLS}</div>
-<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/suicide.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.suicidiosLS}</div>
+<div style="display:inline-block;margin-left:2%;width:52%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/vehicledestroy.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.vehiculosDestruidosLS}</div>
+<div style="display:inline-block;margin-left:2%;width:41%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/suicide.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.suicidiosLS}</div>
 </div>
 
 </div>
 
 
-<div  style="float:right;width:45%;margin-top:3%;padding-left:6%;margin-right:10%;">
+<div  style="float:right;width:43%;margin-top:3%;padding-left:3%;margin-right:8%;">
 <% for(int i=0;i<6;i=i+3)
 {
 %>
