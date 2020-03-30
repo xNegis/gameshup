@@ -4,14 +4,14 @@
 <html>
 <head>
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="l.css" />
+<link rel="stylesheet" type="text/css" href="css/lolbusqueda.css" />
 <meta charset="ISO-8859-1">
 <title>GameShup : PUBG</title>
 </head>
 <body>
 
 <div id="divlp">
-<img id="logopubg" src="img/logol.png">
+<img id="logopubg" src="https://storage.cloud.google.com/gameshup.appspot.com/archivosmuestras/logol.png?authuser=1">
 </div>
 
 <div id="errorp">${mensaje}</div>
@@ -27,11 +27,12 @@
   
   <div class="form-group">
     <label for="exampleFormControlSelect1" style="color:#ffffff">Selecciona una región</label>
-    <select class="form-control" id="regionp" name="regionp" value="${region}">
-      <option value="EU">Europa</option>
-      <option value="AS">Asia</option>
-      <option value="NA">Norte América</option>
-      <option value="OC">Oceanía</option>
+    <select class="form-control" id="region" name="region" value="${region}">
+      <option value="euw1">Europe West</option>
+      <option value="eun1">Europe North</option>
+      <option value="jp1">Japan</option>
+      <option value="na1">Norte América</option>
+      <option value="oc1">Oceanía</option>
       
     </select>
   </div>

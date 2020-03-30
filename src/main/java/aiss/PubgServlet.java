@@ -25,7 +25,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest; 
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.jackson.map.DeserializationConfig.Feature;
@@ -61,7 +61,7 @@ public class PubgServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+ 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -72,32 +72,30 @@ public class PubgServlet extends HttpServlet {
 			try {
 				doTrustToCertificates();
 				ObjectMapper objectMapper = new ObjectMapper();
-				
-
-				URL url = new URL("https://api.pubg.com/shards/steam/players?filter[playerNames]="+request.getParameter("name"));
+				String plataforma= request.getParameter("plataformap");
+				System.out.println(plataforma);
+				URL url = new URL("https://api.pubg.com/shards/"+plataforma+"/players?filter[playerNames]="+request.getParameter("name"));
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
 				conn.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
 				conn.setRequestProperty("Accept", "application/vnd.api+json");
 				PlayerPubg player = objectMapper.readValue(conn.getInputStream(),PlayerPubg.class);
 				String id =  player.getData().get(0).getId();
-				System.out.println(id);
 				List<String> idmatches = new ArrayList<String>();
 				for(int i=0;i<9;i++) { 
 					idmatches.add(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
-//					System.out.println(player.getData().get(0).getRelationships().getMatches().getData().get(i).getId());
 				}
-				
+				  
 				List<Matchpubg> lista = new ArrayList<Matchpubg>();
 				List<List<Matchpubg>> compis = new ArrayList<List<Matchpubg>>();
 				for(int j=0;j<idmatches.size();j++) {
 					List<String> idpla2 = new ArrayList<String>();
 					String idpla="";
 					ObjectMapper objectMapper1 = new ObjectMapper();
-					objectMapper1.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				  	objectMapper1.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 					doTrustToCertificates();
 
-					URL url1 = new URL("https://api.pubg.com/shards/steam/matches/"+idmatches.get(j));
+					URL url1 = new URL("https://api.pubg.com/shards/"+plataforma+"/matches/"+idmatches.get(j));
 					HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
 					conn1.setRequestMethod("GET");
 					conn1.setRequestProperty("Accept", "application/vnd.api+json");
@@ -107,18 +105,22 @@ public class PubgServlet extends HttpServlet {
 //					SACAR STATS JUGADOR
 					
 					for(int i=0;i<match.getIncluded().size();i++) {
-						
+						 
 						if(match.getIncluded().get(i).getType().equals("participant")) {
 							if(match.getIncluded().get(i).getAttributes().getStats().getName().equals(request.getParameter("name") )) {
 							Stats stats = match.getIncluded().get(i).getAttributes().getStats();
 							idpla = match.getIncluded().get(i).getId();
 							
-							Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),
+							Matchpubg jugador = new Matchpubg(
+									match.getData().getAttributes().getMapName(),
 									stats.getName(), 
 									stats.getKills(), 
 									stats.getDamageDealt(), 
 									stats.getWinPlace(),
-									match.getData().getAttributes().getGameMode());
+									match.getData().getAttributes().getGameMode(),
+									stats.getHeadshotKills(),
+									stats.getWalkDistance(),
+									stats.getLongestKill());
 									gamemode = 	match.getData().getAttributes().getGameMode();
 
 							
@@ -128,67 +130,83 @@ public class PubgServlet extends HttpServlet {
 					}
 					
 					
-//						SACAR COMPIS
+//					SACAR COMPIS 
 					
-						for(int i=0;i<match.getIncluded().size();i++) {
-							int tamequipo=0;
-							if(gamemode.equals("duo") || gamemode.equals("duo-fpp")) {
-								tamequipo=1;
-							}else if(gamemode.equals("solo") || gamemode.equals("solo-fpp")){
-								tamequipo=0;
-							}else {
-								tamequipo=3;
-							} 
-							
-//							SACAMOS COMPAÑEROS DEL JUGADOR PASADO COMO PARAMETRO 
-						if(match.getIncluded().get(i).getType().equals("roster")) {
-							Included rost = match.getIncluded().get(i); //Roster
-							Participants participantes = rost.getRelationships().getParticipants(); //Participantes del roster
-							List<Datum__> datosparticipantes = participantes.getData(); //Info de participantes
-							for(int b=0;b<datosparticipantes.size();b++) {
-								if(datosparticipantes.get(b).getId().equals(idpla)) {
-									for(int ñ=0;ñ<=tamequipo;ñ++) {
-										if(ñ!=b) {
-											idpla2.add(datosparticipantes.get(ñ).getId());
-										}
+					for(int i=0;i<match.getIncluded().size();i++) {
+						int tamequipo=0;
+						if(gamemode.equals("duo") || gamemode.equals("duo-fpp")) {
+							tamequipo=1;
+						}else if(gamemode.equals("squad") || gamemode.equals("squad-fpp")){
+							tamequipo=2;
+						}
+						
+//						SACAMOS COMPAÑEROS DEL JUGADOR PASADO COMO PARAMETRO 
+					if(match.getIncluded().get(i).getType().equals("roster")) {
+						Included rost = match.getIncluded().get(i); //Roster
+						Participants participantes = rost.getRelationships().getParticipants(); //Participantes del roster
+						List<Datum__> datosparticipantes = participantes.getData(); //Info de participantes
+						for(int b=0;b<datosparticipantes.size();b++) {
+							if(datosparticipantes.get(b).getId().equals(idpla)) {
+								for(int ñ=0;ñ<=tamequipo;ñ++) {
+									if(ñ!=b) {
+										idpla2.add(datosparticipantes.get(ñ).getId());
 									}
 								}
 							}
-							
-							
-							}
 						}
 						
 						
-						List<Matchpubg> compis1 = new ArrayList<Matchpubg>();
-
-//						COGEMOS LAS STATS DEL COMPI
-						
-						for(int i=0;i<match.getIncluded().size();i++) {
-							if(match.getIncluded().get(i).getType().equals("participant")) {	
-							for(int z=0;z<idpla2.size();z++){
-								if(match.getIncluded().get(i).getId().equals(idpla2.get(z))){
-									Stats stats = match.getIncluded().get(i).getAttributes().getStats();
-									idpla = match.getIncluded().get(i).getId();
-									Matchpubg jugador = new Matchpubg(match.getData().getAttributes().getMapName(),
-											stats.getName(), 
-											stats.getKills(), 
-											stats.getDamageDealt(), 
-											stats.getWinPlace(),
-											match.getData().getAttributes().getGameMode());
-									compis1.add(jugador);
-								}
-							} 
-							}
 						}
-						compis.add(compis1);
+					}
+					
+					
 
+//					COGEMOS LAS STATS DEL COMPI
+					List<Matchpubg> compis2 = new ArrayList<Matchpubg>();
+					for(int i=0;i<match.getIncluded().size();i++) {
+						if(match.getIncluded().get(i).getType().equals("participant")) {	
+						for(int z=0;z<idpla2.size();z++){
+							if(match.getIncluded().get(i).getId().equals(idpla2.get(z))){
+								Stats stats = match.getIncluded().get(i).getAttributes().getStats();
+								Matchpubg jugador2 = new Matchpubg(
+										match.getData().getAttributes().getMapName(),
+										stats.getName(), 
+										stats.getKills(), 
+										stats.getDamageDealt(), 
+										stats.getWinPlace(),
+										match.getData().getAttributes().getGameMode(),
+										stats.getHeadshotKills(),
+										stats.getWalkDistance(),
+										stats.getLongestKill());
+
+								
+								compis2.add(jugador2);
+							}//compruebo si la idpla(z) igual al id include i
+						}//Recorro lista idpla2
+						if(match.getIncluded().get(i).getId().equals(idpla) ) {
+							if(compis2.isEmpty() && i==match.getIncluded().size()) {
+								Matchpubg jugador2 = new Matchpubg(
+										"Null",
+										"No hay jugador", 
+										0, 
+										0.0, 
+										0,
+										match.getData().getAttributes().getGameMode(),
+										0,
+										0.0,
+										0);
+								compis2.add(jugador2);
+							}
+							compis.add(compis2);
+						}
 						
+						}//compruebo si es participante
+					} //fin include i partido
+
+					
 						
 					}
-								
-				List<Matchpubg> listacomp = new ArrayList<Matchpubg>();
-					
+													
 
 //				ESTABLECE LA SEASON
 				
@@ -225,7 +243,7 @@ public class PubgServlet extends HttpServlet {
 				objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				doTrustToCertificates();
 
-				URL url2 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/" + season);
+				URL url2 = new URL("https://api.pubg.com/shards/"+plataforma+"/players/"+id+"/seasons/" + season);
 				HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
 				conn2.setRequestMethod("GET");
 				conn2.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
@@ -584,7 +602,7 @@ public class PubgServlet extends HttpServlet {
 				ObjectMapper objectMapper3 = new ObjectMapper();
 				objectMapper3.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 				doTrustToCertificates();
-				URL url3 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/lifetime");
+				URL url3 = new URL("https://api.pubg.com/shards/"+plataforma+"/players/"+id+"/seasons/lifetime");
 				HttpURLConnection conn3 = (HttpURLConnection) url3.openConnection();
 				conn3.setRequestMethod("GET");
 				conn3.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
@@ -663,7 +681,8 @@ public class PubgServlet extends HttpServlet {
 						lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getSuicides()+
 						lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getSuicides()+
 						lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getSuicides();
-				
+				DecimalFormat df3 = new DecimalFormat("#.##");
+
 				MatchPubgLifeStats jugadorLS = new MatchPubgLifeStats(killsLS, maxlongestKillLS, roadKillsLS, armasLS, timeSurvivedLS, dmgDealtLS, vehiculosDestruidosLS, suicidiosLS);
 				
 				
@@ -687,7 +706,7 @@ public class PubgServlet extends HttpServlet {
 				request.setAttribute("kdsqf", df2.format(kdsqf));
 
 				request.setAttribute("lista", lista);
-				request.getRequestDispatcher("/pruebapubg.jsp").forward(request, response);
+				request.getRequestDispatcher("/muestrapubg.jsp").forward(request, response);
 
 
 			} catch (Exception e) {
@@ -698,7 +717,7 @@ public class PubgServlet extends HttpServlet {
 
 			
 		 
-		
+		  
 
 	}
 

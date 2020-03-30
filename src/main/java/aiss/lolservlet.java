@@ -59,10 +59,11 @@ public class lolservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String apikey = "RGAPI-d85d1abf-fc43-4d9b-a818-aefc4818f4fd";
+		String apikey = "RGAPI-07f62c1f-a6c3-4cb4-be8c-81b32ceef543";
 		String nombre = request.getParameter("name");
 		try {
-		String uri3 = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nombre + "?api_key="
+		String region = request.getParameter("region");
+		String uri3 = "https://"+region+".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nombre + "?api_key="
 				+ apikey;
 		ClientResource cr3 = new ClientResource(uri3);
 		Player player = cr3.get(Player.class);
@@ -70,11 +71,9 @@ public class lolservlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
-//			out.println("Partidas del usuario = "+player.getName()+" con nivel "+player.getSummonerLevel()+"<br>");
-//			System.out.println(player.getId());
 		String accountid = player.getAccountId();
 
-		String uri2 = "https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/" + accountid + "?api_key="
+		String uri2 = "https://"+region+".api.riotgames.com/lol/match/v4/matchlists/by-account/" + accountid + "?api_key="
 				+ apikey;
 		ClientResource cr2 = new ClientResource(uri2);
 		
@@ -109,7 +108,7 @@ public class lolservlet extends HttpServlet {
 				List<MatchLoL2> listajspr = new ArrayList<MatchLoL2>();
 
 				Long gameid = matches.get(i).getGameId();
-				String uri = "https://euw1.api.riotgames.com/lol/match/v4/matches/" + gameid.toString() + "?api_key="
+				String uri = "https://"+region+".api.riotgames.com/lol/match/v4/matches/" + gameid.toString() + "?api_key="
 						+ apikey;
 				ClientResource cr = new ClientResource(uri);
 				Match pp = cr.get(Match.class);
@@ -220,14 +219,14 @@ public class lolservlet extends HttpServlet {
 			request.setAttribute("tk", tk);
 			request.setAttribute("qk", qk);
 			request.setAttribute("pk", pk);
-			request.getRequestDispatcher("/prueba.jsp").forward(request, response);
+			request.getRequestDispatcher("/muestralol.jsp").forward(request, response);
 			
 		} catch(ResourceException re) {
 			String mensaje = "<div id=\"errorp\" class=\"w-50 alert alert-danger\" role=\"alert\">\r\n" + 
 					"  EL USUARIO INTRODUCIDO NO HA JUGADO PARTIDOS RECIENTEMENTE Ó NO EXISTE\r\n" + 
 					"</div>";
 			request.setAttribute("mensaje", mensaje);
-			
+			request.setAttribute("user", nombre);
 			request.getRequestDispatcher("/lolbusqueda.jsp").forward(request, response);
 		}
 		

@@ -1,10 +1,14 @@
 package aiss;
-
+  
 public class Matchpubg {
 	String mapa;
 	String nombre;
 	Integer kills;
-	Double damage;
+	Double damage; 
+	Integer headshotskill;
+	Double walkdistance;
+	Integer longestkill;
+	
 	public Double getDamage() {
 		return damage;
 	}
@@ -43,14 +47,39 @@ public class Matchpubg {
 	public void setWinplace(Integer winplace) {
 		this.winplace = winplace;
 	}
-	public Matchpubg(String mapa, String nombre, Integer kills, Double damage,Integer winplace,String type) {
+	public Integer getHeadshotskill() {
+		return headshotskill;
+	}
+	public void setHeadshotskill(Integer headshotskill) {
+		this.headshotskill = headshotskill;
+	}
+	public Double getWalkdistance() {
+		return walkdistance;
+	}
+	public void setWalkdistance(Double walkdistance) {
+		this.walkdistance = walkdistance;
+	}
+	public Integer getLongestkill() {
+		return longestkill;
+	}
+	public void setLongestkill(Integer longestkill) {
+		this.longestkill = longestkill;
+	}
+	public Matchpubg(String mapa, String nombre, Integer kills, Double damage,  Integer winplace, String type, Integer headshotskill,
+			Double walkdistance, Integer longestkill) {
 		super();
 		this.mapa = mapa;
 		this.nombre = nombre;
 		this.kills = kills;
-		this.winplace = winplace;
-		this.type =type;
 		this.damage = damage;
+		this.headshotskill = headshotskill;
+		this.walkdistance = walkdistance;
+		this.longestkill = longestkill;
+		this.winplace = winplace;
+		this.type = type;
 	}
+	
+
+
 	
 }
