@@ -60,7 +60,7 @@ function dividir(dmg){
 
 <div style="width:90%;margin-top:8%;">
 <div data-toggle="tooltip" data-placement="top" title="Tiempo sobrevivido" style="display:inline-block;margin-left:2%;width:52%;"><img  class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/tiempo.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;"><script> document.write(format(${jugadorLS.timeSurvivedLS}))</script></div>
-<div data-toggle="tooltip" data-placement="top" title="Daño inflingido" style="display:inline-block;margin-left:2%;width:41%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/damage.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;"><script>document.write(roundToTwo(${jugadorLS.dmgDealtLS}, -1))</script></div>
+<div data-toggle="tooltip" data-placement="top" title="Daño inflingido" style="display:inline-block;margin-left:2%;width:41%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/damage.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;"><script>document.write(roundToTwo(${jugadorLS.dmgDealtLS}))</script></div>
 </div>
 
 <div style="width:90%;margin-top:8%;">
@@ -172,20 +172,20 @@ SEASONS STATS</a>
 			  	Season  
 			   </button>
 			  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS6&name=${nombre}">Season 6</a>
-			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS5&name=${nombre}">Season 5</a>
-			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS4&name=${nombre}">Season 4</a>
-			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS3&name=${nombre}">Season 3</a>
-			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS2&name=${nombre}">Season 2</a>
-			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS1&name=${nombre}">Season 1</a>
+			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS6&name=${nombre}&plataformap=${plataformap}">Season 6</a>
+			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS5&name=${nombre}&plataformap=${plataformap}">Season 5</a>
+			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS4&name=${nombre}&plataformap=${plataformap}">Season 4</a>
+			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS3&name=${nombre}&plataformap=${plataformap}">Season 3</a>
+			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS2&name=${nombre}&plataformap=${plataformap}">Season 2</a>
+			    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS1&name=${nombre}&plataformap=${plataformap}">Season 1</a>
 			  </div>
 			 </div>
 			 </div>
 			 <div style="margin-left:2%;display:inline-block;">
 			  <%if(request.getAttribute("modoJSP").equals("tpp")) {%>
-			  <a href="/pubg?modo=fpp&season='${seasonJSP}'&name=${nombre}" style="color:#ac4616;font-weight: 300;line-height: 1.2;text-decoration: none;">FPP</a>
+			  <a href="/pubg?modo=fpp&season=${seasonJSP}&name=${nombre}&plataformap=${plataformap}" style="color:#ac4616;font-weight: 300;line-height: 1.2;text-decoration: none;">FPP</a>
 			  <%}else{ %>
-			    <a href="/pubg?modo=tpp&season='${seasonJSP}'&name=${nombre}" style="color:#ac4616;font-weight: 300;line-height: 1.2;text-decoration: none;">TPP</a>
+			    <a href="/pubg?modo=tpp&season=${seasonJSP}&name=${nombre}&plataformap=${plataformap}" style="color:#ac4616;font-weight: 300;line-height: 1.2;text-decoration: none;">TPP</a>
 			  <%}%>
 			  </div>
 			
@@ -201,11 +201,12 @@ SEASONS STATS</a>
 			<%if(request.getAttribute("modoJSP").equals("tpp")){%>
 			<div style="margin-left:2%;float:left;display:inline-block;width:32%;">
 			<p style="color:#ac4616;font-weight: 400;line-height: 1.2;text-decoration: none;">SOLO TPP</p>
-			<%if(jugadors.getKd().toString().equals("NaN")){%>
+			<%if(jugadors.getTime().equals("0")){
+			%>
 			<div >No hay partidas Solo TPP esta season</div>
-			<%}else{ %>
+			<%}else{ %>			
 			<div >KD  ${jugadors.kd}</div>
-			<div >Win  ${jugadors.wins}%</div>
+			<div >Win  <script>document.write(roundToTwo(${jugadors.wins}))</script>%</div>
 			<div >Daño medio  ${jugadors.damage}</div>
 			<div >Tiempo medio <script> document.write(format(${jugadors.time}))</script></div>
 			<div >Headshots  ${jugadors.headshot}%</div>
@@ -216,11 +217,11 @@ SEASONS STATS</a>
 			
 			<div style="float:center;display:inline-block;width:32%;">
 			<p style="color:#ac4616;font-weight: 400;line-height: 1.2;text-decoration: none;">DUO TPP</p>
-			<%if(jugadord.getKd().toString().equals("NaN")){%>
+			<%if(jugadord.getTime().equals("0")){%>
 			<div >No hay partidas Duo TPP esta season</div>
 			<%}else{ %>
 			<div >KD  ${jugadord.kd}</div>
-			<div >Win  ${jugadord.wins}%</div>
+			<div >Win  <script>document.write(roundToTwo(${jugadord.wins}))</script>%</div>
 			<div >Daño medio  ${jugadord.damage}</div>
 			<div >Tiempo medio <script> document.write(format(${jugadord.time}))</script></div>
 			<div >Headshots  ${jugadord.headshot}%</div>
@@ -231,16 +232,18 @@ SEASONS STATS</a>
 			
 			<div style="float:right;display:inline-block;width:32%;">
 			<p style="color:#ac4616;font-weight: 400;line-height: 1.2;text-decoration: none;">SQUAD TPP</p>
-			<%if(jugadorsq.getKd().toString().equals("NaN")){%>
+			<%if(jugadorsq.getTime().equals("0")){
+			%>
 			<div >No hay partidas Squad TPP esta season</div>
 			<%}else{%>
-			<div >KD  ${jugadorq.kd}</div>
-			<div >Win  ${jugadorq.wins}%</div>
-			<div >Daño medio  ${jugadorq.damage}</div>
-			<div >Tiempo medio <script> document.write(format(${jugadorq.time}))</script></div>
-			<div >Headshots  ${jugadorq.headshot}%</div>
-			<div >TOP 10  ${jugadorq.top10}%</div>
-			<div >Longest Kill ${jugadorq.longestkill} m</div>
+			<%= jugadors.getTime() %>
+			<div >KD  ${jugadorsq.kd}</div>
+			<div >Win  <script>document.write(roundToTwo(${jugadorsq.wins}))</script>%</div>
+			<div >Daño medio  ${jugadorsq.damage}</div>
+			<div >Tiempo medio <script> document.write(format(${jugadorsq.time}))</script></div>
+			<div >Headshots  ${jugadorsq.headshot}%</div>
+			<div >TOP 10  ${jugadorsq.top10}%</div>
+			<div >Longest Kill ${jugadorsq.longestkill} m</div>
 			<%} %>
 			</div>
 			
@@ -248,11 +251,12 @@ SEASONS STATS</a>
 			
 			<div style="margin-left:2%;float:left;display:inline-block;width:32%;">
 			<p style="color:#ac4616;font-weight: 400;line-height: 1.2;text-decoration: none;">SOLO FPP</p>
-			<%if(jugadorsf.getKd().toString().equals("NaN")){%>
+			<%if(jugadorsf.getTime().equals("0")){
+			%>
 			<div >No hay partidas Solo TPP esta season</div>
 			<%}else{ %>
 			<div >KD  ${jugadorsf.kd}</div>
-			<div >Win  ${jugadorsf.wins}%</div>
+			<div >Win  <script>document.write(roundToTwo(${jugadorsf.wins}))</script>%</div>
 			<div >Daño medio  ${jugadorsf.damage}</div>
 			<div >Tiempo medio <script> document.write(format(${jugadorsf.time}))</script></div>
 			<div >Headshots  ${jugadorsf.headshot}%</div>
@@ -263,11 +267,12 @@ SEASONS STATS</a>
 			
 			<div style="float:center;display:inline-block;width:32%;">
 			<p style="color:#ac4616;font-weight: 400;line-height: 1.2;text-decoration: none;">DUO FPP</p>
-			<%if(jugadordf.getKd().toString().equals("NaN")){%>
+			<%if(jugadordf.getTime().equals("0")){
+			%>
 			<div >No hay partidas Duo TPP esta season</div>
 			<%}else{%>
 			<div >KD  ${jugadordf.kd}</div>
-			<div >Win  ${jugadordf.wins}%</div>
+			<div >Win  <script>document.write(roundToTwo(${jugadordf.wins}))</script>%</div>
 			<div >Daño medio  ${jugadordf.damage}</div>
 			<div >Tiempo medio <script> document.write(format(${jugadordf.time}))</script></div>
 			<div >Headshots  ${jugadordf.headshot}%</div>
@@ -278,16 +283,19 @@ SEASONS STATS</a>
 			
 			<div style="float:right;display:inline-block;width:32%;">
 			<p style="color:#ac4616;font-weight: 400;line-height: 1.2;text-decoration: none;">SQUAD FPP</p>
-			<%if(jugadorsqf.getKd().toString().equals("NaN")){%>
+			<%if(jugadorsqf.getTime().equals("0")){
+				
+			%>
+			
 			<div >No hay partidas Squad TPP esta season</div>
 			<%}else{%>
-			<div >KD  ${jugadorqf.kd}</div>
-			<div >Win  ${jugadorqf.wins}%</div>
-			<div >Daño medio  ${jugadorqf.damage}</div>
-			<div >Tiempo Medio <script> document.write(format(${jugadorqf.time}))</script></div>
-			<div >Headshots  ${jugadorqf.headshot}%</div>
-			<div >TOP 10  ${jugadorqf.top10}%</div>
-			<div >Longest Kill ${jugadorqf.longestkill} m</div>
+			<div >KD  ${jugadorsqf.kd}</div>
+			<div >Win  <script>document.write(roundToTwo(${jugadorsqf.wins}))</script>%</div>
+			<div >Daño medio  ${jugadorsqf.damage}</div>
+			<div >Tiempo Medio <script> document.write(format(${jugadorsqf.time}))</script></div>
+			<div >Headshots  ${jugadorsqf.headshot}%</div>
+			<div >TOP 10  ${jugadorsqf.top10}%</div>
+			<div >Longest Kill ${jugadorsqf.longestkill} m</div>
 			<%} %>
 			<%} %>
 			</div>

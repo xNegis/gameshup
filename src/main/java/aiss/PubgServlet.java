@@ -678,14 +678,13 @@ public class PubgServlet extends HttpServlet {
 				Integer suicidiosLS = lifestats.getData().getAttributes().getGameModeStats().getSolo().getSuicides()+
 						lifestats.getData().getAttributes().getGameModeStats().getDuo().getSuicides()+
 						lifestats.getData().getAttributes().getGameModeStats().getSquad().getSuicides()+
-						lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getSuicides()+
+				 		lifestats.getData().getAttributes().getGameModeStats().getSoloFpp().getSuicides()+
 						lifestats.getData().getAttributes().getGameModeStats().getDuoFpp().getSuicides()+
 						lifestats.getData().getAttributes().getGameModeStats().getSquadFpp().getSuicides();
-				DecimalFormat df3 = new DecimalFormat("#.##");
-
+				
 				MatchPubgLifeStats jugadorLS = new MatchPubgLifeStats(killsLS, maxlongestKillLS, roadKillsLS, armasLS, timeSurvivedLS, dmgDealtLS, vehiculosDestruidosLS, suicidiosLS);
-				
-				
+				request.setAttribute("plataformap", plataforma);
+				request.setAttribute("nombre", request.getParameter("name"));
 				request.setAttribute("jugadorLS", jugadorLS);
 				request.setAttribute("jugadors", jugadors);
 				request.setAttribute("jugadord", jugadord);
