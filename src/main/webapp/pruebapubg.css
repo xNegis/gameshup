@@ -1,8 +1,9 @@
 @charset "ISO-8859-1";
 body {
+	background-image: url("https://storage.cloud.google.com/gameshup.appspot.com/pubg/pubgfondonaranjar.jpg?authuser=1");
   font-family: Arial, sans-serif;
-  background-size: cover;
-  height: 100vh;
+  background-size: cover; 
+  
 }
 
 h1 {
