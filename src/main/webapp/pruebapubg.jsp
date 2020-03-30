@@ -39,158 +39,35 @@ function dividir(dmg){
 <%List<Matchpubg> equipos = (List) request.getAttribute("lista");%>
 <%List<List<Matchpubg>> compis = (List) request.getAttribute("lista");%>
 <div style="width:100%;">
-<div class="dropdown" style="float:left;width:35%;margin-left:4%;margin-top:3%;">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  	Season  
-   </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS6&name=xNegis">Season 6</a>
-    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS5&name=xNegis">Season 5</a>
-    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS4&name=xNegis">Season 4</a>
-    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS3&name=xNegis">Season 3</a>
-    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS2&name=xNegis">Season 2</a>
-    <a class="dropdown-item" href="/pubg?modo=tpp&season=SS1&name=xNegis">Season 1</a>
+
+
+<div style="float:left;width:35%;margin-left:10%;margin-top:3%;">
+<div style="margin-bottom:6%;"><h2 class="display-5">LIFETIME STATS</h2></div>
+
+<div style="width:90%;margin-top:5%;">
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/kill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.killsLS}</div>
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/longestkill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.longestKillLS}</div>
 </div>
-  <%if(request.getAttribute("modoJSP").equals("tpp")) {%>
-  <a href="/pubg?modo=fpp&season='${seasonJSP}'&name=xNegis">FPP</a>
-  <%}else{ %>
-    <a href="/pubg?modo=tpp&season='${seasonJSP}'&name=xNegis">TPP</a>
-  <%}%>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-<!-- AQUI FALTA UN DIV LOCO PARA CERRAR EL DROPDOWN, PERO SI LO PONES SE REVIENTA TODO. MIRALO  -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-<div>
-<%
-MatchpubgSeason jugadors = (MatchpubgSeason)request.getAttribute("jugadors");
-MatchpubgSeason jugadord = (MatchpubgSeason)request.getAttribute("jugadord");
-MatchpubgSeason jugadorsq = (MatchpubgSeason)request.getAttribute("jugadorsq");
-MatchpubgSeason jugadorsf = (MatchpubgSeason)request.getAttribute("jugadorsf");
-MatchpubgSeason jugadordf = (MatchpubgSeason)request.getAttribute("jugadordf");
-MatchpubgSeason jugadorsqf = (MatchpubgSeason)request.getAttribute("jugadorsqf");
-%>
-<%if(request.getAttribute("modoJSP").equals("tpp")){%>
-<p>SOLO TPP</p>
-<%if(jugadors.getKd().toString().equals("NaN")){%>
-<div >No hay partidas Solo TPP esta season</div>
-<%} %>
-<div >KD ${jugadors.kd}</div>
-<div >Win % ${jugadors.wins}</div>
-<div >Daño medio ${jugadors.damage}</div>
-<div >Tiempo Medio <script> document.write(format(${jugadors.time}))</script></div>
-<div >Headshots % ${jugadors.headshot}</div>
-<div >TOP 10 % ${jugadors.top10}</div>
-<div >Longest Kill${jugadors.longestkill}</div>
-<p>DUO TPP</p>
-<%if(jugadord.getKd().toString().equals("NaN")){%>
-<div >No hay partidas Duo TPP esta season</div>
-<%} %>
-<div >KD ${jugadord.kd}</div>
-<div >Win % ${jugadord.wins}</div>
-<div >Daño medio ${jugadord.damage}</div>
-<div >Tiempo Medio <script> document.write(format(${jugadord.time}))</script></div>
-<div >Headshots % ${jugadord.headshot}</div>
-<div >TOP 10 % ${jugadord.top10}</div>
-<div >Longest Kill${jugadord.longestkill}</div>
-
-<p>SQUAD TPP</p>
-<%if(jugadorsq.getKd().toString().equals("NaN")){%>
-<div >No hay partidas Squad TPP esta season</div>
-<%} %>
-<div >KD ${jugadorsq.kd}</div>
-<div >Win % ${jugadorsq.wins}</div>
-<div >Daño medio ${jugadorsq.damage}</div>
-<div >Tiempo Medio <script> document.write(format(${jugadorsq.time}))</script></div>
-<div >Headshots % ${jugadorsq.headshot}</div>
-<div >TOP 10 % ${jugadorsq.top10}</div>
-<div >Longest Kill${jugadorsq.longestkill}</div>
-<%}else{ %>
-<p>SOLO FPP</p>
-<%if(jugadorsf.getKd().toString().equals("NaN")){%>
-<div >No hay partidas Solo TPP esta season</div>
-<%} %>
-<div >KD ${jugadorsf.kd}</div>
-<div >Win % ${jugadorsf.wins}</div>
-<div >Daño medio ${jugadorsf.damage}</div>
-<div >Tiempo Medio <script> document.write(format(${jugadorsf.time}))</script></div>
-<div >Headshots % ${jugadorsf.headshot}</div>
-<div >TOP 10 % ${jugadorsf.top10}</div>
-<div >Longest Kill${jugadorsf.longestkill}</div>
-<p>DUO FPP</p>
-<%if(jugadordf.getKd().toString().equals("NaN")){%>
-<div >No hay partidas Duo TPP esta season</div>
-<%} %>
-<div >KD ${jugadordf.kd}</div>
-<div >Win % ${jugadordf.wins}</div>
-<div >Daño medio ${jugadordf.damage}</div>
-<div >Tiempo Medio <script> document.write(format(${jugadordf.time}))</script></div>
-<div >Headshots % ${jugadordf.headshot}</div>
-<div >TOP 10 % ${jugadordf.top10}</div>
-<div >Longest Kill${jugadordf.longestkill}</div>
-
-<p>SQUAD FPP</p>
-<%if(jugadorsqf.getKd().toString().equals("NaN")){%>
-<div >No hay partidas Squad TPP esta season</div>
-<%} %>
-<div >KD ${jugadorsqf.kd}</div>
-<div >Win % ${jugadorsqf.wins}</div>
-<div >Daño medio ${jugadorsqf.damage}</div>
-<div >Tiempo Medio <script> document.write(format(${jugadorsqf.time}))</script></div>
-<div >Headshots % ${jugadorsqf.headshot}</div>
-<div >TOP 10 % ${jugadorsqf.top10}</div>
-<div >Longest Kill${jugadorsqf.longestkill}</div>
-<%} %>
+<div style="width:90%;margin-top:5%;">
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/roadkill.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.roadKillsLS}</div>
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/armas.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.armasLS}</div>
 </div>
-  
+
+<div style="width:90%;margin-top:5%;">
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/tiempo.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;"><script> document.write(format(${jugadorLS.timeSurvivedLS}))</script></div>
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/damage.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.dmgDealtLS}</div>
+</div>
+
+<div style="width:90%;margin-top:5%;">
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/vehicledestroy.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.vehiculosDestruidosLS}</div>
+<div style="display:inline-block;margin-left:2%;width:47%;"><img class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/pubg/Icons/suicide.png?authuser=1" class="mr-3" alt="..." style="margin-right:2%;">${jugadorLS.suicidiosLS}</div>
+</div>
+
 </div>
 
 
-
-
-
-
-<!-- LIFE TIME STATS AQUI ABAJO -->
-
-
-
-
-
-
-<!-- <div> -->
-<!-- <div>LIFETIME STATS</div> -->
-<%-- <div>Kills ${jugadorLS.killsLS}</div> --%>
-<%-- <div>Longest Kill ${jugadorLS.longestKillLS}</div> --%>
-<%-- <div>Road Kills ${jugadorLS.roadKillsLS}</div> --%>
-<%-- <div>Armas Recogidas ${jugadorLS.armasLS}</div> --%>
-<!-- <div>Tiempo Total <script> document.write(format(${jugadorLS.timeSurvivedLS}))</script></div> -->
-<%--  <div>DMG ${jugadorLS.dmgDealtLS}</div>PODRIAMOS PONER AQUI EN PLAN PODRIA HABER MATADO A X JUGADORES | <script> document.write(dividir(${jugadorLS.dmgDealtLS}))</script>  --%>
-<%-- <div>Vehiculos Destruidos ${jugadorLS.vehiculosDestruidosLS}</div> --%>
-<%-- <div>Suicidios ${jugadorLS.suicidiosLS}</div> --%>
-<!-- </div> -->
-
-
-
-
-<div  style="float:right;width:60%;margin-top:3%;padding-left:10%;">
+<div  style="float:right;width:45%;margin-top:3%;padding-left:6%;margin-right:10%;">
 <% for(int i=0;i<6;i=i+3)
 {
 %>

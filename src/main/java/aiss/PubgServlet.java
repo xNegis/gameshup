@@ -46,7 +46,7 @@ import pubgmatch.Rosters;
 import pubgmatch.Stats;
 import pubgplayer.PlayerPubg;
 import pubgseason.PubgSeason;
-
+     
 
 /**
  * Servlet implementation class PubgServlet
@@ -66,7 +66,7 @@ public class PubgServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 			try {
@@ -95,13 +95,15 @@ public class PubgServlet extends HttpServlet {
 					String idpla="";
 					ObjectMapper objectMapper1 = new ObjectMapper();
 					objectMapper1.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+					doTrustToCertificates();
+
 					URL url1 = new URL("https://api.pubg.com/shards/steam/matches/"+idmatches.get(j));
 					HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
 					conn1.setRequestMethod("GET");
 					conn1.setRequestProperty("Accept", "application/vnd.api+json");
 					pubgmatch.PubgMatch match = objectMapper1.readValue(conn1.getInputStream(),pubgmatch.PubgMatch.class);
 					String gamemode="";
-					
+					 
 //					SACAR STATS JUGADOR
 					
 					for(int i=0;i<match.getIncluded().size();i++) {
@@ -221,6 +223,8 @@ public class PubgServlet extends HttpServlet {
 				
 				ObjectMapper objectMapper2 = new ObjectMapper();
 				objectMapper2.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				doTrustToCertificates();
+
 				URL url2 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/" + season);
 				HttpURLConnection conn2 = (HttpURLConnection) url2.openConnection();
 				conn2.setRequestMethod("GET");
@@ -579,6 +583,7 @@ public class PubgServlet extends HttpServlet {
 				
 				ObjectMapper objectMapper3 = new ObjectMapper();
 				objectMapper3.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+				doTrustToCertificates();
 				URL url3 = new URL("https://api.pubg.com/shards/steam/players/"+id+"/seasons/lifetime");
 				HttpURLConnection conn3 = (HttpURLConnection) url3.openConnection();
 				conn3.setRequestMethod("GET");
