@@ -77,7 +77,7 @@
     </thead>
 
     <tbody>
-        <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle" id="div2">
+        <tr style="background-color:#fff;" data-toggle="collapse" data-target="#demo1" class="accordion-toggle" id="div2">
                   <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
             <td>Componente 1</td><td>Sergio Rojas Jiménez</td><td>serrojjim</td><td>serrojjim@alum.us.es</td>
         </tr>
@@ -91,7 +91,7 @@
               
               </div> </td>
         </tr>
-         <tr data-toggle="collapse" data-target="#demo2" class="accordion-toggle" id="div3">
+         <tr style="background-color:#fff;" data-toggle="collapse" data-target="#demo2" class="accordion-toggle" id="div3">
                   <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
            <td>Componente 2</td><td>Miguel Ángel Nieva Arjona</td><td>migniearj</td><td>migniearj@alum.us.es</td>
         </tr>
@@ -105,7 +105,7 @@
               
               </div> </td>
         </tr>
-         <tr data-toggle="collapse" data-target="#demo3" class="accordion-toggle" id="div2">
+         <tr style="background-color:#fff;" data-toggle="collapse" data-target="#demo3" class="accordion-toggle" id="div2">
                   <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
             <td>Componente 3</td><td>Antonio Campuzano Martínez</td><td>antcammar</td><td>antcammar@alum.us.es</td>
         </tr>
@@ -120,7 +120,7 @@
               </div> </td>
         </tr>
 
-<tr data-toggle="collapse" data-target="#demo4" class="accordion-toggle" id="div3">
+		<tr style="background-color:#fff;" data-toggle="collapse" data-target="#demo4" class="accordion-toggle" id="div3">
                   <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
              <td>Componente 4</td><td>Amadeo</td><td>antcammar</td><td>antcammar@alum.us.es</td>
         </tr>
