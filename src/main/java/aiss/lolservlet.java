@@ -59,7 +59,7 @@ public class lolservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String apikey = "RGAPI-07f62c1f-a6c3-4cb4-be8c-81b32ceef543";
+		String apikey = "RGAPI-68413756-87fb-475e-9ba2-8773bb3d5840";
 		String nombre = request.getParameter("name");
 		try {
 		String region = request.getParameter("region");
