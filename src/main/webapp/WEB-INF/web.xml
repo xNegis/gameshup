@@ -98,6 +98,7 @@
         <description/>
         <servlet-name>GoogleDriveOAuth2Callback</servlet-name>
         <servlet-class>aiss.controller.oauth.OAuth2Callback</servlet-class>
+        
         <init-param>
             <param-name>provider</param-name>
             <param-value>GoogleDrive</param-value>
@@ -106,8 +107,10 @@
             <param-name>onSuccess</param-name>
             <param-value>redirect:/googleDriveFileList</param-value>
         </init-param>
+        
     </servlet>
     <servlet-mapping>
+    
         <servlet-name>GoogleDriveOAuth2Callback</servlet-name>
         <url-pattern>/oauth2callback/GoogleDrive</url-pattern> 
     </servlet-mapping>

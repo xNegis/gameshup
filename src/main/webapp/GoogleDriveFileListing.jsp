@@ -1,4 +1,4 @@
-<%@include file="includes/header.jsp"%>
+<%-- <%@include file="includes/header.jsp"%> --%>
 
 <h1>Files in your Google Drive</h1>
 
@@ -33,4 +33,4 @@
         <button type="button" onClick="javascript:window.location.href = '/'" class="button">Back</button>
 </div>
 
-<%@include file="includes/footer.jsp"%>
+<%-- <%@include file="includes/footer.jsp"%> --%>

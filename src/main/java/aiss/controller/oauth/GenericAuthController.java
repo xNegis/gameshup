@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.extensions.servlet.auth.oauth2.AbstractAuthorizationCodeServlet;
 import com.google.api.client.http.GenericUrl;
+import com.sun.tools.sjavac.Log;
 
 import aiss.utility.OAuthRegistry;
 
@@ -43,6 +44,7 @@ public class GenericAuthController extends AbstractAuthorizationCodeServlet {
 		String provider=getInitParameter("provider");		
 		GenericUrl url = new GenericUrl(req.getRequestURL().toString());
 		url.setRawPath("/oauth2callback/"+provider);
+		System.out.println(url + "  ahista");
 		return url.build();
 	}
 

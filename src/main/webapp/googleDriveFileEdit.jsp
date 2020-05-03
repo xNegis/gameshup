@@ -1,4 +1,4 @@
-<%@include file="includes/header.jsp"%>
+<%-- <%@include file="includes/header.jsp"%> --%>
 
 <% String controller = "/googleDriveFileNew"; %>
 
@@ -31,4 +31,4 @@
     </form>
 </div>
 
-<%@include file="includes/footer.jsp"%>
+<%-- <%@include file="includes/footer.jsp"%> --%>

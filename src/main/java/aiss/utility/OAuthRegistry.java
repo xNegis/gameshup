@@ -37,7 +37,7 @@ public class OAuthRegistry {
 	private static Logger log=Logger.getLogger(OAuthRegistry.class.getName());
             
 	// File from which the OAuth data for each provider will be loaded
-	protected static final String OAUTH_RESOURCE="WEB-INF/OAuthConfig.json";
+	protected static final String OAUTH_RESOURCE="OAuthConfig.json";
 	// Map were the configurations are loaded:
 	protected static Map<String,OAuthServiceConfiguration> serviceConfigurations=null;
 	
