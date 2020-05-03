@@ -2,3 +2,7 @@
 .project
 .classpath
 .settings
+/.gitignore
+/launch_profiles/
+/pom.xml
+/src/

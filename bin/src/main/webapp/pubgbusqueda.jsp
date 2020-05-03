@@ -4,14 +4,14 @@
 <html>
 <head>
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="p.css" />
+<link rel="stylesheet" type="text/css" href="css/pubgbusqueda.css" />
 <meta charset="ISO-8859-1">
 <title>GameShup : PUBG</title>
 </head>
 <body>
 
 <div id="divlp">
-<img id="logopubg" src="img/logopu.png">
+<img id="logopubg" src="https://storage.cloud.google.com/gameshup.appspot.com/archivosmuestras/logopu.png?authuser=1">
 </div>
 
 
@@ -28,20 +28,9 @@ ${mensaje}
 <div class="form-group">
     <label for="exampleFormControlSelect1">Selecciona una plataforma</label>
     <select class="form-control" id="plataformap" name="plataformap" value="${pla}">
-      <option value="STEAM">STEAM</option>
-      <option value="XBOX">XBOX ONE</option>
-      <option value="PSN">PS4</option>
-    </select>
-  </div>
-  
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">Selecciona una región</label>
-    <select class="form-control" id="regionp" name="regionp" value="${region}">
-      <option value="EU">Europa</option>
-      <option value="AS">Asia</option>
-      <option value="NA">Norte América</option>
-      <option value="OC">Oceanía</option>
-      
+      <option value="steam">STEAM</option>
+      <option value="xbox">XBOX ONE</option>
+      <option value="psn">PS4</option>
     </select>
   </div>
   
