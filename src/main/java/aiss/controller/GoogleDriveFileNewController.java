@@ -2,8 +2,10 @@ package aiss.controller;
 
 import aiss.MatchLoL;
 import aiss.model.google.drive.FileItem;
+import aiss.model.google.drive.Files;
 import aiss.model.resource.GoogleDriveResource;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -45,19 +47,33 @@ public class GoogleDriveFileNewController extends HttpServlet {
    	
    	 String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
         if (accessToken != null && !"".equals(accessToken)) {
-        	 String title = "GameShup " +asesinatos+muertes+asistencias+tripleKills+ quadraKills+ pentaKills;
+
+            GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
+            
+            Files files = gdResource.getFiles();
+            
+        	String title = "GameShup " +asesinatos+muertes+asistencias+tripleKills+ quadraKills+ pentaKills;
         	   	String content = ""; 
-        	   	content+="Campeón invocado : " +  campeon;
-        	   	content+= "\nNúmero de asesinatos  :  " + asesinatos;
-        	   	content+= "\nNúmero de asistencias :  " + asistencias;
-        	   	content+= "\nNúmero de muertes     :  " + muertes;
-        	   	content+= "\nNúmero de asesinatos triples :  " + tripleKills;
-        	   	content+= "\nNúmero de asesinatos cuádruples :  " +quadraKills;
-        	    content+= "\nNúmero de pentakills :  " +pentaKills;
-        	    System.out.println(title);
-        	    System.out.println(content);
+        	   	content+="Campeon invocado : " +  campeon;
+        	   	content+= "\nNumero de asesinatos  :  " + asesinatos;
+        	   	content+= "\nNumero de asistencias :  " + asistencias;
+        	   	content+= "\nNumero de muertes     :  " + muertes;
+        	   	content+= "\nNumero de asesinatos triples :  " + tripleKills;
+        	   	content+= "\nNumero de asesinatos cuadruples :  " +quadraKills;
+        	    content+= "\nNumero de pentakills :  " +pentaKills;
+        	  
+        	    List<FileItem> files2 = files.getItems();
+
+                for(FileItem file:files2) {
+                	if(file.getTitle().equals(title)) {
+//                		 req.setAttribute("mensaje", "<div id=\"errorp\" class=\"w-50 alert alert-danger\" role=\"alert\">\r\n" + 
+//             					"  ESE ARCHIVO YA EXISTE\r\n" + 
+//            					"</div>");
+                         req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+                	}
+                }
+                
             if (title != null && !"".equals(title)) {
-                GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
                 FileItem file = new FileItem();
                 file.setTitle(title);
                 file.setMimeType("text/plain");
@@ -67,7 +83,7 @@ public class GoogleDriveFileNewController extends HttpServlet {
             } else {
                 req.setAttribute("message", "You must provide a valid title for file");
                 req.setAttribute("content", content);
-                req.getRequestDispatcher("googleDriveFileEdit.jsp").forward(req, resp);
+                req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
             }
         } else {
             log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");

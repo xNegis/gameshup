@@ -8,6 +8,8 @@ body {
 
 .container {
     width:500px;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .bottom_links {
@@ -19,7 +21,8 @@ body {
 /* Headers */
 
 h1 {
-    color: #4CAF50;
+    margin-left:37%;    
+    color: #563777;
     font-size: 2em;
 }
 
@@ -43,7 +46,7 @@ th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #4CAF50;
+    background-color: #563777;
     color: white;
 }
 
@@ -51,7 +54,7 @@ th {
 /* Links */
 
 .button, .button:visited {
-    background-color: #4CAF50; /* Green */
+    background-color: #563777; /* 807290 */
     border: none;
     color: white;
     padding: 10px 20px;
@@ -61,10 +64,12 @@ th {
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .button:hover, .button:active  {
-    background: #3e8e41;
+    background: #351656;
     text-decoration: none;
 }
 

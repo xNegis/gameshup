@@ -1,8 +1,11 @@
 package aiss.controller;
 
+import aiss.model.google.drive.FileItem;
 import aiss.model.google.drive.Files;
 import aiss.model.resource.GoogleDriveResource;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,11 +24,23 @@ public class GoogleDriveFileListController extends HttpServlet {
         if (accessToken != null && !"".equals(accessToken)) {
 
             GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
+            
             Files files = gdResource.getFiles();
-
+           
             if (files != null) {
-                req.setAttribute("files", files);
-                req.getRequestDispatcher("/googleDriveFileListing.jsp").forward(req, resp);
+                List<FileItem> files2 = files.getItems();
+                List<FileItem> filtradas = new ArrayList<FileItem>();
+
+                for(FileItem file:files2) {
+                	if(file.getTitle().contains("GameShup")) {
+                		filtradas.add(file);
+                		System.out.println(file.getTitle());
+                	}
+                }
+                System.out.println(filtradas);
+                req.setAttribute("filtradas", filtradas);
+
+                req.getRequestDispatcher("misPartidas.jsp").forward(req, resp);
             } else {
                 log.info("The files returned are null... probably your token has experied. Redirecting to OAuth servlet.");
                 req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
