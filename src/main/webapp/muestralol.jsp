@@ -49,6 +49,7 @@ function sumaDmg(tdmg,mdmg,pdmg){
 
 <div id="tabla">
 <% int contador=0 ;%>
+<%List<MatchLoL> paEdit = (List) request.getAttribute("lista");%>
 <%List<Boolean> list = (List) request.getAttribute("wins");%>
 <%List<Integer> listtk = (List) request.getAttribute("tk");%>
 <%List<Integer> listqk = (List) request.getAttribute("qk");%>
@@ -71,8 +72,8 @@ function sumaDmg(tdmg,mdmg,pdmg){
 <%List<Integer> equipos = (List) request.getAttribute("equipos");%>
 <%List<List<MatchLoL2>> a = (List) request.getAttribute("azul");%>
 <%List<List<MatchLoL2>> r = (List) request.getAttribute("rojo");%>
-
-
+<%String nombre = (String) request.getAttribute("nombre");%>
+<%List<MatchLoL> liston = (List<MatchLoL>) request.getAttribute("lista"); %>
 <c:forEach items="${requestScope.lista}" var="entry">
 <%if(list.get(contador)==false){ %>
 
@@ -106,8 +107,10 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <img data-toggle="tooltip" data-placement="top" title="${nombre} se ha hecho <%=listtk.get(contador)%> TRIPLEKILL esta partida" class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/killstreak/triple.png?authuser=1" class="mr-3" alt="..." width="80" height="80" style="margin-left:4%; margin-right:10px;" >
  <%} %>
  </div>
+<!--    <a href="/googleDriveFileList">GoDrive</a> -->
+	
+<!-- <input type="checkbox"> -->
  </button>
- 
 <div class="content">
 	<div class="contentdiv">
 	<%if(type0.get(contador)==true || type1.get(contador)==true || type2.get(contador)==true || type3.get(contador)==true || type4.get(contador)==true || type5.get(contador)==true ||type6.get(contador)==true){%>
@@ -131,6 +134,22 @@ function sumaDmg(tdmg,mdmg,pdmg){
    }%>
 	<p><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item0}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="margin-left:5%;margin-top:2%"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item1}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="margin-top:2%"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item2}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="margin-top:2%"></p>
   <p><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item3}.png?authuser=1" class="mr-3" alt="..." width="40" height="40"style="margin-left:5%"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item4}.png?authuser=1" class="mr-3" alt="..." width="40" height="40"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item5}.png?authuser=1" class="mr-3" alt="..." width="40" height="40">  <img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item6}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="align-content: center;"></p>
+<form method="POST" action="/googleDriveFileNew">
+    <%
+   	session.setAttribute("tks"+contador, listtk.get(contador));
+   	session.setAttribute("qks"+contador, listqk.get(contador));
+   	session.setAttribute("pks"+contador, listpk.get(contador));
+   	session.setAttribute("campeon"+contador, request.getAttribute("campeon"+contador));
+   	session.setAttribute("muertes"+contador, request.getAttribute("muertes"+contador));
+   	session.setAttribute("asistencias"+contador, request.getAttribute("asistencias"+contador));
+   	session.setAttribute("asesinatos"+contador, request.getAttribute("asesinatos"+contador));
+
+    %>
+         <input class="botong" id="boton<%=contador%>" name="boton<%=contador%>" type="submit" value="Guardar partida" ></input>
+    
+	</form>
+ 
+ 
   </div>
   <div class="contentdiv">
   <div class="textocont">
@@ -215,8 +234,9 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <img data-toggle="tooltip" data-placement="top" title="${nombre} se ha hecho <%=listtk.get(contador)%> TRIPLEKILL esta partida" class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/killstreak/triple.png?authuser=1" class="mr-3" alt="..." width="80" height="80" style="margin-left:4%; margin-right:10px;" >
  <%} %>
  </div>
-
+<!--    <a style="display: inline-block;" href="/googleDriveFileNew">GoDrive</a> -->
 </button>
+
 <div class="content">
 <div class="contentdiv">
  <%if(type0.get(contador)==true || type1.get(contador)==true || type2.get(contador)==true || type3.get(contador)==true || type4.get(contador)==true || type5.get(contador)==true ||type6.get(contador)==true){%>
@@ -240,6 +260,20 @@ function sumaDmg(tdmg,mdmg,pdmg){
    }%>
 	<p><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item0}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="margin-left:5%;margin-top:2%"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item1}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="margin-top:2%"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item2}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="margin-top:2%"></p>
   	<p><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item3}.png?authuser=1" class="mr-3" alt="..." width="40" height="40"style="margin-left:5%"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item4}.png?authuser=1" class="mr-3" alt="..." width="40" height="40"><img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item5}.png?authuser=1" class="mr-3" alt="..." width="40" height="40">  <img class="imgspell" src="https://storage.cloud.google.com/gameshup.appspot.com/item/${entry.item6}.png?authuser=1" class="mr-3" alt="..." width="40" height="40" style="align-content: center;"></p>
+	<form method="POST" action="/googleDriveFileNew">
+    <%
+   	session.setAttribute("tks"+contador, listtk.get(contador));
+   	session.setAttribute("qks"+contador, listqk.get(contador));
+   	session.setAttribute("pks"+contador, listpk.get(contador));
+   	session.setAttribute("campeon"+contador, request.getAttribute("campeon"+contador));
+   	session.setAttribute("muertes"+contador, request.getAttribute("muertes"+contador));
+   	session.setAttribute("asistencias"+contador, request.getAttribute("asistencias"+contador));
+   	session.setAttribute("asesinatos"+contador, request.getAttribute("asesinatos"+contador));
+
+    %>
+         <input class="botong" id="boton<%=contador%>" name="boton<%=contador%>" type="submit" value="Guardar partida" ></input>
+    
+	</form>
 </div>
   <div class="contentdiv">
   <div class="textocont">
@@ -299,7 +333,7 @@ function sumaDmg(tdmg,mdmg,pdmg){
 <%} %>
 
 
-<% contador++ ;%>
+<%contador++ ;%>
 </c:forEach>
 
 </div>

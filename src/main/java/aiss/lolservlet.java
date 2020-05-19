@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -61,6 +62,7 @@ public class lolservlet extends HttpServlet {
 			throws ServletException, IOException {
 		String apikey = "RGAPI-68413756-87fb-475e-9ba2-8773bb3d5840";
 		String nombre = request.getParameter("name");
+		HttpSession session = request.getSession();
 		try {
 		String region = request.getParameter("region");
 		String uri3 = "https://"+region+".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nombre + "?api_key="
@@ -102,8 +104,9 @@ public class lolservlet extends HttpServlet {
 		List<Integer> killsa = new ArrayList<Integer>();
 		List<Long> tiempo = new ArrayList<Long>();
 		List<Integer> equipos = new ArrayList<Integer>();
+		int limit=6;
 
-			for (int i = 0; i < 6; i++) {
+			for (int i = 0; i <limit; i++) {
 				List<MatchLoL2> listajspa = new ArrayList<MatchLoL2>();
 				List<MatchLoL2> listajspr = new ArrayList<MatchLoL2>();
 
@@ -117,7 +120,6 @@ public class lolservlet extends HttpServlet {
 				List<Participant> lista = pp.getParticipants();
 				int ka=0;
 				int kr=0;
-				
 				for (int j = 0; j < 10; j++) {
 					
 					if(lista.get(j).getTeamId()==100) {
@@ -192,6 +194,12 @@ public class lolservlet extends HttpServlet {
 				toJSP2a.add(listajspa);
 				toJSP2r.add(listajspr);
 
+			}
+			for(int i=0;i<limit;i++) {
+				request.setAttribute("asistencias"+i, toJSP.get(i).assists);
+				request.setAttribute("muertes"+i, toJSP.get(i).deaths);
+				request.setAttribute("asesinatos"+i, toJSP.get(i).kills);
+				request.setAttribute("campeon"+i, toJSP.get(i).champion);
 			}
 			request.setAttribute("rojo", toJSP2r);
 			request.setAttribute("azul", toJSP2a);

@@ -5,7 +5,11 @@ body {
 	width: 100%;
 	height: 100%;
 }
-
+.botong{
+	background-color:#67696799;
+	border:none;
+	border-radius:20px;
+}
 .collapsiblewin {
 	background-color: #a3cfee82;
 	color: white;
