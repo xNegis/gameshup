@@ -1,11 +1,12 @@
 {
 		
-		 "GoogleDrive": { 
+		 "Dropbox": { 
         "tokenUrl": "https://oauth2.googleapis.com/token",
         "clientId": "315832450111-32j7fjaot9li9av0i0508buamt6do83o.apps.googleusercontent.com",
         "clientSecret": "TT3dDmkmhS_WeS47RLKnQ1J5",
         "authorizationFormUrl": "https://accounts.google.com/o/oauth2/auth",
         "scopes": ["https://www.googleapis.com/auth/drive"]
     }
+    
 
 }
