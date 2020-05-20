@@ -10,7 +10,7 @@
     <p class="message">${message}</p>
 
     <table id="files">
-        <tr>
+        <tr style="border-radius: 10px;">
             <th>Name</th>
             <th>Last modification date</th>
             <th>Delete</th>
