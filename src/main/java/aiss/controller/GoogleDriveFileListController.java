@@ -30,17 +30,29 @@ public class GoogleDriveFileListController extends HttpServlet {
             if (files != null) {
                 List<FileItem> files2 = files.getItems();
                 List<FileItem> filtradas = new ArrayList<FileItem>();
+                System.out.println("BOTON ->" + req.getParameter("botonLol"));
+                if((Boolean) req.getSession().getAttribute("vengoLol")  || req.getParameter("botonLol")!=null) {
+                	 for(FileItem file:files2) {
+                     	if(file.getTitle().contains("GameShup LoL ")) {
+                     		filtradas.add(file);
+                     	}
+                     }
+             		 req.getSession().setAttribute("vengoLol", false);
+                     req.setAttribute("filtradas", filtradas);
+                     req.getRequestDispatcher("misPartidasLol.jsp").forward(req, resp);
 
-                for(FileItem file:files2) {
-                	if(file.getTitle().contains("GameShup")) {
-                		filtradas.add(file);
-                		System.out.println(file.getTitle());
-                	}
+                }else {
+                	 for(FileItem file:files2) {
+                     	if(file.getTitle().contains("GameShup PUBG ")) {
+                     		filtradas.add(file);
+                     	}
+                     }
+                     req.setAttribute("filtradas", filtradas);
+                     req.getRequestDispatcher("misPartidasPubg.jsp").forward(req, resp);
+
                 }
-                System.out.println(filtradas);
-                req.setAttribute("filtradas", filtradas);
+               
 
-                req.getRequestDispatcher("misPartidas.jsp").forward(req, resp);
             } else {
                 log.info("The files returned are null... probably your token has experied. Redirecting to OAuth servlet.");
                 req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);

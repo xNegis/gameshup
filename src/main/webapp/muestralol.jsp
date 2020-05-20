@@ -143,7 +143,7 @@ function sumaDmg(tdmg,mdmg,pdmg){
    	session.setAttribute("muertes"+contador, request.getAttribute("muertes"+contador));
    	session.setAttribute("asistencias"+contador, request.getAttribute("asistencias"+contador));
    	session.setAttribute("asesinatos"+contador, request.getAttribute("asesinatos"+contador));
-
+	session.setAttribute("vengoLol" , true);
     %>
          <input class="botong" id="boton<%=contador%>" name="boton<%=contador%>" type="submit" value="Guardar partida" ></input>
     
@@ -269,6 +269,7 @@ function sumaDmg(tdmg,mdmg,pdmg){
    	session.setAttribute("muertes"+contador, request.getAttribute("muertes"+contador));
    	session.setAttribute("asistencias"+contador, request.getAttribute("asistencias"+contador));
    	session.setAttribute("asesinatos"+contador, request.getAttribute("asesinatos"+contador));
+	session.setAttribute("vengoLol" , true);
 
     %>
          <input class="botong" id="boton<%=contador%>" name="boton<%=contador%>" type="submit" value="Guardar partida" ></input>

@@ -3,7 +3,7 @@
 <%@ page import="java.util.List" %>
 <%List<FileItem> files = (List) request.getAttribute("filtradas");%>
 
-<h1>Tus partidas guardadas</h1>
+<h1>Tus partidas guardadas PUBG</h1>
 
 <div class="container">
 
