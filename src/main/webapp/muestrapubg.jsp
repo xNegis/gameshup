@@ -103,6 +103,8 @@ function dividir(dmg){
 		<form method="POST" action="/googleDriveFileNew">
 
    		<%
+   		session.setAttribute("pubgNombre", request.getAttribute("nombre"));
+   		session.setAttribute("pubgPlataforma", request.getAttribute("plataformap"));
    		session.setAttribute("nombre"+i, equipos.get(i).getNombre()); 
    		session.setAttribute("kills"+i, equipos.get(i).getKills());
    		session.setAttribute("hKills"+i, equipos.get(i).getHeadshotskill()); 
@@ -147,6 +149,8 @@ function dividir(dmg){
 		<form method="POST" action="/googleDriveFileNew">
 
    		<%
+   		session.setAttribute("pubgNombre", request.getAttribute("nombre"));
+   		session.setAttribute("pubgPlataforma", request.getAttribute("plataformap"));
    		session.setAttribute("nombre"+(i+1), equipos.get(i+1).getNombre()); 
    		session.setAttribute("kills"+(i+1), equipos.get(i+1).getKills()); 
    		session.setAttribute("hKills"+(i+1), equipos.get(i+1).getHeadshotskill()); 
@@ -187,6 +191,8 @@ function dividir(dmg){
 		<form method="POST" action="/googleDriveFileNew">
 
    		<%
+   		session.setAttribute("pubgNombre", request.getAttribute("nombre"));
+   		session.setAttribute("pubgPlataforma", request.getAttribute("plataformap"));
    		session.setAttribute("nombre"+(i+2), equipos.get(i+2).getNombre()); 
    		session.setAttribute("kills"+(i+2), equipos.get(i+2).getKills()); 
    		session.setAttribute("hKills"+(i+2), equipos.get(i+2).getHeadshotskill()); 

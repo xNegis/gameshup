@@ -24,10 +24,9 @@
         
          
  
-        <textarea id="content" name="content">${content}</textarea>
+        <textarea style="margin: 0px; width: 500px; height: 160px;" id="content" name="content">${content}</textarea>
 
         <div class="bottom_links">
-            <button type="submit" class="button">Submit</button>
             <button type="button" onClick="javascript:window.location.href = '/'" class="button">Cancel</button>
         </div>
     </form>

@@ -25,9 +25,9 @@ public class GoogleDriveFileNewController extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     	HttpSession request = req.getSession();
-	  
     	Boolean vengoLol = (Boolean) request.getAttribute("vengoLol");
     	if(vengoLol) {
+    		request.setAttribute("vengoLol", false);
     		Integer tripleKills =0;
     	    Integer quadraKills =0;
     	    Integer pentaKills =0;
@@ -67,38 +67,43 @@ public class GoogleDriveFileNewController extends HttpServlet {
             	    content+= "\nNumero de pentakills :  " +pentaKills;
             	  
             	    List<FileItem> files2 = files.getItems();
-
+            	    Boolean esta = false;
                     for(FileItem file:files2) {
                     	if(file.getTitle().equals(title)) {
                     		 req.setAttribute("mensaje", "<div id=\"errorp\" class=\"w-50 alert alert-danger\" role=\"alert\">\r\n" + 
                  					"  ESE ARCHIVO YA EXISTE\r\n" + 
                 					"</div>");
-                             req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+                             req.getRequestDispatcher("/lol?name="+request.getAttribute("nombre")+"&region="+request.getAttribute("region")).forward(req, resp);
+                             esta =true;
                     	}
                     }
                     
-                if (title != null && !"".equals(title)) {
+                if (title != null && !"".equals(title) && !esta) {
                     FileItem file = new FileItem();
                     file.setTitle(title);
                     file.setMimeType("text/plain");
                     gdResource.insertFile(file, content);
-                    req.setAttribute("message", "File '" + title + "' added to your Drive!");
-                    req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+                    //req.setAttribute("message", "File '" + title + "' added to your Drive!");
+                   // req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+                    req.getRequestDispatcher("/lol?name="+request.getAttribute("nombre")+"&region="+request.getAttribute("region")).forward(req, resp);
                 } else {
                     req.setAttribute("message", "You must provide a valid title for file");
                     req.setAttribute("content", content);
-                    req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
                 }
             } else {
                 log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
                 req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
             }
     	}else {
+    		System.out.println("NOMBRE ->" + request.getAttribute("pubgNombre"));
+    		System.out.println("PLATAFORMA ->" + request.getAttribute("pubgPlataforma"));
     		 String nombre ="";
 			 Integer kills=0;
 			 Double damage=0.;
 			 Integer hKills=0;
 			 Integer win=0;
+     	    Boolean esta = false;
+
     		 for(int i=0;i<6;i++) {
     			
     	    	 if(req.getParameter("boton"+i)!=null) {
@@ -107,10 +112,11 @@ public class GoogleDriveFileNewController extends HttpServlet {
     	    		damage = (Double)request.getAttribute("damage"+i);
     	    		win= (Integer)request.getAttribute("win"+i);
     	    		hKills=(Integer) request.getAttribute("hKills"+i);
+
     	    	 }
     		 }
     		 String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
-             if (accessToken != null && !"".equals(accessToken)) {
+             if (accessToken != null && !"".equals(accessToken) || !esta) {
 
                  GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
                  
@@ -131,21 +137,23 @@ public class GoogleDriveFileNewController extends HttpServlet {
                      		 req.setAttribute("mensaje", "<div id=\"errorp\" class=\"w-50 alert alert-danger\" role=\"alert\">\r\n" + 
                   					"  ESE ARCHIVO YA EXISTE\r\n" + 
                  					"</div>");
-                              req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+                             esta =true;
+
+                              req.getRequestDispatcher("/pubg?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
                      	}
                      }
                      
-                 if (title != null && !"".equals(title)) {
+                 if (title != null && !"".equals(title) && !esta) {
                      FileItem file = new FileItem();
                      file.setTitle(title);
                      file.setMimeType("text/plain");
                      gdResource.insertFile(file, content);
-                     req.setAttribute("message", "File '" + title + "' added to your Drive!");
-                     req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+
+                     req.getRequestDispatcher("/pubg?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
                  } else {
                      req.setAttribute("message", "You must provide a valid title for file");
                      req.setAttribute("content", content);
-                     req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+                     req.getRequestDispatcher("/pubg?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
                  }
              } else {
                  log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
@@ -153,29 +161,6 @@ public class GoogleDriveFileNewController extends HttpServlet {
              }
     		 
     	}
-        
-//    	        String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
-//        String title = req.getParameter("title");
-//        System.out.println(req.getParameter("content"));
-//        String content = req.getParameter("content");
-//        if (accessToken != null && !"".equals(accessToken)) {
-//            if (title != null && !"".equals(title)) {
-//                GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
-//                FileItem file = new FileItem();
-//                file.setTitle(title);
-//                file.setMimeType("text/plain");
-//                gdResource.insertFile(file, content);
-//                req.setAttribute("message", "File '" + title + "' added to your Drive!");
-//                req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
-//            } else {
-//                req.setAttribute("message", "You must provide a valid title for file");
-//                req.setAttribute("content", content);
-//                req.getRequestDispatcher("googleDriveFileEdit.jsp").forward(req, resp);
-//            }
-//        } else {
-//            log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
-//            req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
-//        }
     }
 
     @Override

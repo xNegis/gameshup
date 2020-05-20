@@ -62,6 +62,7 @@ public class lolservlet extends HttpServlet {
 			throws ServletException, IOException {
 		String apikey = "RGAPI-68413756-87fb-475e-9ba2-8773bb3d5840";
 		String nombre = request.getParameter("name");
+		System.out.println("NOMBRE->" + nombre );
 		HttpSession session = request.getSession();
 		try {
 		String region = request.getParameter("region");
@@ -201,6 +202,7 @@ public class lolservlet extends HttpServlet {
 				request.setAttribute("asesinatos"+i, toJSP.get(i).kills);
 				request.setAttribute("campeon"+i, toJSP.get(i).champion);
 			}
+			request.setAttribute("region", region);
 			request.setAttribute("rojo", toJSP2r);
 			request.setAttribute("azul", toJSP2a);
 			request.setAttribute("equipos", equipos);

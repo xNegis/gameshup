@@ -23,7 +23,9 @@
                 <td><%=files.get(i).getTitle()%></td>
                 <td><%=files.get(i).getModifiedDate()%></td>
                 <td> 
-                    <a href="/googleDriveFileDelete?id=<%=files.get(i).getId()%>"><img src="./images/delete.png" width="30px"></a>
+                <form  method="POST" action="/googleDriveFileDelete?id=<%=files.get(i).getId()%>">
+               	<button id="vengoLolP" name="vengoLolP" style="background:none;border:none"><img src="./images/delete.png" width="30px"></button>
+                </form>
                 </td>
                  <td> 
                     <a href="/googleDriveFileUpdate?id=<%=files.get(i).getId()%>"><img src="./images/edit.png" width="30px"></a>
