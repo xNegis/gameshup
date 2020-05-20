@@ -1,0 +1,95 @@
+body {
+	background-image: url("https://storage.cloud.google.com/gameshup.appspot.com/archivosmuestras/index.jpg?authuser=1");
+	
+	 width:100%;
+	  height:100%;
+	  }
+
+
+/* Layout */
+
+.container {
+    width:500px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.bottom_links {
+    text-align: right;
+    margin-top: 10px;
+}
+
+
+/* Headers */
+
+h1 {
+    margin-left:37%;    
+    color: #ffffff;
+    font-size: 2em;
+}
+
+
+/* Tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: none;
+    padding: 8px;
+    
+}
+
+tr{background-color: #ffffff;color:#563777;}
+
+tr:hover {background-color: #ddd;}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #563777;
+    color: white;
+}
+
+
+/* Links */
+
+.button, .button:visited {
+    background-color: #563777; /* 807290 */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.button:hover, .button:active  {
+    background: #351656;
+    text-decoration: none;
+}
+
+
+/* Inputs */
+
+input[type=text] {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+
+
+

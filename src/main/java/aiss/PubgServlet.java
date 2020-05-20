@@ -703,7 +703,6 @@ public class PubgServlet extends HttpServlet {
 				request.setAttribute("kdsf", df2.format(kdsf));
 				request.setAttribute("kddf", df2.format(kddf));
 				request.setAttribute("kdsqf", df2.format(kdsqf));
-
 				request.setAttribute("lista", lista);
 				request.getRequestDispatcher("/muestrapubg.jsp").forward(request, response);
 

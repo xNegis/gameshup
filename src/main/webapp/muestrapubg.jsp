@@ -100,8 +100,28 @@ function dividir(dmg){
 		<p><%= compis.get(i).get(j).getLongestkill()%></p>
 		</div>
 		<%}%>
+		<form method="POST" action="/googleDriveFileNew">
+
+   		<%
+   		session.setAttribute("pubgNombre", request.getAttribute("nombre"));
+   		session.setAttribute("pubgPlataforma", request.getAttribute("plataformap"));
+   		session.setAttribute("nombre"+i, equipos.get(i).getNombre()); 
+   		session.setAttribute("kills"+i, equipos.get(i).getKills());
+   		session.setAttribute("hKills"+i, equipos.get(i).getHeadshotskill()); 
+   		session.setAttribute("damage"+i, equipos.get(i).getDamage()); 
+   		session.setAttribute("win"+i, equipos.get(i).getWinplace()); 
+   		
+   		
+   		
+   		%>
+   
+   
+         <input class="botong" id="boton<%=i%>" name="boton<%=i%>" type="submit" value="Guardar partida" ></input>
+    
+		</form>
 	</div>
-	
+
+
 </div>
 </div>
 <div style="display:inline-block;margin-left:1%;">
@@ -126,6 +146,23 @@ function dividir(dmg){
 		<p><%= compis.get(i+1).get(j).getLongestkill()%></p>
 		</div>
 		<%}%>
+		<form method="POST" action="/googleDriveFileNew">
+
+   		<%
+   		session.setAttribute("pubgNombre", request.getAttribute("nombre"));
+   		session.setAttribute("pubgPlataforma", request.getAttribute("plataformap"));
+   		session.setAttribute("nombre"+(i+1), equipos.get(i+1).getNombre()); 
+   		session.setAttribute("kills"+(i+1), equipos.get(i+1).getKills()); 
+   		session.setAttribute("hKills"+(i+1), equipos.get(i+1).getHeadshotskill()); 
+   		session.setAttribute("damage"+(i+1), equipos.get(i+1).getDamage()); 
+   		session.setAttribute("win"+(i+1), equipos.get(i+1).getWinplace()); 
+   		
+   		
+   		
+   		%>
+         <input class="botong" id="boton<%=(i+1)%>" name="boton<%=(i+1)%>" type="submit" value="Guardar partida" ></input>
+    
+		</form>
 	</div>
 </div>
 </div>
@@ -151,6 +188,23 @@ function dividir(dmg){
 		<p><%= compis.get(i+2).get(j).getLongestkill()%></p>
 		</div>
 		<%}%>
+		<form method="POST" action="/googleDriveFileNew">
+
+   		<%
+   		session.setAttribute("pubgNombre", request.getAttribute("nombre"));
+   		session.setAttribute("pubgPlataforma", request.getAttribute("plataformap"));
+   		session.setAttribute("nombre"+(i+2), equipos.get(i+2).getNombre()); 
+   		session.setAttribute("kills"+(i+2), equipos.get(i+2).getKills()); 
+   		session.setAttribute("hKills"+(i+2), equipos.get(i+2).getHeadshotskill()); 
+   		session.setAttribute("damage"+(i+2), equipos.get(i+2).getDamage()); 
+   		session.setAttribute("win"+(i+2), equipos.get(i+2).getWinplace()); 
+   		
+   		
+   		
+   		%>
+         <input class="botong" id="boton<%=(i+2)%>" name="boton<%=(i+2)%>" type="submit" value="Guardar partida" ></input>
+    
+		</form>
 	</div>
 </div>
 </div>
