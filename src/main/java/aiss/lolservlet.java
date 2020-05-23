@@ -34,6 +34,7 @@ import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 import org.restlet.util.Series;
 
+import aiss.model.resource.lolResource;
 import lolmatch.Match;
 import lolmatch.Participant;
 import lolmatch.ParticipantIdentity;
@@ -60,28 +61,19 @@ public class lolservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String apikey = "RGAPI-68413756-87fb-475e-9ba2-8773bb3d5840";
 		String nombre = request.getParameter("name");
-		System.out.println("NOMBRE->" + nombre );
 		HttpSession session = request.getSession();
 		try {
 		String region = request.getParameter("region");
-		String uri3 = "https://"+region+".api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nombre + "?api_key="
-				+ apikey;
-		ClientResource cr3 = new ClientResource(uri3);
-		Player player = cr3.get(Player.class);
-
+		
+		lolResource resource = new lolResource();  // NEW
+		Player player = resource.getPlayer(region, nombre);  // NEW
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-
 		String accountid = player.getAccountId();
 
-		String uri2 = "https://"+region+".api.riotgames.com/lol/match/v4/matchlists/by-account/" + accountid + "?api_key="
-				+ apikey;
-		ClientResource cr2 = new ClientResource(uri2);
+		List<lolmatchsxid.Match> matches = resource.getPartidas(region, accountid);
 		
-		PlayerMatchs mm = cr2.get(PlayerMatchs.class);
-		List<lolmatchsxid.Match> matches = mm.getMatches();
+		
 		List<MatchLoL> toJSP = new ArrayList<MatchLoL>();
 		List<List<MatchLoL2>> toJSP2a = new ArrayList<List<MatchLoL2>>();
 		List<List<MatchLoL2>> toJSP2r = new ArrayList<List<MatchLoL2>>();
@@ -106,16 +98,16 @@ public class lolservlet extends HttpServlet {
 		List<Long> tiempo = new ArrayList<Long>();
 		List<Integer> equipos = new ArrayList<Integer>();
 		int limit=6;
-
+		
+	
+		
 			for (int i = 0; i <limit; i++) {
 				List<MatchLoL2> listajspa = new ArrayList<MatchLoL2>();
 				List<MatchLoL2> listajspr = new ArrayList<MatchLoL2>();
 
 				Long gameid = matches.get(i).getGameId();
-				String uri = "https://"+region+".api.riotgames.com/lol/match/v4/matches/" + gameid.toString() + "?api_key="
-						+ apikey;
-				ClientResource cr = new ClientResource(uri);
-				Match pp = cr.get(Match.class);
+				Match pp = resource.getPartida(gameid, region);
+				
 				
 				List<ParticipantIdentity> aro = pp.getParticipantIdentities();
 				List<Participant> lista = pp.getParticipants();
@@ -241,7 +233,9 @@ public class lolservlet extends HttpServlet {
 		}
 		
 	}
-
+	
+	
+	
 	public String getNameChamp(int id) {
 		String nombre = null;
 		switch (id) {

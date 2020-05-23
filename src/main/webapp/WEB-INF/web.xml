@@ -80,9 +80,6 @@
     <servlet-name>Información</servlet-name>
     <url-pattern>/informacion</url-pattern>
   </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
   <servlet>
     <description></description>
     <display-name>League of Legends</display-name>

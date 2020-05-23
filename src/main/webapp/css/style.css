@@ -80,15 +80,29 @@ th {
 /* Inputs */
 
 input[type=text] {
-    width: 100%;
-    padding: 10px 15px;
-    margin: 8px 0;
+	margin-left:30%;
+    width: 35%;
+    padding: auto;
     display: inline-block;
-    border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+	background-color:#ffffff;
+	margin-top:50%;
+	margin-bottom:4%;
+	text-align:center;
+	border:none;
+	color:black;
 }
 
+textarea{
+	resize:none;
+	color:black;
+	background-color:#ffffff;
+	text-align:center;
+	border-radius:20px;
+	border:none;
+	margin-left:10%;
+}
 
 
 
