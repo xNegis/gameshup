@@ -1,21 +1,32 @@
-<%@include file="includes/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
 <%@page import="aiss.model.google.drive.FileItem"%>
 <%@ page import="java.util.List" %>
+<%@include file="cabeceradark.html"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>GameShup : MIS PARTIDAS LOL</title>
+</head>
+<body style="background-color: #ededed;">
+
 <%List<FileItem> files = (List) request.getAttribute("filtradas");%>
 
-<h1>Tus partidas guardadas LoL</h1>
-
 <div class="container">
-
+<h1 style="margin-top:20px;">Tus partidas guardadas LoL</h1>
     <p class="message">${message}</p>
 
-    <table id="files">
+    <table class="table" id="files">
+    <thead class="thead-dark">
         <tr style="border-radius: 10px;">
-            <th>Name</th>
-            <th>Last modification date</th>
-            <th>Delete</th>
+            <th scope="col">NAME</th>
+            <th scope="col">DATE OF ADDITION</th>
+            <th scope="col">DELETE</th>
+            <th scope="col">VIEW</th>
         </tr>
-<%--         <c:forEach items="${requestScope.files.items}" var="file"> --%>
+         </thead>
 		<%
 	for(int i=0;i<files.size();i++){ %>
             <tr>
@@ -34,7 +45,7 @@
 <% } %>
     </table>
     <p>
-        <button type="button" onClick="javascript:window.location.href = '/'" class="button">Back</button>
+        <button  class="btn btn-dark" type="button" onClick="javascript:window.location.href = '/'" class="button">BACK</button>
 </div>
+</body>
 
-<%@include file="includes/footer.jsp"%>

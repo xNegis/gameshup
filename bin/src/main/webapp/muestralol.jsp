@@ -1,5 +1,5 @@
-<%@page import="aiss.MatchLoL"%>
-<%@page import="aiss.MatchLoL2"%>
+<%@page import="model.auxiliary.MatchLoL"%>
+<%@page import="model.auxiliary.MatchLoL2"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List" %>
