@@ -1,8 +1,9 @@
 package aiss.controller;
 
-import aiss.MatchLoL2;
 import aiss.model.google.drive.FileItem;
 import aiss.model.resource.GoogleDriveResource;
+import model.auxiliary.MatchLoL2;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;

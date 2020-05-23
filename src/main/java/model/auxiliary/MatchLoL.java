@@ -1,30 +1,30 @@
-package aiss;
+package model.auxiliary;
 
 public class MatchLoL {
 
-		String champion;
-		Integer minions;
-		Integer neutral;
-		Integer kills;
-		Integer deaths;
-		Integer assists;
-		Integer tdmg;
-		Integer mdmg;
-		Integer pdmg;
-		boolean win;
-		Integer spell1;
-		Integer spell2;
-		Integer item0;
-		Integer item1;
-		Integer item2;
-		Integer item3;
-		Integer item4;
-		Integer item5;
-		Integer item6;
-		Integer gold;
-		Integer penta;
-	    Integer icon;
-	    Long tiempo;
+		public String champion;
+		public Integer minions;
+		public Integer neutral;
+		public Integer kills;
+		public Integer deaths;
+		public Integer assists;
+		public Integer tdmg;
+		public Integer mdmg;
+		public Integer pdmg;
+		public boolean win;
+		public Integer spell1;
+		public Integer spell2;
+		public Integer item0;
+		public Integer item1;
+		public Integer item2;
+		public Integer item3;
+		public Integer item4;
+		public Integer item5;
+		public Integer item6;
+		public Integer gold;
+		public Integer penta;
+		public  Integer icon;
+		public  Long tiempo;
 	    
 		public Long getTiempo() {
 			return tiempo;

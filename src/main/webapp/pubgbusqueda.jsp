@@ -18,7 +18,7 @@ ${mensaje}
 
 
 
-<form  id="forp" class="w-50" action="/pubg" method="post">
+<form  id="forp" class="w-50" action="/pubgcontroller" method="post">
 <div class="form-group">
  
   <input id="name" name="name" type="text" class="form-control" aria-label="Introduce el nick del jugador" placeholder ="Introduce el nick del jugador" value="${user}">

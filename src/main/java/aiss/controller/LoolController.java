@@ -1,68 +1,43 @@
-package aiss;
+package aiss.controller;
 
 import java.io.IOException;
-
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.restlet.data.Header;
-import org.restlet.engine.header.HeaderConstants;
-import org.restlet.ext.jackson.JacksonRepresentation;
-import org.restlet.representation.Representation;
-import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
-import org.restlet.util.Series;
 
 import aiss.model.resource.lolResource;
 import lolmatch.Match;
 import lolmatch.Participant;
 import lolmatch.ParticipantIdentity;
-import lolmatchsxid.PlayerMatchs;
 import lolplayer.Player;
+import model.auxiliary.MatchLoL;
+import model.auxiliary.MatchLoL2;
 
 /**
- * Servlet implementation class pubg
+ * Servlet implementation class LoolController
  */
-public class lolservlet extends HttpServlet {
+public class LoolController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoolController() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	public lolservlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombre = request.getParameter("name");
-		HttpSession session = request.getSession();
 		try {
 		String region = request.getParameter("region");
 		
@@ -231,11 +206,7 @@ public class lolservlet extends HttpServlet {
 			request.setAttribute("user", nombre);
 			request.getRequestDispatcher("/lolbusqueda.jsp").forward(request, response);
 		}
-		
 	}
-	
-	
-	
 	public String getNameChamp(int id) {
 		String nombre = null;
 		switch (id) {
@@ -693,11 +664,9 @@ public class lolservlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

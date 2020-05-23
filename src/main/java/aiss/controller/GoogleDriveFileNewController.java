@@ -1,10 +1,10 @@
 package aiss.controller;
 
-import aiss.MatchLoL;
-
 import aiss.model.google.drive.FileItem;
 import aiss.model.google.drive.Files;
 import aiss.model.resource.GoogleDriveResource;
+import model.auxiliary.MatchLoL;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

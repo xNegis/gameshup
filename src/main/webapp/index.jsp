@@ -46,11 +46,9 @@
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/componentes">Componentes del grupo</a>
+        <a class="nav-link" href="/componentes.jsp">Componentes del grupo</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/informacion">Descripción del proyecto</a>
-      </li>
+
       <li class="nav-item">
         <form method="POST" id="myform" action="/googleDriveFileList">
   		<input class="nav-link" id="botonLol" name="botonLol" type="submit" value="Mis partidas LoL" style="border:none;background:none;"/>

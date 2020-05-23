@@ -1,4 +1,4 @@
-package aiss;
+package model.auxiliary;
 
 public class MatchpubgSeason {
 
