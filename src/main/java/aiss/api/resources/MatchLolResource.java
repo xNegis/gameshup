@@ -35,7 +35,7 @@ import aiss.model.repository.MapGamesRepository;
 import aiss.model.repository.GamesRepository;
 
 
-@Path("/lolmatch")
+@Path("/partidaslol")
 public class MatchLolResource {
 	
 	/* Singleton */
@@ -57,13 +57,32 @@ public class MatchLolResource {
 	
     @GET
     @Produces("application/json")
-    public Collection<MatchLoL> getAll(@QueryParam("order") String order)
+    public Collection<MatchLoL> getAll(@QueryParam("order") String order,@QueryParam("id") String id,@QueryParam("player") String player,
+    		@QueryParam("champion") String champion,@QueryParam("name") String name)
     {
         List<MatchLoL> result = new ArrayList<MatchLoL>();
             
         for (MatchLoL match: repository.getAllLolMatch()) {
-           
-              result.add(match);
+        		if(player!=null) {
+        			  if ( match.getPlayer().getNombre().equals(player)) { // player filter
+                          result.add(match);
+                  }
+        		}else if(id!=null) {
+        			  if ( match.getId().equals(id)) { // id filter
+                          result.add(match);
+                  }
+        		}else if(champion!=null) {
+        			  if ( match.getChampion().equals(champion)) { // champion filter
+                          result.add(match);
+                  }
+        		}else if(name!=null) {
+      			  if ( match.getName().equals(name)) { // Name filter
+                      result.add(match);
+              }
+        		}else {
+        			 result.add(match);
+        		}
+             
               
         }
             
@@ -80,70 +99,8 @@ public class MatchLolResource {
         return result;
     }
 	
-    //BUSCAR MATCHS DE UN JUGADOR
- 	@GET
- 	@Path("/playermatchlol={playername}")
- 	@Produces("application/json")
- 	public List<MatchLoL> getbyplayer(@PathParam("playername") String playername,@QueryParam("order") String order){
- 		List<MatchLoL> list = new ArrayList<MatchLoL>();
- 		
- 		for (MatchLoL match: repository.getAllLolMatch()) {
-             if ( match.getPlayer().getNombre().equals(playername)) { // Name filter
-                     list.add(match);
-             }
-         }
- 		
- 		if (list.isEmpty()) {
- 			throw new NotFoundException("The matchs with player name="+ playername +" was not found");			
- 		}
- 		
- 	    if (order != null) { // Order results
-            if (order.equals("kill")) {
-                Collections.sort(list, new ComparatorMatchLolByKills());
-            } else if (order.equals("-kill")) {
-                Collections.sort(list, new ComparatorMatchLolByKillsReverse());
-            } else {
-                throw new BadRequestException("The order parameter must be 'kill' or '-kill'.");
-            }
-        }
- 		
- 		return list;
- 	}
+
     
-    //BUSCAR MATCH POR NOMBRE
-	@GET
-	@Path("/matchlolbyname={name}")
-	@Produces("application/json")
-	public MatchLoL getbyname(@PathParam("name") String name){
-		MatchLoL list = null;
-		
-		for (MatchLoL match: repository.getAllLolMatch()) {
-            if ( match.getName().equals(name)) { // Name filter
-                    list=match;
-            }
-        }
-		
-		if (list == null) {
-			throw new NotFoundException("The match with name="+ name +" was not found");			
-		}
-		
-		return list;
-	}
-	
-    //Obtener match por id
-	@GET
-	@Path("/matchlol={id}")
-	@Produces("application/json")
-	public MatchLoL get(@PathParam("id") String id)
-	{
-		MatchLoL list = repository.getLolMatch(id);
-		
-		if (list == null) {
-			throw new NotFoundException("The match with id="+ id +" was not found");			
-		}
-		
-		return list;
-	}
 	
 	//Añadir nuevo match
 	@POST
@@ -204,8 +161,7 @@ public class MatchLolResource {
 	
 	//Borrar match por id
 	@DELETE
-	@Path("/deletematchlol={id}")
-	public Response removeLolMatch(@PathParam("id") String id) {
+	public Response removeLolMatch(@QueryParam("id") String id) {
 		MatchLoL toberemoved=repository.getLolMatch(id);
 		if (toberemoved == null)
 			throw new NotFoundException("The match with id="+ id +" was not found");
@@ -217,7 +173,7 @@ public class MatchLolResource {
 	
 	//Borrar match por nombre
 	@DELETE
-	@Path("/deletematchlolbyname={name}")
+	@Path("/deletebyname={name}")
 	public Response removeLolMatchbyname(@PathParam("name") String name) {
 		MatchLoL toberemoved=null;
 		for (MatchLoL match: repository.getAllLolMatch()) {

@@ -1,7 +1,7 @@
-<%@page import="aiss.MatchLoL"%>
-<%@page import="aiss.MatchLoL2"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="aiss.MatchLoL"%>
+<%@page import="aiss.MatchLoL2"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -107,9 +107,7 @@ function sumaDmg(tdmg,mdmg,pdmg){
   <img data-toggle="tooltip" data-placement="top" title="${nombre} se ha hecho <%=listtk.get(contador)%> TRIPLEKILL esta partida" class="imgicons" src="https://storage.cloud.google.com/gameshup.appspot.com/killstreak/triple.png?authuser=1" class="mr-3" alt="..." width="80" height="80" style="margin-left:4%; margin-right:10px;" >
  <%} %>
  </div>
-<!--    <a href="/googleDriveFileList">GoDrive</a> -->
 	
-<!-- <input type="checkbox"> -->
  </button>
 <div class="content">
 	<div class="contentdiv">

@@ -35,7 +35,7 @@ import aiss.model.repository.MapGamesRepository;
 import aiss.model.repository.GamesRepository;
 
 
-@Path("/lolplayer")
+@Path("/jugadoreslol")
 public class PlayerLolResource {
 	
 	/* Singleton */
@@ -57,18 +57,27 @@ public class PlayerLolResource {
 	
     @GET
     @Produces("application/json")
-    public Collection<LolPlayer> getAll(@QueryParam("order") String order,
-            @QueryParam("isEmpty") Boolean isEmpty, @QueryParam("name") String name)
+    public Collection<LolPlayer> getAll(@QueryParam("order") String order, @QueryParam("name") String name,@QueryParam("id") String id)
     {
         List<LolPlayer> result = new ArrayList<LolPlayer>();
             
         for (LolPlayer player: repository.getAllLolPlayer()) {
-            if (name == null || player.getNombre().equals(name)) { // Name filter
-                if (isEmpty == null // Empty playlist filter
-                        || player.getNombre()==null) {
+        	if(name!=null) {
+  			  if ( player.getNombre().equals(name)) { // name filter
                     result.add(player);
-                }
             }
+  		}else if(id!=null) {
+  			  
+  			if ( player.getId().equals(id)) { // id filter
+                    result.add(player);
+            }
+  		
+  		}else {
+  			 result.add(player);
+  		}
+                    
+                
+            
         }
             
         if (order != null) { // Order results
@@ -84,40 +93,7 @@ public class PlayerLolResource {
         return result;
     }
 	
-    //BUSCAR PLAYER POR NOMBRE
-	@GET
-	@Path("/lolplayerbyname={name}")
-	@Produces("application/json")
-	public LolPlayer getbyname(@PathParam("name") String name){
-		LolPlayer list = null;
-		
-		for (LolPlayer player: repository.getAllLolPlayer()) {
-            if ( player.getNombre().equals(name)) { // Name filter
-                    list=player;
-            }
-        }
-		
-		if (list == null) {
-			throw new NotFoundException("The player with name="+ name +" was not found");			
-		}
-		
-		return list;
-	}
-	
-    //Obtener player por id
-	@GET
-	@Path("/lolplayer={id}")
-	@Produces("application/json")
-	public LolPlayer get(@PathParam("id") String id)
-	{
-		LolPlayer list = repository.getLolPlayer(id);
-		
-		if (list == null) {
-			throw new NotFoundException("The player with id="+ id +" was not found");			
-		}
-		
-		return list;
-	}
+
 	
 	//Añadir nuevo player
 	@POST
@@ -170,8 +146,7 @@ public class PlayerLolResource {
 	
 	//Borrar player por id
 	@DELETE
-	@Path("/deletelolplayer={id}")
-	public Response removeLolPlayer(@PathParam("id") String id) {
+	public Response removeLolPlayer(@QueryParam("id") String id) {
 		LolPlayer toberemoved=repository.getLolPlayer(id);
 		if (toberemoved == null)
 			throw new NotFoundException("The player with id="+ id +" was not found");
@@ -183,7 +158,7 @@ public class PlayerLolResource {
 	
 	//Borrar match por nombre
 	@DELETE
-	@Path("/deletelolplayerbyname={name}")
+	@Path("/deletebyname={name}")
 	public Response removeLolPlayerbyname(@PathParam("name") String name) {
 		LolPlayer toberemoved=null;
 		for (LolPlayer player: repository.getAllLolPlayer()) {

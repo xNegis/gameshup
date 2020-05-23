@@ -2,7 +2,6 @@ package aiss.modelapi;
 
 public class MatchLoL {
 		String name;
-		
 		LolPlayer player;
 		String id;
 		String champion;

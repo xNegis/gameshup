@@ -39,7 +39,7 @@ import aiss.model.repository.MapGamesRepository;
 import aiss.model.repository.GamesRepository;
 
 
-@Path("/pubgmatch")
+@Path("/partidapubg")
 public class MatchPubgResource {
 	
 	
@@ -61,12 +61,28 @@ public class MatchPubgResource {
 	
     @GET
     @Produces("application/json")
-    public Collection<Matchpubg> getAll(@QueryParam("order") String order)
+    public Collection<Matchpubg> getAll(@QueryParam("order") String order,@QueryParam("player") String player,@QueryParam("id") String id,
+    		@QueryParam("name") String name)
     {
         List<Matchpubg> result = new ArrayList<Matchpubg>();
             
         for (Matchpubg match: repository.getAllPubgMatch()) {
-            
+        	if(player!=null) {
+  			  if ( match.getPlayer().getNombre().equals(player)) { // player filter
+                    result.add(match);
+            }
+  		}else if(id!=null) {
+  			  if ( match.getId().equals(id)) { // id filter
+                    result.add(match);
+            }
+  		
+  		}else if(name!=null) {
+			  if ( match.getName().equals(name)) { // Name filter
+                result.add(match);
+        }
+  		}else {
+  			 result.add(match);
+  		}
             result.add(match);
             
         }
@@ -88,75 +104,6 @@ public class MatchPubgResource {
         return result;
     }
 	
-	//Obtener match por id
-	@GET
-	@Path("/matchpubg={id}")
-	@Produces("application/json")
-	public Matchpubg get(@PathParam("id") String id)
-	{
-		Matchpubg list = repository.getPubgMatch(id);
-		
-		if (list == null) {
-			throw new NotFoundException("The match with id="+ id +" was not found");			
-		}
-		
-		return list;
-	}
-	
-	 //BUSCAR MATCHS DE UN JUGADOR
- 	@GET
- 	@Path("/playermatchpubg={playername}")
- 	@Produces("application/json")
- 	public List<Matchpubg> getbyplayer(@PathParam("playername") String playername,@QueryParam("order") String order){
- 		List<Matchpubg> list = new ArrayList<Matchpubg>();
- 		
- 		for (Matchpubg match: repository.getAllPubgMatch()) {
-             if ( match.getPlayer().getNombre().equals(playername)) { // Name filter
-                     list.add(match);
-             }
-         }
- 		
- 		if (list.isEmpty()) {
- 			throw new NotFoundException("The matchs with player name="+ playername +" was not found");			
- 		}
- 		
- 		 if (order != null) { // Order results
-             if (order.equals("kill")) {
-                 Collections.sort(list, new ComparatorMatchPubgByKills());
-             } else if (order.equals("-kill")) {
-                 Collections.sort(list, new ComparatorMatchPubgByKillsReverse());
-             } else if (order.equals("lkill")){
-             	Collections.sort(list, new ComparatorMatchPubgByLongestKill());
-             } else if(order.equals("map")) {
-             	Collections.sort(list, new ComparatorMatchPubgByMap());
-             } else {
-             	 throw new BadRequestException("The order parameter must be 'kill', '-kill','lkill' or 'map'.");
-             }
-         }
- 		
- 		return list;
- 	}
- 	
-	//Obtener match por name
-	@GET
-	@Path("/matchpubgbyname={name}")
-	@Produces("application/json")
-	public Matchpubg getbyname(@PathParam("name") String name)
-	{
-		Matchpubg list = null;
-	    for (Matchpubg match: repository.getAllPubgMatch()) {
-            if (match.getName().equals(name)) { // Name filter
-              
-                    list=match;
-                
-            }
-        }
-		if (list == null) {
-			throw new NotFoundException("The match with name="+ name +" was not found");			
-		}
-		
-		return list;
-	}
 	
 	
 	@POST
@@ -226,8 +173,8 @@ public class MatchPubgResource {
 	
 	//Borrar match por id
 	@DELETE
-	@Path("/deletematchpubg={id}")
-	public Response removePubgMatch(@PathParam("id") String id) {
+
+	public Response removePubgMatch(@QueryParam("id") String id) {
 		Matchpubg toberemoved=repository.getPubgMatch(id);
 		if (toberemoved == null)
 			throw new NotFoundException("The match with id="+ id +" was not found");
@@ -239,7 +186,7 @@ public class MatchPubgResource {
 	
 	//Borrar match por name
 	@DELETE
-	@Path("/deletematchpubgbyname={name}")
+	@Path("/deletebyname={name}")
 	public Response removePubgMatchByName(@PathParam("name") String name) {
 		Matchpubg toberemoved=null;
 		  for (Matchpubg match: repository.getAllPubgMatch()) {

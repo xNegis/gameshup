@@ -1,6 +1,7 @@
 package aiss.controller;
 
 import aiss.MatchLoL;
+
 import aiss.model.google.drive.FileItem;
 import aiss.model.google.drive.Files;
 import aiss.model.resource.GoogleDriveResource;
@@ -20,7 +21,11 @@ import com.google.apphosting.utils.remoteapi.RemoteApiPb.Request;
 
 public class GoogleDriveFileNewController extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger(GoogleDriveFileDeleteController.class.getName());
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final Logger log = Logger.getLogger(GoogleDriveFileDeleteController.class.getName());
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
