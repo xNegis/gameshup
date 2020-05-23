@@ -7,7 +7,11 @@ body {
 }
 
 
-
+.botong{
+	background-color:#67696799;
+	border:none;
+	border-radius:20px;
+}
 .box {
   width: 40%;
   margin: 0 auto;

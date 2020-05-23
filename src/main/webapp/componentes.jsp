@@ -78,21 +78,6 @@
               
               </div> </td>
         </tr>
-
-		<tr style="background-color:#fff;" data-toggle="collapse" data-target="#demo4" class="accordion-toggle" id="div3">
-                  <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-             <td>Componente 4</td><td>Amadeo</td><td>antcammar</td><td>antcammar@alum.us.es</td>
-        </tr>
-        <tr>
-            <td colspan="12" class="hiddenRow"><div class="accordian-body collapse" id="demo4" > 
-              <table class="table table-striped">
-                      <thead>
-                     <tr id="div4"><td>Edad: 19 años</td><td>Titulación: Ingenieria Informática de Software</td><td>Curso: Segundo</td><td>Grupo: 2</td></tr>
-                      </thead>
-               	</table>
-              
-              </div> </td>
-        </tr>
     </tbody>
 </table>
             </div>

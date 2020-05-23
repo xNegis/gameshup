@@ -3,7 +3,6 @@
 <%@include file="cabecera.html"%>
 <!DOCTYPE html> 
 <html>
-<%request.getSession().setAttribute("vengoLol", true);%>
   <head>
 		  
 	<link rel="icon" type="image/jpg" href="https://i.ibb.co/BqntJ8D/icono.png">
@@ -27,10 +26,8 @@
  					  <br>surgio de la necesidad de descubir el rendimiento y la evolución de otros jugadores, para seguir</br>
  					<br>  fomentando la rivalidad actual en los videojuegos. En este caso, GameShup estará enfocada en </br>
  					 <br> dos juegos, que son League of Legends y el mítico Player Unknows Battleground, más conocido como</br>
- 					 <br> PUBG. Se podrá elegir cualquiera de los dos juegos, e introduciendo el nickname y eligiendo la season</br>
- 					 <br> o region, se desplegarán las últimas partidas con sus estadísticas. Cabe recordar que la season es </br>
- 					 <br> la temporada que, normalmente, van acorde con el año en el que vivimos. A continuación podrán </br>
- 					<br>  seleccionar cualquiera de los dos juegos para acceder a su descripción y un trailer. </br>
+ 					 <br> PUBG. Se podrá elegir cualquiera de los dos juegos, e introduciendo el nickname y eligiendo la </br>
+ 					 <br> plataforma o region, se desplegarán las últimas partidas con sus estadísticas.</br>
  					<br></br></p>
  	
  

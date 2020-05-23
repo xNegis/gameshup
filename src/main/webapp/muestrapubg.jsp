@@ -86,6 +86,8 @@ function dividir(dmg){
 		<a class="close" href="#">&times;</a>
 		<p><%= equipos.get(i).getNombre()%></p>
 		<p><%= equipos.get(i).getKills()%></p>
+		<p><%= equipos.get(i).getHeadshotskill()%></p>
+		<p><%= equipos.get(i).getLongestkill()%></p>
 		<p><%= equipos.get(i).getDamage()%></p>
 		<p><%= equipos.get(i).getWinplace()%></p>
 		<%for(int j=0;j<compis.get(i).size();j++){ %>
@@ -93,11 +95,11 @@ function dividir(dmg){
 					
 		<p><%= compis.get(i).get(j).getNombre()%></p>
 		<p><%= compis.get(i).get(j).getKills()%></p>
+		<p><%= compis.get(i).get(j).getHeadshotskill()%></p>
+		<p><%= compis.get(i).get(j).getLongestkill()%></p>
 		<p><%= compis.get(i).get(j).getDamage()%></p>
 		<p><%= compis.get(i).get(j).getWinplace()%></p>
-		<p><%= compis.get(i).get(j).getHeadshotskill()%></p>
-		<p><%= compis.get(i).get(j).getWalkdistance()%></p>
-		<p><%= compis.get(i).get(j).getLongestkill()%></p>
+			
 		</div>
 		<%}%>
 		<form method="POST" action="/googleDriveFileNew">
@@ -133,19 +135,21 @@ function dividir(dmg){
 <div id="popup<%=i+1%>" class="overlay" align="left">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
-		<p><c:out value="<%= equipos.get(i+1).getNombre()%>"/></p>
-		<p><c:out value="<%= equipos.get(i+1).getKills()%>"/></p>
-		<p><c:out value="<%= equipos.get(i+1).getWinplace()%>"/></p>
+		<p><%= equipos.get(i+1).getNombre()%></p>
+		<p><%= equipos.get(i+1).getKills()%></p>
+		<p><%= equipos.get(i+1).getHeadshotskill()%></p>
+		<p><%= equipos.get(i+1).getLongestkill()%></p>
+		<p><%= equipos.get(i+1).getDamage()%></p>
+		<p><%= equipos.get(i+1).getWinplace()%></p>
 		<%for(int j=0;j<compis.get(i+1).size();j++){ %>
 					<div style="display:inline-block;">
 					
 		<p><%= compis.get(i+1).get(j).getNombre()%></p>
 		<p><%= compis.get(i+1).get(j).getKills()%></p>
+		<p><%= compis.get(i+1).get(j).getHeadshotskill()%></p>
+		<p><%= compis.get(i+1).get(j).getLongestkill()%></p>
 		<p><%= compis.get(i+1).get(j).getDamage()%></p>
 		<p><%= compis.get(i+1).get(j).getWinplace()%></p>
-		<p><%= compis.get(i+1).get(j).getHeadshotskill()%></p>
-		<p><%= compis.get(i+1).get(j).getWalkdistance()%></p>
-		<p><%= compis.get(i+1).get(j).getLongestkill()%></p>
 		</div>
 		<%}%>
 		<form method="POST" action="/googleDriveFileNew">
@@ -176,19 +180,21 @@ function dividir(dmg){
 <div id="popup<%=i+2%>" class="overlay" align="left">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
-		<p><c:out value="<%= equipos.get(i+2).getNombre()%>"/></p>
-		<p><c:out value="<%= equipos.get(i+2).getKills()%>"/></p>
-		<p><c:out value="<%= equipos.get(i+2).getWinplace()%>"/></p>
+		<p><%= equipos.get(i+2).getNombre()%></p>
+		<p><%= equipos.get(i+2).getKills()%></p>
+		<p><%= equipos.get(i+2).getHeadshotskill()%></p>
+		<p><%= equipos.get(i+2).getLongestkill()%></p>
+		<p><%= equipos.get(i+2).getDamage()%></p>
+		<p><%= equipos.get(i+2).getWinplace()%></p>
 		<%for(int j=0;j<compis.get(i+2).size();j++){ %>
 					<div style="display:inline-block;">
 					
 		<p><%= compis.get(i+2).get(j).getNombre()%></p>
 		<p><%= compis.get(i+2).get(j).getKills()%></p>
+		<p><%= compis.get(i+2).get(j).getHeadshotskill()%></p>
+		<p><%= compis.get(i+2).get(j).getLongestkill()%></p>
 		<p><%= compis.get(i+2).get(j).getDamage()%></p>
 		<p><%= compis.get(i+2).get(j).getWinplace()%></p>
-		<p><%= compis.get(i+2).get(j).getHeadshotskill()%></p>
-		<p><%= compis.get(i+2).get(j).getWalkdistance()%></p>
-		<p><%= compis.get(i+2).get(j).getLongestkill()%></p>
 		</div>
 		<%}%>
 		<form method="POST" action="/googleDriveFileNew">

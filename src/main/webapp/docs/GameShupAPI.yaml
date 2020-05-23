@@ -1,0 +1,629 @@
+swagger: '2.0'
+info:
+  description: This is the API of GameShup
+  version: 1.0.0
+  title: GameshupAPI
+  # put the contact info for your development or API team
+  contact:
+    email: gameshup@gmail.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: partidaslol
+  description: Operciones validas para partidas de League Of Legends
+- name: partidaspubg
+  description: Operaciones validas para partidas de PUGB
+- name: jugadoreslol
+  description: Operaciones validas con jugadores de League Of Legends
+- name: jugadorespubg
+  description: operaciones validas con jugadores del pubg
+
+paths:
+  /partidaslol:
+    get:
+      tags:
+      - partidaslol
+      summary: Obtener partidas de League Of Legends
+      operationId: getMatchLoL
+      description: |
+        By passing in the appropriate options, you can search for
+        available Match in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: id
+        description: id opcional
+        required: false
+        type: integer
+        format: int32
+      - in: query
+        name: champion
+        description: nombre opcional
+        required: false
+        type: string
+      - in: query
+        name: order
+        description: Orden
+        type: string
+      - in: query
+        name: player
+        description: Nombre de jugador opcional
+        required: false
+        type: integer
+        format: int32
+      - in: query
+        name: name
+        description: Nombre de partida opcional
+        type: string
+        required: false
+      
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+             $ref: '#/definitions/partidaslol'
+        400:
+          description: Invalid tag value
+
+      
+    post:
+      tags:
+      - partidaslol
+      summary: Añadir Partida de League of Legends
+      operationId: addMatch
+      description: añade una partida
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: partidaslol
+        description: Partida a añadir
+        schema:
+            type: array
+            items:
+              $ref: '#/definitions/partidaslol'
+      responses:
+        201:
+          description: Partida creada
+        400:
+          description: Partida inválida
+        409:
+          description: Ya existe una partida con esas carasteristicas
+    put:
+      tags:
+      - partidaslol
+      summary: Actualizar una partida de League Of Legends
+      operationId: updateMatchLoL
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Partida a actualizar
+        required: true
+        schema:
+          type: array
+          items:
+              $ref: '#/definitions/partidaslol'
+      responses:
+        400:
+          description: ID inválida
+        404:
+          description: Partida No encontrada
+        405:
+          description: Excepción de validación
+
+
+        
+    delete:
+      tags:
+        - partidaslol
+      summary: Borrar partida de Leguae of Legends
+      operationId: deleteMatch
+      parameters:
+        - name: id
+          in: query
+          description: Id de la partida a borrar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: ID Inválida
+        '404':
+          description: Partida No Encontrada
+  /partidaslol/deletebyname:
+    delete:
+      tags:
+        - partidaslol
+      summary: Borrar partidas LoL por Nombre
+      operationId: deleteMatchByName
+      parameters:
+        - name: name
+          in: path
+          description: ID de la partida a borrar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Match not found
+  /partidapubg:
+    get:
+      tags:
+      - partidaspubg
+      summary: Obtener partidas de PUBG
+      operationId: getMatchPUBG
+      description: |
+        By passing in the appropriate options, you can search for
+        available Match in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: id
+        description: id opcional
+        required: false
+        type: integer
+        format: int32
+      - in: query
+        name: name
+        description: nombre opcional
+        required: false
+        type: string
+      
+      - in: query
+        name: order
+        description: orden opcional
+        required: false
+        type: string
+        
+      - in: query
+        name: jugadorpubg
+        description: jugador opcional
+        required: false
+        type: integer
+        format: int32
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/partidaspubg'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - partidaspubg
+      summary: Añadir Partida de PUBG
+      operationId: addMatchPUBG
+      description: añade una partida
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: partidapubg
+        description: Partida a añadir
+        schema:
+            type: array
+            items:
+              $ref: '#/definitions/partidaspubg'
+      responses:
+        201:
+          description: Partida creada
+        400:
+          description: Partida inválida
+        409:
+          description: La Partida ya existe
+    put:
+      tags:
+      - partidaspubg
+      summary: Actualizar una partida de PUBG
+      operationId: updateMatchPUBG
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Partida a actualizar
+        required: true
+        schema:
+          type: array
+          items:
+              $ref: '#/definitions/partidaspubg'
+      responses:
+        400:
+          description: ID inválida
+        404:
+          description: Partida No Encontrada
+        405:
+          description: Excepción de validación
+
+        
+    delete:
+      tags:
+        - partidaspubg
+      summary: Borrar una partida de PUBG
+      operationId: deleteMatchPUBG
+      parameters:
+        - name: id
+          in: query
+          description: ID de Partida a eliminar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: ID inválida
+        '404':
+          description: Partida No Encontrada
+  /partidapubg/deletebyname:
+    delete:
+      tags:
+        - partidaspubg
+      summary: Borrar una partida PUBG por nombre
+      operationId: deleteMatchByNamePUBG
+      parameters:
+        - name: name
+          in: path
+          description: Nombre de Partida a eliminar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Nombre inválido
+        '404':
+          description: Partida No Encontrada
+  /jugadorlol:
+    get:
+      tags:
+      - jugadoreslol
+      summary: Obtener jugadores de LoL
+      operationId: getJugadoresLoL
+      description: |
+        By passing in the appropriate options, you can search for
+        available Players in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: id
+        description: id opcional
+        required: false
+        type: integer
+        format: int32
+      - in: query
+        name: nombre
+        description: nombre opcional
+        required: false
+        type: string
+      - in: query
+        name: order
+        description: orden opcional
+        required: false
+        type: string
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/jugadorlol'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - jugadoreslol
+      summary: Añadir jugador de League Of Legends
+      operationId: addPlayerLoL
+      description: añade un jugador
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: JugadorLoL
+        description: Jugador a añadir
+        schema:
+            type: array
+            items:
+              $ref: '#/definitions/jugadorlol'
+      responses:
+        201:
+          description: Jugador Creado
+        400:
+          description: Jugador Invalido
+        409:
+          description: Jugador Ya existente
+    put:
+      tags:
+      - jugadoreslol
+      summary: Update an existing player
+      operationId: updatePlayerLoL
+      consumes:
+      - application/json
+      
+      produces:
+      - application/json
+     
+      parameters:
+      - in: body
+        name: body
+        description: updated player
+        required: true
+        schema:
+          $ref: '#/definitions/jugadorlol'
+      responses:
+        400:
+          description: ID de Jugador Inválido
+        404:
+          description: Jugador No Encontrado
+        405:
+          description: Excepcion de validación
+
+    delete:
+      tags:
+        - jugadoreslol
+      summary: Eliminar un jugador de League Of Legends
+      operationId: deleteLoLPlayer
+      parameters:
+        - name: id
+          in: query
+          description: ID del jugador a eliminar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: ID Inválido
+        '404':
+          description: Jugador No Encontrado
+  /jugadorlol/deletebyname:
+    delete:
+      tags:
+        - jugadoreslol
+      summary: Borrar un jugador de League Of Legends por nombre
+      operationId: deletePlayerNameLoL
+      parameters:
+        - name: nombre
+          in: path
+          description: Nombre de Jugador a eliminar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: ID Inválido
+        '404':
+          description: Jugador No Encontrado
+  /jugadorespubg:
+    get:
+      tags:
+      - jugadorespubg
+      summary: Obtener jugadores del PUBG
+      operationId: getJugadoresPUBG
+      description: |
+        By passing in the appropriate options, you can search for
+        available Players in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: id
+        description: id opcional
+        required: false
+        type: integer
+        format: int32
+      - in: query
+        name: nombre
+        description: nombre opcional
+        required: false
+        type: string
+      - in: query
+        name: order
+        description: orden opcional
+        required: false
+        type: string
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+             $ref: '#/definitions/jugadorpubg'
+        400:
+          description: bad input parameter
+    post:
+      tags:
+      - jugadorespubg
+      summary: Añadir un jugador de PUBG
+      operationId: addPlayerPUBG
+      description: añade un jugador
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: JugadorPUBG
+        description: Jugador a añadir
+        schema:
+            type: array
+            items:
+              $ref: '#/definitions/jugadorpubg'
+      responses:
+        201:
+          description: Jugador creado
+        400:
+          description: Jugador Inválido
+        409:
+          description: Este Jugador ya existe
+    put:
+      tags:
+      - jugadorespubg
+      summary: Update an existing player
+      operationId: updatePlayerPUBG
+      consumes:
+      - application/json
+      
+      produces:
+      - application/json
+     
+      parameters:
+      - in: body
+        name: body
+        description: updated player
+        required: true
+        schema:
+          $ref: '#/definitions/jugadorpubg'
+      responses:
+        400:
+          description: ID Inválido
+        404:
+          description: Jugador No Encontrado
+        405:
+          description: Excepción de validación
+    delete:
+      tags:
+        - jugadorespubg
+      summary: Eliminar un jugador de PUBG
+      operationId: deletePUBGPlayer
+      parameters:
+        - name: id
+          in: query
+          description: ID de Jugador a eliminar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: ID Inválido
+        '404':
+          description: Jugador No encontrado
+  /jugadorpubg/deletebyname:
+    delete:
+      tags:
+        - jugadorespubg
+      summary: Borrar un jugador por su nombre
+      operationId: deletePUBGplayerName
+      parameters:
+        - name: name
+          in: path
+          description: Nombre de jugador a eliminar
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Nombre Inválido
+        '404':
+          description: Jugador No Encontrado
+definitions:
+  
+   
+    partidaspubg :
+      type: object
+      properties:
+        jugadorpubg:
+          $ref: '#/definitions/jugadorpubg'
+        name:
+          type: string
+        id:
+          type: integer
+          format: int64
+        mapa:
+          type: string
+        kills:
+          type: integer
+        damage:
+          type: number
+        headshotskill:
+          type: integer
+        walkdistance:
+          type: number
+        longestkill:
+          type: integer
+        winplace: 
+          type: integer
+    partidaslol :
+      type: object
+      properties:
+        name:
+          type: string
+        jugadorlol:
+          $ref: '#/definitions/jugadorlol'
+        id:
+          type: integer
+          format: int64
+        champion:
+          type: string
+        minions:
+          type: integer
+          format: int64
+        kills:
+          type: integer
+          format: int64
+        deaths:
+          type: integer
+          format: int64
+        asists:
+          type: integer
+          format: int64
+        tdmg:
+          type: integer
+          format: int64
+        mdmg:
+          type: integer
+          format: int64
+        pdmg:
+          type: integer
+          format: int64
+        win:
+          type: boolean
+        gold:
+          type: integer
+          format: int64
+    jugadorpubg:
+      type: object
+      properties:
+        id:
+          type: string
+        nombre:
+          type: string
+        email:
+          type: string
+        plataforma:
+          type: string
+    
+    jugadorlol:
+      type: object
+      properties:
+        id:
+          type: string
+        nombre:
+          type: string
+        email:
+          type: string
+        nivel:
+          type: integer
+          format: int64

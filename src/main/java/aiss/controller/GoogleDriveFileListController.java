@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,24 +26,31 @@ public class GoogleDriveFileListController extends HttpServlet {
 
         String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
         try {
-        	System.out.println(accessToken);
             if (accessToken != null && !"".equals(accessToken)) {
-
                 GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
                 
                 Files files = gdResource.getFiles();
-               
                 if (files != null) {
+
                     List<FileItem> files2 = files.getItems();
                     List<FileItem> filtradas = new ArrayList<FileItem>();
-                    if((Boolean) req.getSession().getAttribute("vengoLol")  || req.getParameter("botonLol")!=null) {
-                    	 for(FileItem file:files2) {
+                    
+                    System.out.println(req.getSession().getAttribute("botonLol")!=null);
+                    if(req.getSession().getAttribute("vengoLol")==null) req.getSession().setAttribute("vengoLol",false);
+                    if((Boolean) req.getSession().getAttribute("vengoLol")  
+                    		|| req.getParameter("botonLol")!=null 
+                    		|| req.getSession().getAttribute("botonLol")!=null) {
+                    	
+                    	
+                    	req.getSession().setAttribute("botonLol",null);
+                    	
+                    	for(FileItem file:files2) {
                          	if(file.getTitle().contains("GameShup LoL ")) {
                          		filtradas.add(file);
                          		
                          	}
-                         	System.out.println(file.getId());
-                         }
+                    	 }
+                    	
                  		 req.getSession().setAttribute("vengoLol", false);
                          req.setAttribute("filtradas", filtradas);
                          req.getRequestDispatcher("misPartidasLol.jsp").forward(req, resp);
@@ -57,11 +66,17 @@ public class GoogleDriveFileListController extends HttpServlet {
 
                     }
                 } else {
+
                     log.info("The files returned are null... probably your token has experied. Redirecting to OAuth servlet.");
                     req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
                 }
-            } else {
-                log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
+                
+            }else {
+            	if(req.getParameter("botonLol")!=null) {
+            		req.getSession().setAttribute("botonLol", "botonLol");
+            	}
+            	System.out.println(req.getSession().getAttribute("botonLol"));
+            	log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
                 req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
             }
         }catch(NullPointerException e) {
