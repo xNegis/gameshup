@@ -37,6 +37,7 @@ public class GoogleDriveResource {
 
         } catch (ResourceException re) {
             log.warning("Error when retrieving all files: " + cr.getResponse().getStatus());
+            return files;
         }
 
         return files;
@@ -53,6 +54,7 @@ public class GoogleDriveResource {
 
         } catch (ResourceException re) {
             log.warning("Error when retrieving file: " + cr.getResponse().getStatus());
+            return file;
         }
 
         return file;
@@ -73,23 +75,24 @@ public class GoogleDriveResource {
             cr.put(content);
         } catch (ResourceException re) {
             log.warning("Error when inserting file: " + cr.getResponse().getStatus());
+            return newId;
         }
         return newId;
     }
 
-    public boolean updateFile(FileItem file) {
-
-        ClientResource cr = null;
-        boolean result = true;
-        try {
-            cr = new ClientResource(uri + "/" + file.getId() + "?access_token=" + access_token);
-            cr.put(file);
-        } catch (ResourceException re) {
-            log.warning("Error when updating file: " + cr.getResponse().getStatus());
-            result = false;
-        }
-        return result;
-    }
+//    public boolean updateFile(FileItem file) {
+//
+//        ClientResource cr = null;
+//        boolean result = true;
+//        try {
+//            cr = new ClientResource(uri + "/" + file.getId() + "?access_token=" + access_token);
+//            cr.put(file);
+//        } catch (ResourceException re) {
+//            log.warning("Error when updating file: " + cr.getResponse().getStatus());
+//            result = false;
+//        }
+//        return result;
+//    }
 
     public boolean deleteFile(String id) {
 
@@ -111,13 +114,6 @@ public class GoogleDriveResource {
         String contentURL = item.getDownloadUrl();
         try {
             ClientResource cr = new ClientResource(contentURL);
-            /*Map<String, Object> reqAttribs = cr.getRequestAttributes(); 
-	        Series<Header> headers = (Series<Header>)reqAttribs.get("org.restlet.http.headers"); 
-	        if (headers == null) { 
-	            headers = new Series<Header>(Header.class); 
-	            reqAttribs.put("org.restlet.http.headers", headers); 
-	        } 
-	        headers.add(new Header("Authorization:", "Bearer "+access_token));*/
             ChallengeResponse chr = new ChallengeResponse(
                     ChallengeScheme.HTTP_OAUTH_BEARER);
             chr.setRawValue(access_token);
@@ -126,25 +122,26 @@ public class GoogleDriveResource {
             result = cr.get(String.class);
         } catch (ResourceException re) {
             log.warning("Error when obtaining the content of file: " + item.getId());
+            return result;
         }
         return result;
     }
 
-    public boolean updateFileContent(String id, String content) {
-        ClientResource cr = new ClientResource(uri_upload + "/" + id + "?uploadType=media");
-        try {
-            ChallengeResponse chr = new ChallengeResponse(
-                    ChallengeScheme.HTTP_OAUTH_BEARER);
-            chr.setRawValue(access_token);
-            cr.setChallengeResponse(chr);
-            StringRepresentation rep = new StringRepresentation(content, MediaType.TEXT_PLAIN);
-            cr.put(rep);
-        } catch (ResourceException re) {
-            log.warning("Error when updating the content of file: " + id);
-            log.warning(re.getMessage());
-            return false;
-        }
-        return true;
-    }
+//    public boolean updateFileContent(String id, String content) {
+//        ClientResource cr = new ClientResource(uri_upload + "/" + id + "?uploadType=media");
+//        try {
+//            ChallengeResponse chr = new ChallengeResponse(
+//                    ChallengeScheme.HTTP_OAUTH_BEARER);
+//            chr.setRawValue(access_token);
+//            cr.setChallengeResponse(chr);
+//            StringRepresentation rep = new StringRepresentation(content, MediaType.TEXT_PLAIN);
+//            cr.put(rep);
+//        } catch (ResourceException re) {
+//            log.warning("Error when updating the content of file: " + id);
+//            log.warning(re.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
 
 }

@@ -103,6 +103,7 @@ function dividir(dmg){
 		<form method="POST" action="/googleDriveFileNew">
 
    		<%
+   		
    		session.setAttribute("pubgNombre", request.getAttribute("nombre"));
    		session.setAttribute("pubgPlataforma", request.getAttribute("plataformap"));
    		session.setAttribute("nombre"+i, equipos.get(i).getNombre()); 
@@ -110,6 +111,7 @@ function dividir(dmg){
    		session.setAttribute("hKills"+i, equipos.get(i).getHeadshotskill()); 
    		session.setAttribute("damage"+i, equipos.get(i).getDamage()); 
    		session.setAttribute("win"+i, equipos.get(i).getWinplace()); 
+   		session.setAttribute("vengoLol",false); 
    		
    		
    		
@@ -156,7 +158,8 @@ function dividir(dmg){
    		session.setAttribute("hKills"+(i+1), equipos.get(i+1).getHeadshotskill()); 
    		session.setAttribute("damage"+(i+1), equipos.get(i+1).getDamage()); 
    		session.setAttribute("win"+(i+1), equipos.get(i+1).getWinplace()); 
-   		
+   		session.setAttribute("vengoLol",false); 
+
    		
    		
    		%>
@@ -198,7 +201,8 @@ function dividir(dmg){
    		session.setAttribute("hKills"+(i+2), equipos.get(i+2).getHeadshotskill()); 
    		session.setAttribute("damage"+(i+2), equipos.get(i+2).getDamage()); 
    		session.setAttribute("win"+(i+2), equipos.get(i+2).getWinplace()); 
-   		
+   		session.setAttribute("vengoLol",false); 
+
    		
    		
    		%>

@@ -20,15 +20,6 @@ public class GoogleDriveFileUpdateController extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
       String id = req.getParameter("id");
-//      HttpSession request = req.getSession();
-//	     String a = (String) request.getAttribute("sessname");
-//	     Integer tripleKills =(Integer) request.getAttribute("tks");
-//	     Integer quadraKills =(Integer) request.getAttribute("qks");
-//	     Integer pentaKills =(Integer) request.getAttribute("pks");
-//	 req.setAttribute("titulo", a);
-//	 req.setAttribute("tripleKills", tripleKills);
-//	 req.setAttribute("quadraKills", quadraKills);
-//	 req.setAttribute("pentaKills", pentaKills);
         if (id != null && !"".equals(id)) {
             String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
             if (accessToken != null && !"".equals(accessToken)) {
@@ -48,23 +39,23 @@ public class GoogleDriveFileUpdateController extends HttpServlet {
         }
     }
 
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String id = req.getParameter("id");
-        if (id != null && !"".equals(id)) {
-            String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
-            String content = req.getParameter("content");
-            if (accessToken != null && !"".equals(accessToken)) {
-                GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
-                gdResource.updateFileContent(id, content);
-                req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
-            } else {
-                log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
-                req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
-            }
-        } else {
-            log.warning("Invalid id for update!");
-            req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
-        }
-    }
+//    @Override
+//    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+//        String id = req.getParameter("id");
+//        if (id != null && !"".equals(id)) {
+//            String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
+//            String content = req.getParameter("content");
+//            if (accessToken != null && !"".equals(accessToken)) {
+//                GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
+//                gdResource.updateFileContent(id, content);
+//                req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+//            } else {
+//                log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
+//                req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
+//            }
+//        } else {
+//            log.warning("Invalid id for update!");
+//            req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
+//        }
+//    }
 }

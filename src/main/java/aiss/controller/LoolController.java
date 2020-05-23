@@ -45,7 +45,6 @@ public class LoolController extends HttpServlet {
 		Player player = resource.getPlayer(region, nombre);  // NEW
 		response.setContentType("text/html");
 		String accountid = player.getAccountId();
-
 		List<lolmatchsxid.Match> matches = resource.getPartidas(region, accountid);
 		
 		
@@ -198,7 +197,7 @@ public class LoolController extends HttpServlet {
 			request.setAttribute("pk", pk);
 			request.getRequestDispatcher("/muestralol.jsp").forward(request, response);
 			
-		} catch(ResourceException re) {
+		} catch(NullPointerException e) {
 			String mensaje = "<div id=\"errorp\" class=\"w-50 alert alert-danger\" role=\"alert\">\r\n" + 
 					"  EL USUARIO INTRODUCIDO NO HA JUGADO PARTIDOS RECIENTEMENTE Ó NO EXISTE\r\n" + 
 					"</div>";

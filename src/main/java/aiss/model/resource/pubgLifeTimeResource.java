@@ -3,12 +3,12 @@ package aiss.model.resource;
 import java.io.IOException;
 
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.List;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -20,8 +20,8 @@ import javax.net.ssl.X509TrustManager;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pubfLifeStats.Datum;
 import pubfLifeStats.LifeStats;
-import pubgmatch.PubgMatch;
 
 public class pubgLifeTimeResource {
 	
@@ -39,10 +39,22 @@ public class pubgLifeTimeResource {
 			conn3.setRequestProperty("Authorization","Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMDNhZWE2MC0zNmNlLTAxMzgtYmJjOS0zNzRkM2UxZGEzNjYiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTgyMjg2MDA0LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InNlcmdpb3JvamFzamltIn0.dFS0GuKAPpTrOEChROMqc3APivDw-NDbwAhDpK4WMT8");
 			conn3.setRequestProperty("Accept", "application/vnd.api+json");
 			lifestats = objectMapper3.readValue(conn3.getInputStream(),LifeStats.class);
-
+			
+			//Compruebo si el lifestats devuelto no tiene partidos lo que quiere decir que el
+			//jugador no ha jugado ninguna partida en su vida (por lo tanto no hay partidos a mostrar)
+			//o bien que la id del jugador buscada es erronea.
+			List<Datum> compruebaHttp= lifestats.getData().getRelationships().getMatchesDuo().getData();
+			List<Object> compruebaHttp2= lifestats.getData().getRelationships().getMatchesDuoFPP().getData();
+			List<Object> compruebaHttp3= lifestats.getData().getRelationships().getMatchesSolo().getData();
+			List<Object> compruebaHttp4= lifestats.getData().getRelationships().getMatchesSoloFPP().getData();
+			List<Object> compruebaHttp5= lifestats.getData().getRelationships().getMatchesSquad().getData();
+			List<Object> compruebaHttp6= lifestats.getData().getRelationships().getMatchesSquadFPP().getData();
+			if(compruebaHttp.isEmpty() && compruebaHttp2.isEmpty() &&compruebaHttp3.isEmpty() &&compruebaHttp4.isEmpty() && 
+					compruebaHttp5.isEmpty() &&compruebaHttp6.isEmpty()) {
+				return null;
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return lifestats;
 		}
 		return lifestats;
 		

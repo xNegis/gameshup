@@ -78,7 +78,7 @@ public class GoogleDriveFileNewController extends HttpServlet {
                     		 req.setAttribute("mensaje", "<div id=\"errorp\" class=\"w-50 alert alert-danger\" role=\"alert\">\r\n" + 
                  					"  ESE ARCHIVO YA EXISTE\r\n" + 
                 					"</div>");
-                             req.getRequestDispatcher("/lol?name="+request.getAttribute("nombre")+"&region="+request.getAttribute("region")).forward(req, resp);
+                             req.getRequestDispatcher("/lolcontroller?name="+request.getAttribute("nombre")+"&region="+request.getAttribute("region")).forward(req, resp);
                              esta =true;
                     	}
                     }
@@ -90,7 +90,7 @@ public class GoogleDriveFileNewController extends HttpServlet {
                     gdResource.insertFile(file, content);
                     //req.setAttribute("message", "File '" + title + "' added to your Drive!");
                    // req.getRequestDispatcher("/googleDriveFileList").forward(req, resp);
-                    req.getRequestDispatcher("/lol?name="+request.getAttribute("nombre")+"&region="+request.getAttribute("region")).forward(req, resp);
+                    req.getRequestDispatcher("/lolcontroller?name="+request.getAttribute("nombre")+"&region="+request.getAttribute("region")).forward(req, resp);
                 } else {
                     req.setAttribute("message", "You must provide a valid title for file");
                     req.setAttribute("content", content);
@@ -127,7 +127,7 @@ public class GoogleDriveFileNewController extends HttpServlet {
                  
                  Files files = gdResource.getFiles();
                  int damage1 = damage.intValue();
-             	String title = "GameShup PUBG " +kills+hKills+damage1+win;
+             	String title = "GameShup PUBG " +kills+hKills+win;
              	   	String content = ""; 
              	   	content+="Nombre del jugador : " +  nombre;
              	   	content+= "\nNumero de asesinatos  :  " + kills;
@@ -144,7 +144,7 @@ public class GoogleDriveFileNewController extends HttpServlet {
                  					"</div>");
                              esta =true;
 
-                              req.getRequestDispatcher("/pubg?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
+                              req.getRequestDispatcher("/pubgcontroller?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
                      	}
                      }
                      
@@ -154,11 +154,11 @@ public class GoogleDriveFileNewController extends HttpServlet {
                      file.setMimeType("text/plain");
                      gdResource.insertFile(file, content);
 
-                     req.getRequestDispatcher("/pubg?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
+                     req.getRequestDispatcher("/pubgcontroller?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
                  } else {
                      req.setAttribute("message", "You must provide a valid title for file");
                      req.setAttribute("content", content);
-                     req.getRequestDispatcher("/pubg?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
+                     req.getRequestDispatcher("/pubgcontroller?name="+request.getAttribute("pubgNombre")+"&plataformap="+request.getAttribute("pubgPlataforma")).forward(req, resp);
                  }
              } else {
                  log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");

@@ -3,7 +3,6 @@ package aiss.model.resource;
 import java.io.IOException;
 
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.SecureRandom;
 import java.security.Security;
@@ -40,8 +39,7 @@ public class pubgMatchResource {
 			match = objectMapper1.readValue(conn1.getInputStream(),pubgmatch.PubgMatch.class);
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return match;
 		}
 		return match;
 		

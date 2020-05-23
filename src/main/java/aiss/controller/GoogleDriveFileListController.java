@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class GoogleDriveFileListController extends HttpServlet {
-
     /**
 	 * 
 	 */
@@ -24,45 +23,49 @@ public class GoogleDriveFileListController extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
+        try {
+        	System.out.println(accessToken);
+            if (accessToken != null && !"".equals(accessToken)) {
 
-        if (accessToken != null && !"".equals(accessToken)) {
-
-            GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
-            
-            Files files = gdResource.getFiles();
-           
-            if (files != null) {
-                List<FileItem> files2 = files.getItems();
-                List<FileItem> filtradas = new ArrayList<FileItem>();
-                if((Boolean) req.getSession().getAttribute("vengoLol")  || req.getParameter("botonLol")!=null) {
-                	 for(FileItem file:files2) {
-                     	if(file.getTitle().contains("GameShup LoL ")) {
-                     		filtradas.add(file);
-                     	}
-                     }
-             		 req.getSession().setAttribute("vengoLol", false);
-                     req.setAttribute("filtradas", filtradas);
-                     req.getRequestDispatcher("misPartidasLol.jsp").forward(req, resp);
-
-                }else {
-                	 for(FileItem file:files2) {
-                     	if(file.getTitle().contains("GameShup PUBG ")) {
-                     		filtradas.add(file);
-                     	}
-                     }
-                     req.setAttribute("filtradas", filtradas);
-                     req.getRequestDispatcher("misPartidasPubg.jsp").forward(req, resp);
-
-                }
+                GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
+                
+                Files files = gdResource.getFiles();
                
+                if (files != null) {
+                    List<FileItem> files2 = files.getItems();
+                    List<FileItem> filtradas = new ArrayList<FileItem>();
+                    if((Boolean) req.getSession().getAttribute("vengoLol")  || req.getParameter("botonLol")!=null) {
+                    	 for(FileItem file:files2) {
+                         	if(file.getTitle().contains("GameShup LoL ")) {
+                         		filtradas.add(file);
+                         		
+                         	}
+                         	System.out.println(file.getId());
+                         }
+                 		 req.getSession().setAttribute("vengoLol", false);
+                         req.setAttribute("filtradas", filtradas);
+                         req.getRequestDispatcher("misPartidasLol.jsp").forward(req, resp);
 
+                    }else {
+                    	 for(FileItem file:files2) {
+                         	if(file.getTitle().contains("GameShup PUBG ")) {
+                         		filtradas.add(file);
+                         	}
+                         }
+                         req.setAttribute("filtradas", filtradas);
+                         req.getRequestDispatcher("misPartidasPubg.jsp").forward(req, resp);
+
+                    }
+                } else {
+                    log.info("The files returned are null... probably your token has experied. Redirecting to OAuth servlet.");
+                    req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
+                }
             } else {
-                log.info("The files returned are null... probably your token has experied. Redirecting to OAuth servlet.");
+                log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
                 req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
             }
-        } else {
-            log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
-            req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
+        }catch(NullPointerException e) {
+        	
         }
     }
 
