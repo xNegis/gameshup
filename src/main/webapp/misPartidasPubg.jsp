@@ -2,29 +2,30 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="aiss.model.google.drive.FileItem"%>
 <%@ page import="java.util.List" %>
-<%@include file="cabecera.html"%>
+<%@include file="cabeceradark.html"%>
 
 <!DOCTYPE html>
 <html>
 <head>
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <meta charset="ISO-8859-1">
 <title>GameShup : MIS PARTIDAD PUBG</title>
 </head>
-<body>
-<h1>Tus partidas guardadas PUBG</h1>
+<body style="background-color: #ededed;">
+
 <% List<FileItem> files = (List) request.getAttribute("filtradas");%>
 <div class="container">
-
+<h1 style="margin-top:20px;">Tus partidas guardadas PUBG</h1>
     <p class="message">${message}</p>
 
-    <table id="files">
+    <table class="table" id="files">
+    <thead class="thead-dark">
         <tr style="border-radius: 10px;">
-            <th>Name</th>
-            <th>Last modification date</th>
-            <th>Delete</th>
+            <th scope="col">NAME</th>
+            <th scope="col">DATE OF ADDITION</th>
+            <th scope="col">DELETE</th>
+            <th scope="col">VIEW</th>
         </tr>
-
+ </thead>
 		<%
 	for(int i=0;i<files.size();i++){ %>
             <tr>
@@ -41,7 +42,7 @@
 <% } %>
     </table>
     <p>
-        <button type="button" onClick="javascript:window.location.href = '/'" class="button">Back</button>
+        <button class="btn btn-dark" type="button" onClick="javascript:window.location.href = '/'" class="button">BACK</button>
 </div>
 </body>
 
