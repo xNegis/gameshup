@@ -49,7 +49,7 @@ function sumaDmg(tdmg,mdmg,pdmg){
 
 <div id="tabla">
 <% int contador=0 ;%>
-<%List<MatchLoL> paEdit = (List) request.getAttribute("lista");%>
+<% List<MatchLoL> paEdit = (List) request.getAttribute("lista");%>
 <%List<Boolean> list = (List) request.getAttribute("wins");%>
 <%List<Integer> listtk = (List) request.getAttribute("tk");%>
 <%List<Integer> listqk = (List) request.getAttribute("qk");%>

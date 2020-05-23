@@ -1,9 +1,19 @@
-<%@include file="includes/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
 <%@page import="aiss.model.google.drive.FileItem"%>
 <%@ page import="java.util.List" %>
-<%List<FileItem> files = (List) request.getAttribute("filtradas");%>
-
+<%@include file="cabecera.html"%>
+<!DOCTYPE html>
+<html>
+<head>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<meta charset="ISO-8859-1">
+<title>GameShup : MIS PARTIDAS LOL</title>
+</head>
+<body>
 <h1>Tus partidas guardadas LoL</h1>
+<%List<FileItem> files = (List) request.getAttribute("filtradas");%>
 
 <div class="container">
 
@@ -15,7 +25,6 @@
             <th>Last modification date</th>
             <th>Delete</th>
         </tr>
-<%--         <c:forEach items="${requestScope.files.items}" var="file"> --%>
 		<%
 	for(int i=0;i<files.size();i++){ %>
             <tr>
@@ -36,5 +45,5 @@
     <p>
         <button type="button" onClick="javascript:window.location.href = '/'" class="button">Back</button>
 </div>
+</body>
 
-<%@include file="includes/footer.jsp"%>

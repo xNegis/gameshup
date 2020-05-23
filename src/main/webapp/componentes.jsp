@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@include file="cabecera.html"%>
 <!DOCTYPE html> 
 <html>
   <head>
@@ -15,48 +16,6 @@
 
   <body>
   
-  <div class="media">
-  <img src="https://i.ibb.co/BqntJ8D/icono.png" class="mr-3" alt="..." width="100" height="100">
-  <div class="media-body">
-    <h2 class="display-3">GameShup</h2>
-  </div>
-</div>
-
-
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> -->
-
-  <span class="navbar-toggler-icon"></span>
- </button>
-<div>
-<ul class="navbar-nav">
- <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle navbar-brand" data-toggle="dropdown" style="color:#E9A719" href="#" role="button" aria-haspopup="true" aria-expanded="false">GameShup</a>
-
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="pubgbusqueda.jsp">Player Unknown BattleGrounds</a>
-      <a class="dropdown-item" href="lolbusqueda.jsp">League of Legends</a>
-      
-    </div>
-  </li>
-
-    
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Componentes.html">Componentes del grupo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/informacion">Descripción del proyecto</a>
-      </li>
-    
-      
-    </ul>
- </div>
- </nav>
 
 <br></br>
 <div class="container">

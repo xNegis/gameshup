@@ -1,45 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <servlet>
-    <servlet-name>Información</servlet-name>
-    <servlet-class>aiss.HelloWorldServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Información</servlet-name>
-    <url-pattern>/informacion</url-pattern>
-  </servlet-mapping>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <description></description>
-    <display-name>League of Legends</display-name>
-    <servlet-name>lolservlet</servlet-name>
-    <servlet-class>aiss.lolservlet</servlet-class>
+    <servlet-name>GoogleDriveFileListController</servlet-name>
+    <servlet-class>aiss.controller.GoogleDriveFileListController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>lolservlet</servlet-name>
-    <url-pattern>/lol</url-pattern>
+    <servlet-name>GoogleDriveFileListController</servlet-name>
+    <url-pattern>/googleDriveFileList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GoogleDriveFileDeleteController</servlet-name>
+    <servlet-class>aiss.controller.GoogleDriveFileDeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoogleDriveFileDeleteController</servlet-name>
+    <url-pattern>/googleDriveFileDelete</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GoogleDriveFileUpdateController</servlet-name>
+    <servlet-class>aiss.controller.GoogleDriveFileUpdateController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoogleDriveFileUpdateController</servlet-name>
+    <url-pattern>/googleDriveFileUpdate</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GoogleDriveFileNewController</servlet-name>
+    <servlet-class>aiss.controller.GoogleDriveFileNewController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GoogleDriveFileNewController</servlet-name>
+    <url-pattern>/googleDriveFileNew</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>componentes</display-name>
-    <servlet-name>componentes</servlet-name>
-    <servlet-class>aiss.componentes</servlet-class>
+    <servlet-name>GoogleDriveAuthController</servlet-name>
+    <servlet-class>aiss.controller.oauth.GenericAuthController</servlet-class>
+    <init-param>
+      <param-name>provider</param-name>
+      <param-value>GoogleDrive</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>componentes</servlet-name>
-    <url-pattern>/componentes</url-pattern>
+    <servlet-name>GoogleDriveAuthController</servlet-name>
+    <url-pattern>/AuthController/GoogleDrive</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>Player Unknown</display-name>
-    <servlet-name>pubg</servlet-name>
-    <servlet-class>aiss.PubgServlet</servlet-class>
+    <servlet-name>GoogleDriveOAuth2Callback</servlet-name>
+    <servlet-class>aiss.controller.oauth.OAuth2Callback</servlet-class>
+    <init-param>
+      <param-name>provider</param-name>
+      <param-value>GoogleDrive</param-value>
+    </init-param>
+    <init-param>
+      <param-name>onSuccess</param-name>
+      <param-value>redirect:/googleDriveFileList</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
-    <servlet-name>pubg</servlet-name>
-    <url-pattern>/pubg</url-pattern>
+    <servlet-name>GoogleDriveOAuth2Callback</servlet-name>
+    <url-pattern>/oauth2callback/GoogleDrive</url-pattern>
   </servlet-mapping>
 
+  <context-param>
+    <param-name>resteasy.servlet.mapping.prefix</param-name>
+    <param-value>/api</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>Resteasy</servlet-name>
+    <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>aiss.api.GameApplication</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Resteasy</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LoolController</display-name>
+    <servlet-name>LoolController</servlet-name>
+    <servlet-class>aiss.controller.LoolController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoolController</servlet-name>
+    <url-pattern>/lolcontroller</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>pubggcontroller</display-name>
+    <servlet-name>pubggcontroller</servlet-name>
+    <servlet-class>aiss.controller.pubggcontroller</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>pubggcontroller</servlet-name>
+    <url-pattern>/pubgcontroller</url-pattern>
+  </servlet-mapping>
 </web-app>
