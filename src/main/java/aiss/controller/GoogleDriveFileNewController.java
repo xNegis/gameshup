@@ -32,7 +32,6 @@ public class GoogleDriveFileNewController extends HttpServlet {
     	HttpSession request = req.getSession();
     	Boolean vengoLol = (Boolean) request.getAttribute("vengoLol");
     	if(vengoLol) {
-    		request.setAttribute("vengoLol", false);
     		Integer tripleKills =0;
     	    Integer quadraKills =0;
     	    Integer pentaKills =0;
@@ -53,7 +52,8 @@ public class GoogleDriveFileNewController extends HttpServlet {
     	     }
 
 
-       	
+         		request.setAttribute("vengoLol", false);
+
        	 String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
             if (accessToken != null && !"".equals(accessToken)) {
 
