@@ -85,23 +85,42 @@ function dividir(dmg){
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
 		<div style="display: inline-block;margin-left:25px;margin-right: 25px;">
-		<p>Nombre: <%= equipos.get(i).getNombre()%></p>
-		<p>Kills: <%= equipos.get(i).getKills()%></p>
-		<p>Headshots: <%= equipos.get(i).getHeadshotskill()%></p>
-		<p>LongestKill: <%= equipos.get(i).getLongestkill()%> m</p>
-		<p>Damage: <%= equipos.get(i).getDamage()%></p>
-		<p>Position: <%= equipos.get(i).getWinplace()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Nombre">Nombre: <%= equipos.get(i).getNombre()%></p>
+		<%if(equipos.get(i).getKills()>=5){ %>
+		<p data-toggle="tooltip" data-placement="top" title="¡Rampage de mas de 5 kills!"><img src="images/rampage.png" title="Kills" style="width:30px;weight:30px;"/><%= equipos.get(i).getKills()%></p>	
+		<%}else{ %>
+		<p data-toggle="tooltip" data-placement="top" title="Kills"><img src="images/kills.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i).getKills()%></p>
+		<%} %>
+		<p data-toggle="tooltip" data-placement="top" title="Headshot kills"><img src="images/HS.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i).getHeadshotskill()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Longest Kill"><img src="images/km.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i).getLongestkill()%> m</p>
+		<p data-toggle="tooltip" data-placement="top" title="Damage"><img src="images/dmg.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i).getDamage()%></p>
+		<%if(equipos.get(i).getWinplace()==1) {%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en primera posicion!"><img src="images/win.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i).getWinplace()%></p>
+		<%}else if(equipos.get(i).getWinplace()<=10){%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en TOP 10!"><img src="images/top10.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i).getWinplace()%></p>
+		<%} else{%>
+		<p data-toggle="tooltip" data-placement="top" title="Posicion"><img src="images/cup.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i).getWinplace()%></p>
+		<%} %>
 		</div>
 		<%for(int j=0;j<compis.get(i).size();j++){ %>
 		<div style="display:inline-block;margin-right: 25px;">
 					
-		<p>Nombre: <%= compis.get(i).get(j).getNombre()%></p>
-		<p>Kills: <%= compis.get(i).get(j).getKills()%></p>
-		<p>Headshots: <%= compis.get(i).get(j).getHeadshotskill()%></p>
-		<p>Longestkill: <%= compis.get(i).get(j).getLongestkill()%> m</p>
-		<p>Damage: <%= compis.get(i).get(j).getDamage()%></p>
-		<p>Position: <%= compis.get(i).get(j).getWinplace()%></p>
-			
+		<p data-toggle="tooltip" data-placement="top" title="Nombre">Nombre: <%= compis.get(i).get(j).getNombre()%></p>
+		<%if(compis.get(i).get(j).getKills()>=5){ %>
+		<p data-toggle="tooltip" data-placement="top" title="¡Rampage de mas de 5 kills!"><img src="images/rampage.png" title="Kills" style="width:30px;weight:30px;"/><%= compis.get(i).get(j).getKills()%></p>	
+		<%}else{ %>
+		<p data-toggle="tooltip" data-placement="top" title="Kills"><img src="images/kills.png" title="" style="width:30px;weight:30px;"/><%=compis.get(i).get(j).getKills()%></p>
+		<%} %>
+		<p data-toggle="tooltip" data-placement="top" title="Headshot kills"><img src="images/HS.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i).get(j).getHeadshotskill()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Longest Kill"><img src="images/km.png" title="" style="width:30px;weight:30px;"/><%= compis.get(i).get(j).getLongestkill()%> m</p>
+		<p data-toggle="tooltip" data-placement="top" title="Damage"><img src="images/dmg.png" title="" style="width:30px;weight:30px;"/><%=compis.get(i).get(j).getDamage()%></p>
+		<%if(compis.get(i).get(j).getWinplace()==1) {%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en primera posicion!"><img src="images/win.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i).get(j).getWinplace()%></p>
+		<%}else if(compis.get(i).get(j).getWinplace()<=10){%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en TOP 10!" ><img src="images/top10.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i).get(j).getWinplace()%></p>
+		<%} else{%>
+		<p data-toggle="tooltip" data-placement="top" title="Posicion"><img src="images/cup.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i).get(j).getWinplace()%></p>
+		<%} %>
 		</div>
 		<%}%>
 		<form method="POST" action="/googleDriveFileNew">
@@ -138,22 +157,42 @@ function dividir(dmg){
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
 		<div style="display: inline-block;margin-left:25px;margin-right: 25px;">
-		<p>Nombre: <%= equipos.get(i+1).getNombre()%></p>
-		<p>Kills: <%= equipos.get(i+1).getKills()%></p>
-		<p>Headshots: <%= equipos.get(i+1).getHeadshotskill()%></p>
-		<p>LongestKill: <%= equipos.get(i+1).getLongestkill()%> m</p>
-		<p>Damage: <%= equipos.get(i+1).getDamage()%></p>
-		<p>Position: <%= equipos.get(i+1).getWinplace()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Nombre">Nombre: <%= equipos.get(i+1).getNombre()%></p>
+		<%if(equipos.get(i+1).getKills()>=5){ %>
+		<p data-toggle="tooltip" data-placement="top" title="¡Rampage de mas de 5 kills!"><img src="images/rampage.png" title="Kills" style="width:30px;weight:30px;"/><%= equipos.get(i+1).getKills()%></p>	
+		<%}else{ %>
+		<p data-toggle="tooltip" data-placement="top" title="Kills" ><img src="images/kills.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i+1).getKills()%></p>
+		<%} %>
+		<p data-toggle="tooltip" data-placement="top" title="Headshot kills" ><img src="images/HS.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+1).getHeadshotskill()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Longest Kill" ><img src="images/km.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i+1).getLongestkill()%> m</p>
+		<p data-toggle="tooltip" data-placement="top" title="Damage" ><img src="images/dmg.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i+1).getDamage()%></p>
+		<%if(equipos.get(i+1).getWinplace()==1) {%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en primera posicion!" ><img src="images/win.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+1).getWinplace()%></p>
+		<%}else if(equipos.get(i+1).getWinplace()<=10){%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en TOP 10!" ><img src="images/top10.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+1).getWinplace()%></p>
+		<%} else{%>
+		<p data-toggle="tooltip" data-placement="top" title="Posicion" ><img src="images/cup.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+1).getWinplace()%></p>
+		<%} %>
 		</div>
 		<%for(int j=0;j<compis.get(i+1).size();j++){ %>
 					<div style="display:inline-block;margin-right: 25px;">
 					
-		<p>Nombre: <%= compis.get(i+1).get(j).getNombre()%></p>
-		<p>Kills: <%= compis.get(i+1).get(j).getKills()%></p>
-		<p>Headshots: <%= compis.get(i+1).get(j).getHeadshotskill()%></p>
-		<p>Longestkill: <%= compis.get(i+1).get(j).getLongestkill()%> m</p>
-		<p>Damage: <%= compis.get(i+1).get(j).getDamage()%></p>
-		<p>Position: <%= compis.get(i+1).get(j).getWinplace()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Nombre" >Nombre: <%= compis.get(i+1).get(j).getNombre()%></p>
+		<%if(compis.get(i+1).get(j).getKills()>=5){ %>
+		<p data-toggle="tooltip" data-placement="top" title="¡Rampage de mas de 5 kills!" ><img src="images/rampage.png" title="Kills" style="width:30px;weight:30px;"/><%= compis.get(i+1).get(j).getKills()%></p>	
+		<%}else{ %>
+		<p data-toggle="tooltip" data-placement="top" title="Kills" ><img src="images/kills.png" title="" style="width:30px;weight:30px;"/><%= compis.get(i+1).get(j).getKills()%></p>
+		<%} %>
+		<p data-toggle="tooltip" data-placement="top" title="Headshot kills" ><img src="images/HS.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+1).get(j).getHeadshotskill()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Longest Kill" ><img src="images/km.png" title="" style="width:30px;weight:30px;"/><%= compis.get(i+1).get(j).getLongestkill()%> m</p>
+		<p data-toggle="tooltip" data-placement="top" title="Damage" ><img src="images/dmg.png" title="" style="width:30px;weight:30px;"/><%=compis.get(i+1).get(j).getDamage()%></p>
+		<%if(compis.get(i+1).get(j).getWinplace()==1) {%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en primera posicion!" ><img src="images/win.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+1).get(j).getWinplace()%></p>
+		<%}else if(compis.get(i+1).get(j).getWinplace()<=10){%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en TOP 10!" ><img src="images/top10.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+1).get(j).getWinplace()%></p>
+		<%} else{%>
+		<p data-toggle="tooltip" data-placement="top" title="Posicion" ><img src="images/cup.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+1).get(j).getWinplace()%></p>
+		<%} %>
 			
 		</div>
 		<%}%>
@@ -185,23 +224,43 @@ function dividir(dmg){
 <div id="popup<%=i+2%>" class="overlay" align="left">
 	<div class="popup">
 		<a class="close" href="#">&times;</a>
-			<div style="display: inline-block;margin-left:25px;margin-right: 25px;">
-		<p>Nombre: <%= equipos.get(i+2).getNombre()%></p>
-		<p>Kills: <%= equipos.get(i+2).getKills()%></p>
-		<p>Headshots: <%= equipos.get(i+2).getHeadshotskill()%></p>
-		<p>LongestKill: <%= equipos.get(i+2).getLongestkill()%> m</p>
-		<p>Damage: <%= equipos.get(i+2).getDamage()%></p>
-		<p>Position: <%= equipos.get(i+2).getWinplace()%></p>
+		<div style="display: inline-block;margin-left:25px;margin-right: 25px;">
+		<p data-toggle="tooltip" data-placement="top" title="Nombre">Nombre: <%= equipos.get(i+2).getNombre()%></p>
+		<%if(equipos.get(i+2).getKills()>=5){ %>
+		<p data-toggle="tooltip" data-placement="top" title="¡Rampage de mas de 5 kills!"><img src="images/rampage.png" title="Kills" style="width:30px;weight:30px;"/><%= equipos.get(i+2).getKills()%></p>	
+		<%}else{ %>
+		<p data-toggle="tooltip" data-placement="top" title="Kills" ><img src="images/kills.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i+2).getKills()%></p>
+		<%} %>
+		<p data-toggle="tooltip" data-placement="top" title="Headshot kills" ><img src="images/HS.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+2).getHeadshotskill()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Longest Kill" ><img src="images/km.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i+2).getLongestkill()%> m</p>
+		<p data-toggle="tooltip" data-placement="top" title="Damage" ><img src="images/dmg.png" title="" style="width:30px;weight:30px;"/><%= equipos.get(i+2).getDamage()%></p>
+		<%if(equipos.get(i+2).getWinplace()==1) {%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en primera posicion!" ><img src="images/win.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+2).getWinplace()%></p>
+		<%}else if(equipos.get(i+2).getWinplace()<=10){%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en TOP 10!" ><img src="images/top10.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+2).getWinplace()%></p>
+		<%} else{%>
+		<p data-toggle="tooltip" data-placement="top" title="Posicion" ><img src="images/cup.png" title="" style="width:30px;weight:30px;"/> <%= equipos.get(i+2).getWinplace()%></p>
+		<%} %>
 		</div>
 		<%for(int j=0;j<compis.get(i+2).size();j++){ %>
-			<div style="display:inline-block;margin-right: 25px;">
+					<div style="display:inline-block;margin-right: 25px;">
 					
-		<p>Nombre: <%= compis.get(i+2).get(j).getNombre()%></p>
-		<p>Kills: <%= compis.get(i+2).get(j).getKills()%></p>
-		<p>Headshots: <%= compis.get(i+2).get(j).getHeadshotskill()%></p>
-		<p>Longestkill: <%= compis.get(i+2).get(j).getLongestkill()%> m</p>
-		<p>Damage: <%= compis.get(i+2).get(j).getDamage()%></p>
-		<p>Position: <%= compis.get(i+2).get(j).getWinplace()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Nombre" >Nombre: <%= compis.get(i+2).get(j).getNombre()%></p>
+		<%if(compis.get(i+2).get(j).getKills()>=5){ %>
+		<p data-toggle="tooltip" data-placement="top" title="¡Rampage de mas de 5 kills!" ><img src="images/rampage.png" title="Kills" style="width:30px;weight:30px;"/><%= compis.get(i+2).get(j).getKills()%></p>	
+		<%}else{ %>
+		<p data-toggle="tooltip" data-placement="top" title="Kills" ><img src="images/kills.png" title="" style="width:30px;weight:30px;"/><%= compis.get(i+2).get(j).getKills()%></p>
+		<%} %>
+		<p data-toggle="tooltip" data-placement="top" title="Headshot kills" ><img src="images/HS.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+2).get(j).getHeadshotskill()%></p>
+		<p data-toggle="tooltip" data-placement="top" title="Longest Kill" ><img src="images/km.png" title="" style="width:30px;weight:30px;"/><%= compis.get(i+2).get(j).getLongestkill()%> m</p>
+		<p data-toggle="tooltip" data-placement="top" title="Damage" ><img src="images/dmg.png" title="" style="width:30px;weight:30px;"/><%= compis.get(i+2).get(j).getDamage()%></p>
+		<%if(compis.get(i+2).get(j).getWinplace()==1) {%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en primera posicion!" ><img src="images/win.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+2).get(j).getWinplace()%></p>
+		<%}else if(compis.get(i+2).get(j).getWinplace()<=10){%>
+		<p data-toggle="tooltip" data-placement="top" title="¡Ha quedado en TOP 10!" ><img src="images/top10.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+2).get(j).getWinplace()%></p>
+		<%} else{%>
+		<p data-toggle="tooltip" data-placement="top" title="Posicion" ><img src="images/cup.png" title="" style="width:30px;weight:30px;"/> <%= compis.get(i+2).get(j).getWinplace()%></p>
+		<%} %>
 			
 		</div>
 		<%}%>
@@ -230,7 +289,11 @@ function dividir(dmg){
 <%} %>
 </div>
 </div>
-
+<script>
+$(document).ready(function(){
+	  $('[data-toggle="tooltip"]').tooltip();   
+	});
+</script>
  
 </body>
 </html>

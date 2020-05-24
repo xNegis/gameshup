@@ -28,7 +28,7 @@ public class GoogleDriveFileUpdateController extends HttpServlet {
                 System.out.println(file.getTitle());
                 req.setAttribute("title", file.getTitle());
                 req.setAttribute("content", gdResource.getFileContent(file));
-                req.getRequestDispatcher("/googleDriveFileEdit.jsp").forward(req, resp);
+                req.getRequestDispatcher("/verPartida.jsp").forward(req, resp);
             } else {
                 log.info("Trying to access Google Drive without an access token, redirecting to OAuth servlet");
                 req.getRequestDispatcher("/AuthController/GoogleDrive").forward(req, resp);
