@@ -26,7 +26,7 @@
             <div class="panel-body">
 <table class="table table-condensed" style="border-collapse:collapse;">
 
-    <thead>
+    <thead class="thead-dark">
         <tr><th>&nbsp;</th>
             <th></th>
 	    <th>Nombre</th>

@@ -5,7 +5,18 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <% String controller = "/googleDriveFileNew"; %>
+<%@include file="cabeceradark.html"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <title>GAMESHUP: TU PARTIDA</title>
+    </head>
+    <body>
 <c:if test="${not empty file}">
     <% controller = "/googleDriveFileUpdate";%>
 </c:if>
@@ -27,9 +38,10 @@
         <textarea style="margin: 0px; width: 500px; height: 160px;" id="content" name="content" disabled>${content}</textarea>
 
         <div class="bottom_links">
-            <button type="button" onClick="javascript:window.location.href = '/'" class="button">Cancel</button>
+            <button type="button" onClick="javascript:window.location.href = '/'" class="btn btn-dark">Cancel</button>
         </div>
     </form>
 </div>
 
-<%@include file="includes/footer.jsp"%>
+</body>
+</html>

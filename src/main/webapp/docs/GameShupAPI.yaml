@@ -10,6 +10,9 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
+    
+host: gameshup.appspot.com
+basePath: /api
 
 # tags are used for organizing operations
 tags:
@@ -143,7 +146,7 @@ paths:
           description: ID Inválida
         '404':
           description: Partida No Encontrada
-  /partidaslol/deletebyname:
+  /partidaslol/deletebyname={name}:
     delete:
       tags:
         - partidaslol
@@ -154,14 +157,13 @@ paths:
           in: path
           description: ID de la partida a borrar
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '400':
           description: Invalid ID supplied
         '404':
           description: Match not found
-  /partidapubg:
+  /partidaspubg:
     get:
       tags:
       - partidaspubg
@@ -192,7 +194,7 @@ paths:
         type: string
         
       - in: query
-        name: jugadorpubg
+        name: jugadorespubg
         description: jugador opcional
         required: false
         type: integer
@@ -275,7 +277,7 @@ paths:
           description: ID inválida
         '404':
           description: Partida No Encontrada
-  /partidapubg/deletebyname:
+  /partidaspubg/deletebyname={name}:
     delete:
       tags:
         - partidaspubg
@@ -286,14 +288,13 @@ paths:
           in: path
           description: Nombre de Partida a eliminar
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '400':
           description: Nombre inválido
         '404':
           description: Partida No Encontrada
-  /jugadorlol:
+  /jugadoreslol:
     get:
       tags:
       - jugadoreslol
@@ -327,7 +328,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/jugadorlol'
+              $ref: '#/definitions/jugadoreslol'
         400:
           description: bad input parameter
     post:
@@ -347,7 +348,7 @@ paths:
         schema:
             type: array
             items:
-              $ref: '#/definitions/jugadorlol'
+              $ref: '#/definitions/jugadoreslol'
       responses:
         201:
           description: Jugador Creado
@@ -372,7 +373,7 @@ paths:
         description: updated player
         required: true
         schema:
-          $ref: '#/definitions/jugadorlol'
+          $ref: '#/definitions/jugadoreslol'
       responses:
         400:
           description: ID de Jugador Inválido
@@ -398,19 +399,18 @@ paths:
           description: ID Inválido
         '404':
           description: Jugador No Encontrado
-  /jugadorlol/deletebyname:
+  /jugadoreslol/deletebyname={name}:
     delete:
       tags:
         - jugadoreslol
       summary: Borrar un jugador de League Of Legends por nombre
       operationId: deletePlayerNameLoL
       parameters:
-        - name: nombre
+        - name: name
           in: path
           description: Nombre de Jugador a eliminar
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '400':
           description: ID Inválido
@@ -450,7 +450,7 @@ paths:
           schema:
             type: array
             items:
-             $ref: '#/definitions/jugadorpubg'
+             $ref: '#/definitions/jugadorespubg'
         400:
           description: bad input parameter
     post:
@@ -470,7 +470,7 @@ paths:
         schema:
             type: array
             items:
-              $ref: '#/definitions/jugadorpubg'
+              $ref: '#/definitions/jugadorespubg'
       responses:
         201:
           description: Jugador creado
@@ -495,7 +495,7 @@ paths:
         description: updated player
         required: true
         schema:
-          $ref: '#/definitions/jugadorpubg'
+          $ref: '#/definitions/jugadorespubg'
       responses:
         400:
           description: ID Inválido
@@ -520,7 +520,7 @@ paths:
           description: ID Inválido
         '404':
           description: Jugador No encontrado
-  /jugadorpubg/deletebyname:
+  /jugadorespubg/deletebyname={name}:
     delete:
       tags:
         - jugadorespubg
@@ -531,8 +531,7 @@ paths:
           in: path
           description: Nombre de jugador a eliminar
           required: true
-          type: integer
-          format: int64
+          type: string
       responses:
         '400':
           description: Nombre Inválido
@@ -545,7 +544,7 @@ definitions:
       type: object
       properties:
         jugadorpubg:
-          $ref: '#/definitions/jugadorpubg'
+          $ref: '#/definitions/jugadorespubg'
         name:
           type: string
         id:
@@ -571,7 +570,7 @@ definitions:
         name:
           type: string
         jugadorlol:
-          $ref: '#/definitions/jugadorlol'
+          $ref: '#/definitions/jugadoreslol'
         id:
           type: integer
           format: int64
@@ -603,7 +602,7 @@ definitions:
         gold:
           type: integer
           format: int64
-    jugadorpubg:
+    jugadorespubg:
       type: object
       properties:
         id:
@@ -615,7 +614,7 @@ definitions:
         plataforma:
           type: string
     
-    jugadorlol:
+    jugadoreslol:
       type: object
       properties:
         id:

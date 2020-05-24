@@ -39,7 +39,7 @@ import aiss.model.repository.MapGamesRepository;
 import aiss.model.repository.GamesRepository;
 
 
-@Path("/partidapubg")
+@Path("/partidaspubg")
 public class MatchPubgResource {
 	
 	
@@ -83,7 +83,7 @@ public class MatchPubgResource {
   		}else {
   			 result.add(match);
   		}
-            result.add(match);
+        
             
         }
             
