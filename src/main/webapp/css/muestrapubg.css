@@ -54,12 +54,15 @@ body {
 }
 
 .popup {
-  margin: 70px auto;
-  padding: 20px;
+  display:inline-block;
+  position:fixed;
+	top:50%;
+	left:50%;
+	margin:-150px 0 0 -100px;
   background: #fff;
   border-radius: 5px;
-  width: 30%;
-  position: relative;
+  width: auto;
+  
   transition: all 5s ease-in-out;
 }
 
