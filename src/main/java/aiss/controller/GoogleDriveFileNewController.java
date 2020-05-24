@@ -52,10 +52,10 @@ public class GoogleDriveFileNewController extends HttpServlet {
     	     }
 
 
-         		request.setAttribute("vengoLol", false);
 
        	 String accessToken = (String) req.getSession().getAttribute("GoogleDrive-token");
             if (accessToken != null && !"".equals(accessToken)) {
+         		request.setAttribute("vengoLol", false);
 
                 GoogleDriveResource gdResource = new GoogleDriveResource(accessToken);
                 
